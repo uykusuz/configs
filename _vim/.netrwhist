@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/broenner/dev/prime2/geoviz/apps'
+let g:netrw_dirhist_2='/home/broenner/dev/prime3/geoviz/geoviz/data/conf/test/flat'
+let g:netrw_dirhist_3='/home/broenner/dev/prime3/geoviz/geoviz/data/conf/test'
+let g:netrw_dirhist_4='/home/broenner/dev/prime3/geoviz/geoviz/data/conf'
+let g:netrw_dirhist_5='/home/broenner/dev/prime3/geoviz/geoviz/data/conf/shared'
+let g:netrw_dirhist_6='/home/broenner/dev/prime3/geoviz/geoviz/data'
+let g:netrw_dirhist_7='/home/broenner/tmp'

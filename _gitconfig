@@ -1,0 +1,16 @@
+[color]
+	ui = auto
+[alias]
+    tohead = reset --hard HEAD
+    rebc = rebase --continue
+    rebs = rebase --skip
+    ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n 10
+    lln = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n
+    ls = show --name-only
+[push]
+	default = current
+[user]
+	email = uykusuz@hintergarten.de
+	name = Boris Broenner
+[core]
+	editor = vim
