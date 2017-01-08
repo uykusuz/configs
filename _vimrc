@@ -14,7 +14,7 @@ set expandtab " expand tab to spaces
 set tabstop=4 "insert 4 spaces for a tab
 set shiftwidth=4 "number of spaces when indenting
 
-" make interaction more smooth 
+" make interaction more smooth
 " helpful when using the mouse
 set ttyfast
 
