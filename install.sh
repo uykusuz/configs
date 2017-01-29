@@ -1,5 +1,15 @@
 #!/bin/bash
 
+printError()
+{
+    (>&2 echo $1)
+}
+
+if [ ! -f ./_bashrc ]; then
+    printError "Run this script from within the configs repository."
+    exit 1
+fi
+
 exitCode=0
 
 echo "Installing base packages ..."
@@ -29,9 +39,13 @@ echo "Setting up vim ..."
 if [ -d "~/.vim/bundle/nerdtree/doc" ]; then
     vim -c "helptags ~/.vim/bundle/nerdtree/doc"
 else
-    (>&2 echo "Error: NERDTree not found! Skipping initialization of it.")
+    printError "Error: NERDTree not found! Skipping initialization of it."
     exitCode=1
 fi
 
-echo "Done."
+echo "Installing touchpad configuration ..."
+sudo mkdir -p /etc/X11/xorg.conf.d
+sudo cp 50-synaptics.conf /etc/X11/xorg.conf.d/
+
+echo "Done. Restart X server to activate the touchpad configuration."
 exit $exitCode
