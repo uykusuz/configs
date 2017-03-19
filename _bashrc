@@ -103,6 +103,16 @@ alias ai='sudo apt-get install'
 alias acs='apt-cache search'
 alias ..='cd ..'
 alias pi='sudo -H pip install'
+alias tl='tar --exclude="*/*/*" -tf'
+
+# -----------------------------------------------------------------------------
+# --- Functions ---
+setTitle()
+{
+    ORIG=$PS1
+    TITLE="\e]2;$*\a"
+    PS1=${ORIG}${TITLE}
+}
 
 # -----------------------------------------------------------------------------
 # --- screen ---
