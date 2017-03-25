@@ -51,18 +51,30 @@ set cursorline
 set colorcolumn=100
 highlight ColorColumn ctermbg=DarkGray
 
+" set default splitting positions to be more intuitive
+set splitright
+set splitbelow
+
 " --------------------------
 " --- keyboard shortcuts ---
 " --------------------------
 let mapleader=","
 
+" close a buffer but leave the window open
+" from http://stackoverflow.com/questions/1444322/how-can-i-close-a-buffer-without-closing-the-window#8585343
+" doesn't work in every condition, but simple ones work
+nmap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
+
+" CtrlP
 nmap <leader>m :CtrlPMRUFiles<CR>
 
+" YouCompleteMe
 nmap <F5> :YcmForceCompileAndDiagnostics<CR>
 nmap <F6> :YcmDiags<CR>
 nmap <leader>gt :YcmCompleter GoTo<CR>
 nmap <leader>gi :YcmCompleter GoToImprecise<CR>
 nmap <leader>gd :YcmCompleter GetDoc<CR>
 
+" FSwitch
 nmap <leader>of :FSHere<CR>
 
