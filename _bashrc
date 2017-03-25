@@ -107,6 +107,8 @@ alias tl='tar --exclude="*/*/*" -tf'
 alias acs='apt-cache search'
 alias ali='apt list --installed | grep'
 
+alias v='vim -c "NERDTree | wincmd w"'
+
 # -----------------------------------------------------------------------------
 # --- Functions ---
 setTitle()
