@@ -100,10 +100,12 @@ fi
 alias ll='ls -alhF'
 alias la='ls -A'
 alias ai='sudo apt-get install'
-alias acs='apt-cache search'
 alias ..='cd ..'
 alias pi='sudo -H pip install'
 alias tl='tar --exclude="*/*/*" -tf'
+
+alias acs='apt-cache search'
+alias ali='apt list --installed | grep'
 
 # -----------------------------------------------------------------------------
 # --- Functions ---
