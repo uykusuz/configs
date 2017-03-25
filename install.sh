@@ -36,12 +36,7 @@ echo "Sourcing new bashrc ..."
 source ~/.bashrc
 
 echo "Setting up vim ..."
-if [ -d "~/.vim/bundle/nerdtree/doc" ]; then
-    vim -c "helptags ~/.vim/bundle/nerdtree/doc"
-else
-    printError "Error: NERDTree not found! Skipping initialization of it."
-    exitCode=1
-fi
+vim +PluginInstall +qall
 
 echo "Installing touchpad configuration ..."
 sudo mkdir -p /etc/X11/xorg.conf.d
