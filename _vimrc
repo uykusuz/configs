@@ -10,7 +10,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
+" from vimscript
 Plugin 'L9'
+
+" from github
+Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
@@ -54,6 +58,8 @@ highlight ColorColumn ctermbg=DarkGray
 " set default splitting positions to be more intuitive
 set splitright
 set splitbelow
+
+set statusline=%{fugitive#statusline()}
 
 " --------------------------
 " --- keyboard shortcuts ---
