@@ -28,6 +28,8 @@ syntax on
 set number
 filetype plugin indent on
 
+set noswapfile
+
 " show whitespaces
 set listchars=tab:>-,trail:- " show tab in the form of ">---" and trailing whitespace as "-"
 set list
