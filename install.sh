@@ -32,6 +32,10 @@ do
 	cp -R $config ~/$newConfig
 done
 
+echo "Copying scripts ..."
+1&>/dev/null mkdir ~/bin
+cp ./bin/* ~/bin
+
 echo "Sourcing new bashrc ..."
 source ~/.bashrc
 

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+usageAndExit()
+{
+    echo "Usage: `basename $0` [options] <source folder> [-- <cmake options>]"
+    echo
+    echo "Options:"
+    echo "  -h|--help                      : print this message and exit"
+    echo "  --build-type=<cmake build type>: value for CMAKE_BUILD_TYPE"
+    echo "      default: Debug"
+
+    exit $1
+}
+
+errorAndExit()
+{
+    >&2 echo "Error: $1"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usageAndExit 1
+fi
+
+sourceDir=
+buildType=Debug
+
+while [ $# -gt 0 ];
+do
+    case "$1" in
+    -h|--help)
+        usageAndExit 0
+        ;;
+    --build-type=*)
+        buildType=${1#*=}
+        ;;
+    *)
+        sourceDir=$1
+        ;;
+    --)
+        break
+    esac
+
+    shift
+done
+
+if [ -z "$sourceDir" -o ! -d "$sourceDir" ]; then
+    errorAndExit "Source directory doesn't exist: '$sourceDir'."
+fi
+
+if [ -z "$buildType" ]; then
+    errorAndExit "Build type empty."
+fi
+
+cmake $sourceDir \
+    -DCMAKE_BUILD_TYPE=$buildType \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    $@
