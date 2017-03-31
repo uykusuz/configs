@@ -1,5 +1,5 @@
 [color]
-	ui = auto
+    ui = auto
 [alias]
     tohead = reset --hard HEAD
     rebc = rebase --continue
@@ -8,9 +8,10 @@
     lln = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n
     ls = show --name-only
 [push]
-	default = current
+    default = current
 [user]
-	email = uykusuz@hintergarten.de
-	name = Boris Broenner
+    email = uykusuz@hintergarten.de
+    name = Boris Broenner
 [core]
-	editor = vim
+    editor = vim
+    excludesfile = ~/.gitignore
