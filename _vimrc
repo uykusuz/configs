@@ -14,11 +14,12 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'L9'
 
 " from github
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'derekwyatt/vim-fswitch'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-scripts/grep.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -61,7 +62,11 @@ highlight ColorColumn ctermbg=DarkGray
 set splitright
 set splitbelow
 
+" show git branch name in status line
 set statusline=%{fugitive#statusline()}
+
+" highlight all search matches
+set hlsearch
 
 " --------------------------
 " --- keyboard shortcuts ---
