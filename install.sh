@@ -44,6 +44,12 @@ mkdir -p ~/.vim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 
+echo "Initializing Vim's YouCompleteMe ..."
+sudo apt-get install build-essential cmake python-dev python3-dev
+pushd ~/.vim/bundle/YouCompleteMe
+./install.py --clang-completer
+popd
+
 echo "Installing touchpad configuration ..."
 sudo mkdir -p /etc/X11/xorg.conf.d
 sudo cp 50-synaptics.conf /etc/X11/xorg.conf.d/
