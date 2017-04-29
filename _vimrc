@@ -31,6 +31,9 @@ filetype plugin indent on
 
 set noswapfile
 
+" vertical scroll margin of 7 lines
+set so=7
+
 " show whitespaces
 set listchars=tab:>-,trail:- " show tab in the form of ">---" and trailing whitespace as "-"
 set list
