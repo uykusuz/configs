@@ -112,6 +112,8 @@ alias gs='git status'
 alias gg='git gui&'
 alias gk='gitk --all&'
 
+alias gr='grep -isrn'
+
 # -----------------------------------------------------------------------------
 # --- Functions ---
 setTitle()
