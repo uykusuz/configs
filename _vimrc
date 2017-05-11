@@ -86,3 +86,6 @@ nmap <leader>gd :YcmCompleter GetDoc<CR>
 " FSwitch
 nmap <leader>of :FSHere<CR>
 
+" NERDTree
+nmap <leader>f :NERDTreeFind<CR>
+
