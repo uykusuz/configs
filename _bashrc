@@ -112,7 +112,8 @@ alias gs='git status'
 alias gg='git gui&'
 alias gk='gitk --all&'
 
-alias gr='grep -isrn'
+# grep: case-insensitive, ignore binaries, print filename, recursive, print line numbers
+alias gr='grep -iIsrn'
 
 # -----------------------------------------------------------------------------
 # --- Functions ---
