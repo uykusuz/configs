@@ -25,6 +25,9 @@ shopt -s checkwinsize
 # enable vi mode
 set -o vi
 
+# load the variable __git_ps1 for usage in PS1 below
+source ~/.git-prompt.sh
+
 # -----------------------------------------------------------------------------
 # --- PS1
 
@@ -55,7 +58,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]\[\e[0;33m\]\n\$\[\e[m\] '
+    PS1='\[\e[0;32m\]\u\[\e[m\]:\[\e[0;34m\]\w\[\e[m\]\[\e[0;33m\]$(__git_ps1 " (%s)")\n\$\[\e[m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
 fi
