@@ -14,7 +14,7 @@ exitCode=0
 
 echo "Installing base packages ..."
 
-sudo apt-get install vim screen git git-gui
+sudo apt-get install vim screen git git-gui tmux
 
 echo "Copying configs ..."
 
