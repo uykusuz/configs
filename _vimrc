@@ -17,7 +17,6 @@ Plugin 'L9'
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/grep.vim'
 
@@ -65,11 +64,19 @@ highlight ColorColumn ctermbg=DarkGray
 set splitright
 set splitbelow
 
-" show git branch name in status line
-set statusline=%{fugitive#statusline()}
-
 " highlight all search matches
 set hlsearch
+
+" --------------------------
+" --- statusline ---
+" --------------------------
+set statusline=                 " clear statusline
+set statusline+=[
+set statusline+=%p%%            " percentage through file
+set statusline+=\ %c            " column number
+set statusline+=]
+set statusline+=\ %f            " file name
+set statusline+=%=              " separation for left/right items
 
 " --------------------------
 " --- keyboard shortcuts ---
