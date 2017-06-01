@@ -93,6 +93,7 @@ vnoremap <C-r> y:%s/\<<C-r>0\>//g<left><left>
 
 " CtrlP
 nmap <leader>m :CtrlPMRUFiles<CR>
+nmap <leader>b :CtrlPBuffer<CR>
 
 " YouCompleteMe
 nmap <F5> :YcmForceCompileAndDiagnostics<CR>
