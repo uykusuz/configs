@@ -39,6 +39,10 @@ cp ./bin/* ~/bin
 echo "Sourcing new bashrc ..."
 source ~/.bashrc
 
+echo "Setting up awesome ..."
+mkdir -p ~/.config
+cp -r awesome ~/.config/
+
 echo "Setting up vim ..."
 mkdir -p ~/.vim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
