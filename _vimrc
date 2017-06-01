@@ -114,3 +114,16 @@ nmap <leader>f :NERDTreeFind<CR>
 let g:ycm_open_loclist_on_ycm_diags = 0
 let g:ycm_enable_diagnostic_highlighting = 0
 
+" --------------------------
+" --- FSwitch ---
+" --------------------------
+let g:fsnonewfiles = 1
+
+augroup dmnfiles
+    au!
+    au BufEnter *.h let b:fswitchdst = 'cpp'
+    au BufEnter *.h let b:fswitchlocs = 'reg:|bootstrap/daemon|bootstrap/daemon/internal|'
+
+    au BufEnter *.cpp let b:fswitchdst = 'h'
+    au BufEnter *.cpp let b:fswitchlocs = 'reg:|internal||'
+augroup END
