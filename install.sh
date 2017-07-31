@@ -14,7 +14,11 @@ exitCode=0
 
 echo "Installing base packages ..."
 
-sudo apt-get install vim screen git git-gui tmux
+sudo pacman -S vim screen git gitg tmux
+
+if [ $? -ne 0 ]; then
+    exit 1
+fi
 
 echo "Copying configs ..."
 
