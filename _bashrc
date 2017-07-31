@@ -111,6 +111,9 @@ alias gs='git status'
 alias gg='git gui&'
 alias gk='gitk --all&'
 
+alias pms='pacman -Ss'
+alias pmi='sudo pacman -S'
+
 # grep: case-insensitive, ignore binaries, print filename, recursive, print line numbers
 alias gr='grep -iIsrn'
 
