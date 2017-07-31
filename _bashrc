@@ -105,10 +105,6 @@ alias ..='cd ..'
 
 alias tl='tar --exclude="*/*/*" -tf'
 
-alias ai='sudo apt-get install'
-alias acs='apt-cache search'
-alias ali='apt list --installed | grep'
-
 alias v='vim -c "NERDTree | wincmd w"'
 
 alias gs='git status'
