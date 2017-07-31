@@ -37,7 +37,7 @@ do
 done
 
 echo "Copying scripts ..."
-1&>/dev/null mkdir ~/bin
+1&>/dev/null mkdir -p ~/bin
 cp ./bin/* ~/bin
 
 echo "Sourcing new bashrc ..."
