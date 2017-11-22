@@ -67,6 +67,11 @@ set splitbelow
 " highlight all search matches
 set hlsearch
 
+" ----------------------------------
+" --- Filetype specific settings ---
+" ----------------------------------
+autocmd BufRead,BufNewFile *.yaml setlocal ts=2 sw=2
+
 " --------------------------
 " --- statusline ---
 " --------------------------
