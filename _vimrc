@@ -17,7 +17,6 @@ Plugin 'L9'
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/grep.vim'
 
 call vundle#end()            " required
