@@ -66,6 +66,9 @@ set splitbelow
 " highlight all search matches
 set hlsearch
 
+" enable per-file settings
+set modeline
+
 " ----------------------------------
 " --- Filetype specific settings ---
 " ----------------------------------
