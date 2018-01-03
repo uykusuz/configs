@@ -63,11 +63,15 @@ highlight ColorColumn ctermbg=DarkGray
 set splitright
 set splitbelow
 
-" highlight all search matches
-set hlsearch
-
 " enable per-file settings
 set modeline
+
+" ----------------------------------
+" --- Search ---
+" ----------------------------------
+set hlsearch                    " highlight all search matches
+set ignorecase                  " ignore case by default
+set smartcase                   " switch to case-sensitive if uppercase letter present
 
 " ----------------------------------
 " --- Filetype specific settings ---
