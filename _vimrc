@@ -18,6 +18,7 @@ Plugin 'derekwyatt/vim-fswitch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/grep.vim'
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -50,7 +51,9 @@ set ttyfast
 
 " enable mouse interaction
 set mouse=a
-set ttymouse=xterm2
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 
 " highlight current line
 set cursorline
@@ -65,6 +68,9 @@ set splitbelow
 
 " enable per-file settings
 set modeline
+
+" turn off beep for e.g. reaching end of file
+set visualbell
 
 " ----------------------------------
 " --- Search ---

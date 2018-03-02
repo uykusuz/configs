@@ -31,6 +31,9 @@ set -o vi
 # load the variable __git_ps1 for usage in PS1 below
 source ~/.git-prompt.sh
 
+# disable a beep for tab-completion
+set bell-style none
+
 # -----------------------------------------------------------------------------
 # --- PS1
 
