@@ -14,7 +14,7 @@ exitCode=0
 
 echo "Installing base packages ..."
 
-sudo pacman -S vim screen git gitg tmux
+sudo pacman -S vim git gitg tmux kdiff3
 
 if [ $? -ne 0 ]; then
     exit 1

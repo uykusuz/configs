@@ -15,3 +15,12 @@
 [core]
     editor = vim
     excludesfile = ~/.gitignore
+[gui]
+    mstate = normal
+    geometry = 1920x1027+3840+0 191 190
+[merge]
+    tool = kdiff3
+[mergetool]
+    keepBackup = false
+[diff]
+    guitool = kdiff3
