@@ -43,13 +43,18 @@ cp ./bin/* ~/bin
 echo "Sourcing new bashrc ..."
 source ~/.bashrc
 
-echo "Setting up vim ..."
-mkdir -p ~/.vim/bundle
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
-
 echo "Setting up root configs ..."
 sudo cp _vimrc /root/.vimrc
+
+echo "Setting up vim ..."
+homes="~ /root"
+for home in $homes; do
+    mkdir -p $home/.vim/bundle
+    git clone https://github.com/VundleVim/Vundle.vim.git $home/.vim/bundle/Vundle.vim
+done
+
+vim +PluginInstall +qall
+sudo vim +PluginInstall +qall
 
 echo "Installing touchpad configuration ..."
 sudo mkdir -p /etc/X11/xorg.conf.d
