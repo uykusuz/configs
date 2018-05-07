@@ -157,6 +157,8 @@ fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 export PATH=$PATH:~/bin
 
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed 's:/bin/java::')
+
 # -----------------------------------------------------------------------------
 # --- Google Cloud ---
 
