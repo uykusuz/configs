@@ -7,6 +7,7 @@
     ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n 10
     lln = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n
     ls = show --name-only
+    pr = push-ref
 [push]
     default = current
 [user]
@@ -19,8 +20,8 @@
     mstate = normal
     geometry = 1920x1027+3840+0 191 190
 [merge]
-    tool = kdiff3
+    tool = gvimdiff
+    conflictstyle = diff3
 [mergetool]
     keepBackup = false
-[diff]
-    guitool = kdiff3
+    prompt = false
