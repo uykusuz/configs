@@ -14,11 +14,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'L9'
 
 " from github
-Plugin 'derekwyatt/vim-fswitch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'fatih/vim-go'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -112,35 +112,11 @@ vnoremap <C-r> y:%s/\<<C-r>0\>//g<left><left>
 nmap <leader>m :CtrlPMRUFiles<CR>
 nmap <leader>b :CtrlPBuffer<CR>
 
-" YouCompleteMe
-nmap <F5> :YcmForceCompileAndDiagnostics<CR>
-nmap <F6> :YcmDiags<CR>
-nmap <leader>gt :YcmCompleter GoTo<CR>
-nmap <leader>gi :YcmCompleter GoToImprecise<CR>
-nmap <leader>gd :YcmCompleter GetDoc<CR>
-
-" FSwitch
-nmap <leader>of :FSHere<CR>
-
 " NERDTree
-nmap <leader>f :NERDTreeFind<CR>
+nmap <leader>F :NERDTreeFind<CR>
 
-" --------------------------
-" --- YouCompleteMe ---
-" --------------------------
-let g:ycm_open_loclist_on_ycm_diags = 0
-let g:ycm_enable_diagnostic_highlighting = 0
+" grep
+nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
 
-" --------------------------
-" --- FSwitch ---
-" --------------------------
-let g:fsnonewfiles = 1
-
-augroup dmnfiles
-    au!
-    au BufEnter *.h let b:fswitchdst = 'cpp'
-    au BufEnter *.h let b:fswitchlocs = 'reg:|bootstrap/daemon|bootstrap/daemon/internal|'
-
-    au BufEnter *.cpp let b:fswitchdst = 'h'
-    au BufEnter *.cpp let b:fswitchlocs = 'reg:|internal||'
-augroup END
+" move to left-most pane
+nmap <leader>h :1winc w<CR>
