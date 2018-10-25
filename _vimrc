@@ -24,6 +24,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " ------------------------------------------------------------------------------
 
+colorscheme shine
+
 syntax on
 set number
 filetype plugin indent on
@@ -36,6 +38,8 @@ set so=7
 " show whitespaces
 set listchars=tab:>-,trail:- " show tab in the form of ">---" and trailing whitespace as "-"
 set list
+" set color of whitespaces
+highlight SpecialKey term=standout ctermfg=Grey
 
 " enable switching buffers without having to save them
 set hidden
