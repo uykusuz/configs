@@ -29,6 +29,7 @@ set number
 filetype plugin indent on
 
 colorscheme shine
+set highlight LineNr term=underline cterm=bold ctermfg=DarkYellow guifg=DarkYellow
 
 set noswapfile
 
@@ -38,7 +39,6 @@ set so=7
 " show whitespaces
 set listchars=tab:>-,trail:- " show tab in the form of ">---" and trailing whitespace as "-"
 set list
-" set color of whitespaces
 
 " enable switching buffers without having to save them
 set hidden
