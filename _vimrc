@@ -29,7 +29,7 @@ set number
 filetype plugin indent on
 
 colorscheme shine
-set highlight LineNr term=underline cterm=bold ctermfg=DarkYellow guifg=DarkYellow
+highlight LineNr term=underline cterm=bold ctermfg=DarkYellow guifg=DarkYellow
 
 set noswapfile
 
@@ -123,3 +123,7 @@ nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=
 
 " move to left-most pane
 nmap <leader>h :1winc w<CR>
+
+" paste from system clipboards
+nmap <leader>p "+p
+nmap <leader>P "*p
