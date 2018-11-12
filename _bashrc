@@ -112,6 +112,7 @@ alias ..='cd ..'
 alias tl='tar --exclude="*/*/*" -tf'
 
 alias v='vim -c "NERDTree | wincmd w"'
+alias gv='gvim -c "NERDTree | wincmd w"'
 alias vd='gvim +Gvdiff'
 
 alias gs='git status'
