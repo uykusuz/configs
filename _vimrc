@@ -19,6 +19,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'fatih/vim-go'
+Plugin 'brooth/far.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -110,6 +111,9 @@ nmap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " search/replace visually selected text when hitting Ctrl-R in visual mode
 vnoremap <C-r> y:%s/\<<C-r>0\>//g<left><left>
+
+vnoremap <C-R> y:Far \<<C-r>0\><Space>
+nmap <leader>y :Fardo<CR> :q<CR>
 
 " CtrlP
 nmap <leader>m :CtrlPMRUFiles<CR>
