@@ -16,7 +16,7 @@ startStep=0
 if [ $startStep -eq 0 ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg tmux kdiff3
+    sudo pacman -S vim git tk gitg aspell-en tmux fish
 
     if [ $? -ne 0 ]; then
         exit 1
@@ -43,7 +43,7 @@ fi
 
 if [ $startStep -lt 3 ]; then
     echo "Copying scripts ..."
-    1&>/dev/null mkdir -p ~/bin
+    1&>/dev/null mkdir ~/bin
     cp ./bin/* ~/bin
 fi
 

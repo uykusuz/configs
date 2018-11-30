@@ -29,9 +29,6 @@ syntax on
 set number
 filetype plugin indent on
 
-colorscheme shine
-highlight LineNr term=underline cterm=bold ctermfg=DarkYellow guifg=DarkYellow
-
 set noswapfile
 
 " vertical scroll margin of 7 lines
