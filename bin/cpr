@@ -1,0 +1,16 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+newName=${@: -1}
+fileNames=${@:1:$#-1}
+
+for f in $fileNames;
+do
+    dir=`dirname $f`
+    ext=${f##*.}
+
+    new=$dir/$newName.$ext
+
+    echo "$f -> $new"
+    cp $f $new
+done

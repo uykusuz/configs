@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+directory=$(yad --file-selection --directory)
+
+tmux new-session -c $directory \; split-window -h -c $directory \; last-pane
+
+# vim syntax=sh
