@@ -21,7 +21,7 @@ alias gv='gvim -c "NERDTree | wincmd w"'
 alias vd='gvim +Gvdiff'
 
 alias gs='git status'
-alias gg='git gui&'
+alias gg='git gui'
 alias gk='gitk --all&'
 
 alias pms='pacman -Ss'
