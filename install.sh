@@ -18,6 +18,9 @@ if [ $startStep -eq 0 ]; then
 
     sudo pacman -S vim git tk gitg aspell-en tmux fish
 
+    # dependencies for switch-monitor
+    sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
+
     if [ $? -ne 0 ]; then
         exit 1
     fi
