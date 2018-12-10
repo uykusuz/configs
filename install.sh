@@ -16,7 +16,7 @@ startStep=0
 if [ $startStep -eq 0 ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux fish
+    sudo pacman -S vim git tk gitg aspell-en tmux fish maven
 
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
