@@ -20,10 +20,13 @@ Plugin 'vim-scripts/grep.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'fatih/vim-go'
 Plugin 'brooth/far.vim'
+Plugin 'dag/vim-fish'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 " ------------------------------------------------------------------------------
+
+colorscheme desert
 
 syntax on
 set number
