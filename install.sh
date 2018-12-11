@@ -16,7 +16,7 @@ startStep=0
 if [ $startStep -eq 0 ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux fish maven
+    sudo pacman -S vim git tk gitg aspell-en tmux fish maven docker
 
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
@@ -65,6 +65,12 @@ if [ $startStep -lt 5 ]; then
     sudo mkdir -p /root/.vim/bundle
     sudo git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim
     sudo vim +PluginInstall +qall
+fi
+
+if [ $startStep -lt 6 ]; then
+    echo "Initializing docker ..."
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
 fi
 
 echo "Sourcing new bashrc ..."
