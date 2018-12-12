@@ -21,6 +21,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'fatih/vim-go'
 Plugin 'brooth/far.vim'
 Plugin 'dag/vim-fish'
+Plugin 'modille/groovy.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
