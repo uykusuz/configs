@@ -21,10 +21,10 @@ floating_modifier $mod
 # start dmenu (a program launcher)
 #bindsym $mod+d split h; exec dmenu_run
 #bindsym $mod+Shift+d split v; exec dmenu_run
-bindsym $mod+d split h; exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+Shift+d split v; exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+e split h; exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+e split v; exec --no-startup-id i3-dmenu-desktop
 
-mode "cmd" {
+mode "window" {
     # change focus
     bindsym j focus down; mode "default"
     bindsym k focus up; mode "default"
@@ -47,14 +47,6 @@ mode "cmd" {
 
     # kill window
     bindsym q kill
-
-    # reload the configuration file
-    bindsym c reload
-    # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-    bindsym r restart
-
-    # exit i3 (logs you out of your X session)
-    bindsym Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
     # leave mode
     bindsym Escape mode "default"
@@ -92,10 +84,29 @@ mode "keyboard" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+w mode "cmd"
+mode "system" {
+    # reload the configuration file
+    bindsym c reload; mode "default"
+
+    # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+    bindsym r restart; mode "default"
+
+    # sleep
+    bindsym s exec "i3lock && systemctl suspend"
+
+    # exit i3 (logs you out of your X session)
+    bindsym e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+    # leave mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+w mode "window"
 bindsym $mod+r mode "resize"
 bindsym $mod+l mode "layout"
 bindsym $mod+k mode "keyboard"
+bindsym $mod+s mode "system"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
