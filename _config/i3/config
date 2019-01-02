@@ -102,11 +102,21 @@ mode "system" {
     bindsym Escape mode "default"
 }
 
+mode "monitor" {
+    bindsym c exec "xrandr --output HDMI-1-2 --auto --right-of eDP-1-1"; restart; mode "default"
+    bindsym d exec "xrandr --output HDMI-1-2 --off"; restart; mode "default"
+
+    # leave mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 bindsym $mod+w mode "window"
 bindsym $mod+r mode "resize"
 bindsym $mod+l mode "layout"
 bindsym $mod+k mode "keyboard"
 bindsym $mod+s mode "system"
+bindsym $mod+m mode "monitor"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
