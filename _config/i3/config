@@ -64,7 +64,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
-# change container layout (stacked, tabbed, toggle split)
 mode "layout" {
     #bindsym s layout stacking
     bindsym t layout tabbed; mode "default"
@@ -102,21 +101,13 @@ mode "system" {
     bindsym Escape mode "default"
 }
 
-mode "monitor" {
-    bindsym c exec "xrandr --output HDMI-1-2 --auto --right-of eDP-1-1"; restart; mode "default"
-    bindsym d exec "xrandr --output HDMI-1-2 --off"; restart; mode "default"
-
-    # leave mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
 bindsym $mod+w mode "window"
 bindsym $mod+r mode "resize"
-bindsym $mod+l mode "layout"
 bindsym $mod+k mode "keyboard"
 bindsym $mod+s mode "system"
-bindsym $mod+m mode "monitor"
+bindsym $mod+l mode "layout"
+
+bindsym $mod+m exec "~/bin/configure-monitors"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -145,6 +136,10 @@ bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+
+# move workspace to other monitors
+bindsym $mod+Shift+p move workspace to output left
+bindsym $mod+Shift+n move workspace to output right
 
 bar {
     status_command i3status

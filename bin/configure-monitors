@@ -1,0 +1,11 @@
+#!/bin/bash
+# vim: set syntax bash
+
+xrandr | grep 'HDMI-1-2 connected'
+hasMultipleMonitors=$?
+
+if [ $hasMultipleMonitors ]; then
+    xrandr --output HDMI-1-2 --auto --right-of eDP-1-1
+else
+    xrandr --output HDMI-1-2 --off
+fi
