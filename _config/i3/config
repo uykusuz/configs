@@ -46,7 +46,7 @@ mode "window" {
     bindsym Shift+p move container to workspace prev; workspace prev; mode "default"
 
     # kill window
-    bindsym q kill
+    bindsym q kill; mode "default"
 
     # leave mode
     bindsym Escape mode "default"
