@@ -19,8 +19,8 @@ font pango:monospace 11
 floating_modifier $mod
 
 # start dmenu (a program launcher)
-#bindsym $mod+d split h; exec dmenu_run
-#bindsym $mod+Shift+d split v; exec dmenu_run
+#bindsym $mod+e split h; exec dmenu_run
+#bindsym $mod+Shift+e split v; exec dmenu_run
 bindsym $mod+e split h; exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+Shift+e split v; exec --no-startup-id i3-dmenu-desktop
 
@@ -94,7 +94,7 @@ mode "system" {
     bindsym s exec "i3lock && systemctl suspend"
 
     # exit i3 (logs you out of your X session)
-    bindsym e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+    bindsym e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"; mode "default"
 
     # leave mode
     bindsym Return mode "default"
@@ -138,8 +138,8 @@ bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
 bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
 
 # move workspace to other monitors
-bindsym $mod+Shift+p move workspace to output left
-bindsym $mod+Shift+n move workspace to output right
+bindsym $mod+Shift+u move workspace to output up
+bindsym $mod+Shift+d move workspace to output down
 
 bar {
     status_command i3status
