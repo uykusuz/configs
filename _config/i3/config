@@ -79,21 +79,30 @@ mode "keyboard" {
     bindsym Escape mode "default"
 }
 
-mode "system" {
+mode "i3" {
     # reload the configuration file
     bindsym c reload; mode "default"
 
     # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym r restart; mode "default"
 
+    # exit i3
+    bindsym e exec --no-startup-id "i3-msg exit"; mode "default"
+
+    # leave mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "system" {
+    # reboot
+    bindsym r exec --no-startup-id "systemctl reboot"; mode "default"
+
     # sleep
     bindsym s exec --no-startup-id "i3lock && systemctl suspend"; mode "default"
 
     # shutdown
     bindsym Shift+s exec --no-startup-id "systemctl poweroff"; mode "default"
-
-    # exit i3
-    bindsym e exec --no-startup-id "i3-msg exit"; mode "default"
 
     # leave mode
     bindsym Return mode "default"
@@ -105,6 +114,7 @@ bindsym $mod+r mode "resize"
 bindsym $mod+k mode "keyboard"
 bindsym $mod+s mode "system"
 bindsym $mod+l mode "layout"
+bindsym $mod+i mode "i3"
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
