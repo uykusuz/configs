@@ -45,6 +45,9 @@ mode "window" {
     bindsym Shift+n move container to workspace next; workspace next; mode "default"
     bindsym Shift+p move container to workspace prev; workspace prev; mode "default"
 
+    # enter fullscreen mode for the focused container
+    bindsym f fullscreen toggle; mode "default"
+
     # leave mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -124,9 +127,6 @@ bindsym XF86AudioMute exec --no-startup-id "amixer set Master toggle"
 bindsym $mod+q kill
 
 bindsym $mod+m exec --no-startup-id "~/bin/configure-monitors"
-
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
