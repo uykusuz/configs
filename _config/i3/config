@@ -45,9 +45,6 @@ mode "window" {
     bindsym Shift+n move container to workspace next; workspace next; mode "default"
     bindsym Shift+p move container to workspace prev; workspace prev; mode "default"
 
-    # kill window
-    bindsym q kill; mode "default"
-
     # leave mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -65,7 +62,6 @@ mode "resize" {
 }
 
 mode "layout" {
-    #bindsym s layout stacking
     bindsym t layout tabbed; mode "default"
     bindsym s layout toggle split; mode "default"
 
@@ -75,8 +71,8 @@ mode "layout" {
 }
 
 mode "keyboard" {
-    bindsym e exec "xmodmap ~/.Xmodmap_en"; mode "default"
-    bindsym d exec "xmodmap ~/.Xmodmap_de"; mode "default"
+    bindsym e exec --no-startup-id "xmodmap ~/.Xmodmap_en"; mode "default"
+    bindsym d exec --no-startup-id "xmodmap ~/.Xmodmap_de"; mode "default"
 
     # leave mode
     bindsym Return mode "default"
@@ -91,10 +87,13 @@ mode "system" {
     bindsym r restart; mode "default"
 
     # sleep
-    bindsym s exec "i3lock && systemctl suspend"
+    bindsym s exec --no-startup-id "i3lock && systemctl suspend"; mode "default"
 
-    # exit i3 (logs you out of your X session)
-    bindsym e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"; mode "default"
+    # shutdown
+    bindsym Shift+s exec --no-startup-id "systemctl poweroff"; mode "default"
+
+    # exit i3
+    bindsym e exec --no-startup-id "i3-msg exit"; mode "default"
 
     # leave mode
     bindsym Return mode "default"
@@ -107,7 +106,14 @@ bindsym $mod+k mode "keyboard"
 bindsym $mod+s mode "system"
 bindsym $mod+l mode "layout"
 
-bindsym $mod+m exec "~/bin/configure-monitors"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 5%+"
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 5%-"
+bindsym XF86AudioMute exec --no-startup-id "amixer set Master toggle"
+
+# kill window
+bindsym $mod+q kill
+
+bindsym $mod+m exec --no-startup-id "~/bin/configure-monitors"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
