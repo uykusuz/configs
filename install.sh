@@ -18,6 +18,9 @@ if [ $startStep -eq 0 ]; then
 
     sudo pacman -S vim git tk gitg aspell-en tmux fish maven docker
 
+    # i3
+    sudo pacman -S i3 dmenu
+
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
 
