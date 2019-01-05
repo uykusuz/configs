@@ -109,11 +109,14 @@ mode "i3" {
 }
 
 mode "system" {
+    # lock screen
+    bindsym l exec --no-startup-id "i3lock -c 000000"; mode "default"
+
     # reboot
     bindsym r exec --no-startup-id "systemctl reboot"; mode "default"
 
     # sleep
-    bindsym s exec --no-startup-id "i3lock && systemctl suspend"; mode "default"
+    bindsym s exec --no-startup-id "i3lock -c 000000 && systemctl suspend"; mode "default"
 
     # shutdown
     bindsym Shift+s exec --no-startup-id "systemctl poweroff"; mode "default"
