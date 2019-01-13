@@ -1,0 +1,94 @@
+#!/bin/bash
+# vim: set syntax bash
+
+declare -A devices=( ["edifier"]="40:EF:4C:C3:AB:3F" ["jbl"]="B8:D5:0B:BE:2E:66")
+
+scriptName=$(basename $0)
+
+function usageAndExit {
+    echo "Usage: $scriptName <command> <name>"
+    echo
+    echo "Command:"
+    echo "  help: display this message and exit"
+    echo "  connect: connect and mount"
+    echo "  disconnect: unmount and disconnect"
+
+    exit $1
+}
+
+function connect {
+    local mac="${devices[$1]}"
+    echo -e "power on\nconnect $mac\nquit" | bluetoothctl
+
+    # wait until device is connected
+    while [ $(isconnected $1) -ne 0 ];
+    do
+        sleep 1
+    done
+}
+
+function disconnect {
+    local mac="${devices[$1]}"
+    echo -e "disconnect $mac" | bluetoothctl
+}
+
+function mount {
+    mkdir -p $targetDir
+    obexfs -b $motoMac $targetDir
+}
+
+function unmount {
+    fusermount -u $targetDir
+    rmdir $targetDir
+}
+
+function isconnected {
+    local mac="${devices[$1]}"
+    echo -e "info $mac" | bluetoothctl | grep "Connected: yes" > /dev/null
+    echo $?
+}
+
+if [ "$#" -eq 0 ];
+then
+    usageAndExit 1
+fi
+
+while [ "$#" -gt 0 ];
+do
+    case "$1" in
+    help)
+        usageAndExit 0
+        ;;
+    connect)
+        shift
+        if [ "$#" -lt 1 ];
+        then
+            usageAndExit 1
+        fi
+
+        connect $1
+        ;;
+    disconnect)
+        shift
+        if [ "$#" -lt 1 ];
+        then
+            usageAndExit 1
+        fi
+
+        disconnect $1
+        ;;
+    isconnected)
+        shift
+        if [ "$#" -lt 1 ];
+        then
+            usageAndExit 1
+        fi
+
+        isconnected $1
+        ;;
+    *)
+        usageAndExit 1
+        ;;
+    esac
+    shift
+done
