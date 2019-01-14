@@ -57,6 +57,9 @@ mode "window" {
     bindsym h focus left; mode "default"
     bindsym l focus right; mode "default"
 
+    bindsym u focus parent; mode "default"
+    bindsym i focus child; mode "default"
+
     # enter fullscreen mode for the focused container
     bindsym f fullscreen toggle; mode "default"
 
@@ -126,9 +129,6 @@ mode "i3" {
     # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym r restart; mode "default"
 
-    # exit i3
-    bindsym e exec --no-startup-id "i3-msg exit"; mode "default"
-
     # leave mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -137,6 +137,9 @@ mode "i3" {
 mode "system" {
     # lock screen
     bindsym l exec --no-startup-id "i3lock -c 000000"; mode "default"
+
+    # exit i3
+    bindsym e exec --no-startup-id "i3-msg exit"; mode "default"
 
     # reboot
     bindsym r exec --no-startup-id "systemctl reboot"; mode "default"
