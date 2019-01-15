@@ -45,10 +45,8 @@ workspace 8 output eDP-1-1
 workspace 9 output eDP-1-1
 
 # start dmenu (a program launcher)
-#bindsym $mod+e split h; exec dmenu_run
-#bindsym $mod+Shift+e split v; exec dmenu_run
-bindsym $mod+e split h; exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+Shift+e split v; exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+e exec dmenu_run
+bindsym $mod+e exec --no-startup-id i3-dmenu-desktop
 
 mode "window" {
     # change focus
