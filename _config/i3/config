@@ -106,6 +106,9 @@ mode "layout" {
     bindsym t layout tabbed; mode "default"
     bindsym s layout toggle split; mode "default"
 
+    bindsym Shift+t focus parent; layout tabbed; focus child; mode "default"
+    bindsym Shift+s focus parent; layout toggle split; focus child; mode "default"
+
     # leave mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
