@@ -22,6 +22,8 @@ if [ $startStep -eq 0 ]; then
     sudo pacman -S i3 dmenu acpi
     mkdir -p ~/.config
     git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
+    # for i3blocks' arch-udpate
+    sudo pacman -S pacman-contrib
 
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
