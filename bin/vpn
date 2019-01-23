@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+# vim: set syntax=sh
+
+echo "YOU NEED TO SPECIFY THE CONFIG TO USE BELOW"
+exit 1
+
+config=
+command=start
+
+if [ $# -lt 1 ];
+then
+    name=$(basename $0)
+    echo "Usage: $name <service command>"
+    exit 1
+elif [ "$1" == "status" ];
+then
+    if [ "$2" == "-v" ];
+    then
+        systemctl status openvpn-client@$config
+    else
+        systemctl status openvpn-client@$config | grep "active (running)" &> /dev/null
+        if [ $? -eq 0 ];
+        then
+            echo "up"
+        else
+            echo "down"
+        fi
+    fi
+else
+    sudo systemctl $1 openvpn-client@$config
+fi
+
