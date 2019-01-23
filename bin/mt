@@ -5,20 +5,14 @@ function usageAndExit {
     echo "Usage: $(basename $0) <command> <options>"
     echo
     echo "Commands:"
-    echo "  help   : display help"
-    echo "  mount"
-    echo "  unmount"
-    echo
-    echo "Options:"
-    echo "  -d <device> : device to mount (only needed for 'mount')"
-    echo "  -t <target> : target directory to mount to"
+    echo "  help"
+    echo "  mount <device> <target directory>"
+    echo "  unmount <target directory>"
 
     exit $1
 }
 
 command=
-device=
-targetDir=
 user=$(id -u)
 group=$(id -g)
 
@@ -40,47 +34,32 @@ help)
 esac
 shift
 
-while [ $# -gt 0 ];
-do
-    case $1 in
-    -d)
-        shift
-        device=$1
-        ;;
-    -t)
-        shift
-        targetDir=$1
-        ;;
-    *)
-        echo "Unknown parameter: $1"
-        echo
-        usageAndExit 1
-        ;;
-    esac
-    shift
-done
-
 if [ $command == "mount" ];
 then
-    if [ -z "$device" -o -z "$targetDir" ];
+    if [ $# -ne 2 ];
     then
         echo "You need to specify both device and target directory."
         echo
         usageAndExit 1
     fi
 
+    device=$1
+    targetDir=$2
+
     mkdir -p $targetDir
     sudo mount -o gid=$group,uid=$user $device $targetDir
 elif [ $command == "unmount" ];
 then
-    if [ -z "$targetDir" ];
+    if [ $# -ne 1 ];
     then
         echo "You need to specify the target directory."
         echo
         usageAndExit 1
     fi
 
-    umount $targetDir
+    targetDir=$1
+
+    sudo umount $targetDir
     rmdir $targetDir
 fi
 
