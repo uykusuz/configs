@@ -1,0 +1,86 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+function usageAndExit {
+    echo "Usage: $(basename $0) <command> <options>"
+    echo
+    echo "Commands:"
+    echo "  help   : display help"
+    echo "  mount"
+    echo "  unmount"
+    echo
+    echo "Options:"
+    echo "  -d <device> : device to mount (only needed for 'mount')"
+    echo "  -t <target> : target directory to mount to"
+
+    exit $1
+}
+
+command=
+device=
+targetDir=
+user=$(id -u)
+group=$(id -g)
+
+case $1 in
+mount)
+    command=mount
+    ;;
+unmount)
+    command=unmount
+    ;;
+help)
+    usageAndExit 0
+    ;;
+*)
+    echo "Unknown command: $1"
+    echo
+    usageAndExit 1
+    ;;
+esac
+shift
+
+while [ $# -gt 0 ];
+do
+    case $1 in
+    -d)
+        shift
+        device=$1
+        ;;
+    -t)
+        shift
+        targetDir=$1
+        ;;
+    *)
+        echo "Unknown parameter: $1"
+        echo
+        usageAndExit 1
+        ;;
+    esac
+    shift
+done
+
+if [ $command == "mount" ];
+then
+    if [ -z "$device" -o -z "$targetDir" ];
+    then
+        echo "You need to specify both device and target directory."
+        echo
+        usageAndExit 1
+    fi
+
+    mkdir -p $targetDir
+    sudo mount -o gid=$group,uid=$user $device $targetDir
+elif [ $command == "unmount" ];
+then
+    if [ -z "$targetDir" ];
+    then
+        echo "You need to specify the target directory."
+        echo
+        usageAndExit 1
+    fi
+
+    umount $targetDir
+    rmdir $targetDir
+fi
+
