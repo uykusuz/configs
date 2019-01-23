@@ -18,12 +18,23 @@ function usageAndExit {
 
 function connect {
     local mac="${devices[$1]}"
-    echo -e "power on\nconnect $mac\nquit" | bluetoothctl
 
-    # wait until device is connected
-    while [ $(isconnected $1) -ne 0 ];
+    while true
     do
-        sleep 1
+        echo -e "power on\nconnect $mac\nquit" | bluetoothctl
+
+        # wait until device is connected
+        local tryCount=0
+        while [ $(isconnected $1) -ne 0 -a $tryCount -lt 5 ];
+        do
+            sleep 1
+            (( tryCount++ ))
+        done
+
+        if [ $(isconnected $1) -eq 0 ];
+        then
+            return 0
+        fi
     done
 }
 
