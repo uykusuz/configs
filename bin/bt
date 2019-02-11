@@ -1,7 +1,11 @@
 #!/bin/bash
 # vim: set syntax bash
 
-declare -A devices=( ["edifier"]="40:EF:4C:C3:AB:3F" ["jbl"]="B8:D5:0B:BE:2E:66")
+declare -A devices=(
+    ["edifier"]="40:EF:4C:C3:AB:3F"
+    ["jbl"]="B8:D5:0B:BE:2E:66"
+    ["x3"]="88:C6:26:DD:70:B5"
+)
 
 scriptName=$(basename $0)
 
@@ -40,7 +44,24 @@ function connect {
 
 function disconnect {
     local mac="${devices[$1]}"
-    echo -e "disconnect $mac" | bluetoothctl
+
+    while true
+    do
+        echo -e "disconnect $mac" | bluetoothctl
+
+        # wait until device is connected
+        local tryCount=0
+        while [ $(isconnected $1) -eq 0 -a $tryCount -lt 5 ];
+        do
+            sleep 1
+            (( tryCount++ ))
+        done
+
+        if [ $(isconnected $1) -ne 0 ];
+        then
+            return 0
+        fi
+    done
 }
 
 function mount {
@@ -77,6 +98,9 @@ do
             usageAndExit 1
         fi
 
+        # we will make sure the computer disconnected from the device
+        # else there's some weirdness that it can't use high-quality output/input
+        disconnect $1
         connect $1
         ;;
     disconnect)
