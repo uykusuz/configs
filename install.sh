@@ -37,12 +37,16 @@ if [ $startStep -lt 2 ]; then
     echo "Installing aur packages ..."
     mkdir -p ~/aur
 
-    cd ~/aur
+    pushd ~/aur
 
-    git clone https://aur.archlinux.org/ttf-font-awesome-4.git
-    cd ttf-font-awesome-4
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
     makepkg -is
-    cd ..
+
+    popd
+
+    yay ttf-font-awesome-4
+
 fi
 
 if [ $startStep -lt 3 ]; then
