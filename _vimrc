@@ -111,7 +111,7 @@ let mapleader=","
 nmap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " search/replace visually selected text when hitting Ctrl-R in visual mode
-vnoremap <C-r> y:%s/\<<C-r>0\>//g<left><left>
+vnoremap <C-r> y:%s/\<<C-r>0\>//gc<left><left>
 
 vnoremap <M-r> y:Far \<<C-r>0\><Space>
 nmap <leader>y :Fardo<CR> :q<CR>
@@ -124,7 +124,8 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>F :NERDTreeFind<CR>
 
 " grep
-nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
+"nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
+nmap <leader>f :grep -srnw --binary-files=without-match --exclude-dir=.git . -e ''<left>
 
 " move to left-most pane
 nmap <leader>h :1winc w<CR>
