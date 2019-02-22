@@ -133,3 +133,6 @@ nmap <leader>h :1winc w<CR>
 " paste from system clipboards
 nmap <leader>p "+p
 nmap <leader>P "*p
+
+" Go
+nmap <leader>gg :GoDef<CR>
