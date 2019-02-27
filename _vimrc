@@ -125,7 +125,7 @@ nmap <leader>F :NERDTreeFind<CR>
 
 " grep
 "nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
-nmap <leader>f :grep -srnw --binary-files=without-match --exclude-dir=.git . -e ''<left>
+nmap <leader>f :Grep -isr --binary-files=without-match --exclude-dir=.git  *<left><left>
 
 " move to left-most pane
 nmap <leader>h :1winc w<CR>
