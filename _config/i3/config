@@ -179,7 +179,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 bar {
-    status_command i3status
+    status_command i3blocks
 }
 
 # special window actions
