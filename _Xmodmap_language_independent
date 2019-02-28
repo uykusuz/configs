@@ -1,2 +1,9 @@
 remove control = Control_R
 add mod3 = Control_R
+
+keycode 133 = Mode_switch
+keycode  20 = minus underscore ssharp
+keycode  26 = e E EuroSign
+keycode  34 = bracketleft braceleft udiaeresis Udiaeresis
+keycode  47 = semicolon colon odiaeresis Odiaeresis
+keycode  48 = apostrophe quotedbl adiaeresis Adiaeresis
