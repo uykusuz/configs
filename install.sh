@@ -13,10 +13,10 @@ fi
 exitCode=0
 startStep=0
 
-if [ $startStep -eq 0 ]; then
+if [ $startStep -lt 1 ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux fish maven docker
+    sudo pacman -S vim git tk gitg aspell-en tmux fish maven docker python
 
     # i3
     sudo pacman -S i3 dmenu acpi
@@ -31,6 +31,10 @@ if [ $startStep -eq 0 ]; then
     if [ $? -ne 0 ]; then
         exit 1
     fi
+
+    # python stuff
+    sudo easy_install pip
+    sudo pip install virtualenv
 fi
 
 if [ $startStep -lt 2 ]; then
@@ -46,7 +50,6 @@ if [ $startStep -lt 2 ]; then
     popd
 
     yay ttf-font-awesome-4
-
 fi
 
 if [ $startStep -lt 3 ]; then
