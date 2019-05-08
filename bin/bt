@@ -16,6 +16,8 @@ function usageAndExit {
     echo "  help: display this message and exit"
     echo "  connect: connect and mount"
     echo "  disconnect: unmount and disconnect"
+    echo "  isconnected: check if the device is connected"
+    echo "  isactive: check if the device is activated in software"
 
     exit $1
 }
@@ -25,19 +27,27 @@ function connect {
 
     while true
     do
+        # connect
         echo -e "power on\nconnect $mac\nquit" | bluetoothctl
 
         # wait until device is connected
         local tryCount=0
-        while [ $(isconnected $1) -ne 0 -a $tryCount -lt 5 ];
+        while [ $(isConnected $1) -ne 0 -a $tryCount -lt 5 ];
         do
             sleep 1
             (( tryCount++ ))
         done
 
-        if [ $(isconnected $1) -eq 0 ];
+        if [ $(isConnected $1) -eq 0 ];
         then
-            return 0
+            if [ $(isActive $1) -eq 0 ];
+            then
+                return 0
+            else
+                # for some reason it's switched off in the software control, so we try reconnect
+                # which then usually does the job
+                disconnect $1
+            fi
         fi
     done
 }
@@ -51,13 +61,13 @@ function disconnect {
 
         # wait until device is connected
         local tryCount=0
-        while [ $(isconnected $1) -eq 0 -a $tryCount -lt 5 ];
+        while [ $(isConnected $1) -eq 0 -a $tryCount -lt 5 ];
         do
             sleep 1
             (( tryCount++ ))
         done
 
-        if [ $(isconnected $1) -ne 0 ];
+        if [ $(isConnected $1) -ne 0 ];
         then
             return 0
         fi
@@ -74,10 +84,20 @@ function unmount {
     rmdir $targetDir
 }
 
-function isconnected {
+function isConnected {
     local mac="${devices[$1]}"
     echo -e "info $mac" | bluetoothctl | grep "Connected: yes" > /dev/null
     echo $?
+}
+
+function isActive {
+    if [ "$1" == "x3" ];
+    then
+        pactl list cards | grep -i 'active profile: a2dp_sink' > /dev/null
+        echo $?
+    else
+        echo 0
+    fi
 }
 
 if [ "$#" -eq 0 ];
@@ -98,7 +118,7 @@ do
             usageAndExit 1
         fi
 
-        # we will make sure the computer disconnected from the device
+        # we will make sure the computer is disconnected from the device
         # else there's some weirdness that it can't use high-quality output/input
         disconnect $1
         connect $1
@@ -119,7 +139,16 @@ do
             usageAndExit 1
         fi
 
-        isconnected $1
+        isConnected $1
+        ;;
+    isactive)
+        shift
+        if [ "$#" -lt 1 ];
+        then
+            usageAndExit 1
+        fi
+
+        isActive $1
         ;;
     *)
         usageAndExit 1
