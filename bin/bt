@@ -28,9 +28,11 @@ function connect {
     while true
     do
         # connect
+        echo "Connecting device ..."
         echo -e "power on\nconnect $mac\nquit" | bluetoothctl
 
         # wait until device is connected
+        echo "Waiting until device is connected ..."
         local tryCount=0
         while [ $(isConnected $1) -ne 0 -a $tryCount -lt 5 ];
         do
@@ -40,12 +42,20 @@ function connect {
 
         if [ $(isConnected $1) -eq 0 ];
         then
+            echo "Device is connected. Waiting until it's active ..."
+            local tryCount=0
+            while [ $(isActive $1) -ne 0 -a $tryCount -lt 5 ];
+            do
+                sleep 1
+                (( tryCount++ ))
+            done
+
             if [ $(isActive $1) -eq 0 ];
             then
+                echo "Device active."
                 return 0
             else
-                # for some reason it's switched off in the software control, so we try reconnect
-                # which then usually does the job
+                echo "Device can't be activated. Trying to reconnect."
                 disconnect $1
             fi
         fi
