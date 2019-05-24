@@ -115,6 +115,16 @@ fi
 nextStep+=1
 
 if [ $startStep -lt $nextStep ]; then
+    echo "Adapting user ..."
+    sudo usermod -a -G video $USER
+    sudo mkdir -p /etc/udev/rules.d
+    sudo cp backlight.rules /etc/udev/rules.d
+    sudo chown root:root /etc/udev/rules.d/backlight.rules
+fi
+
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     sudo pacman -S zsh
     yay oh-my-zsh-git powerline-fonts-git
     chsh -s /bin/zsh
