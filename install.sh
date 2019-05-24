@@ -12,11 +12,12 @@ fi
 
 exitCode=0
 startStep=0
+nextStep=1
 
-if [ $startStep -lt 1 ]; then
+if [ $startStep -lt $nextStep ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux fish maven docker python
+    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python
 
     # i3
     sudo pacman -S i3 dmenu acpi
@@ -37,7 +38,9 @@ if [ $startStep -lt 1 ]; then
     sudo pip install virtualenv
 fi
 
-if [ $startStep -lt 2 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Installing aur packages ..."
     mkdir -p ~/aur
 
@@ -52,7 +55,9 @@ if [ $startStep -lt 2 ]; then
     yay ttf-font-awesome-4
 fi
 
-if [ $startStep -lt 3 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Copying configs ..."
 
     configs=`find . -name "_*"`
@@ -70,19 +75,25 @@ if [ $startStep -lt 3 ]; then
     done
 fi
 
-if [ $startStep -lt 4 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Copying scripts ..."
     1&>/dev/null mkdir ~/bin
     cp ./bin/* ~/bin
 fi
 
-if [ $startStep -lt 5 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Setting up root configs ..."
     sudo mkdir /root
     sudo cp _vimrc /root/.vimrc
 fi
 
-if [ $startStep -lt 6 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Setting up vim ..."
     mkdir -p ~/.vim/bundle
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -93,10 +104,20 @@ if [ $startStep -lt 6 ]; then
     sudo vim +PluginInstall +qall
 fi
 
-if [ $startStep -lt 7 ]; then
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
     echo "Initializing docker ..."
     sudo systemctl enable docker.service
     sudo systemctl start docker.service
+fi
+
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
+    sudo pacman -S zsh
+    yay oh-my-zsh-git powerline-fonts-git
+    chsh -s /bin/zsh
 fi
 
 echo "Sourcing new bashrc ..."
