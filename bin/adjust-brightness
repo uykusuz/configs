@@ -1,0 +1,37 @@
+#!/bin/bash
+
+backlightBase=/sys/class/backlight/intel_backlight
+
+current=$(cat $backlightBase/actual_brightness)
+
+case "$1" in
+"current")
+    echo $current
+    ;;
+"increase")
+    shift
+    if [ $# -lt 1 ]; then
+        echo "missing number after command"
+        exit 1
+    fi
+
+    new=$((current+$1))
+    echo $new > $backlightBase/brightness
+    ;;
+"decrease")
+    shift
+    if [ $# -lt 1 ]; then
+        echo "missing number after command"
+        exit 1
+    fi
+
+    new=$((current-$1))
+    echo $new > $backlightBase/brightness
+    ;;
+"*")
+    echo "unknown command: $1"
+    exit 1
+    ;;
+esac
+
+# vim: set syntax sh

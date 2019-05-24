@@ -162,9 +162,12 @@ bindsym $mod+s mode "system"
 bindsym $mod+l mode "layout"
 bindsym $mod+i mode "i3"
 
-bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
+
+bindsym XF86MonBrightnessUp exec --no-startup-id "~/bin/adjust-brightness increase 100"
+bindsym XF86MonBrightnessDown exec --no-startup-id "~/bin/adjust-brightness decrease 100"
 
 # kill window
 bindsym $mod+q kill
