@@ -17,7 +17,7 @@ nextStep=1
 if [ $startStep -lt $nextStep ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python
+    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python npm
 
     # i3
     sudo pacman -S i3 dmenu acpi
