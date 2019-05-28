@@ -126,8 +126,7 @@ nextStep+=1
 
 if [ $startStep -lt $nextStep ]; then
     echo "Installing shell ..."
-    sudo pacman -S zsh fish
-    yay oh-my-zsh-git powerline-fonts-git
+    yay -S zsh zplug
     chsh -s /bin/zsh
 fi
 
