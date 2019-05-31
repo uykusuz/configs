@@ -25,8 +25,6 @@ SAVEHIST=$HISTSIZE
 unsetopt beep
 bindkey -v
 # End of lines configured by zsh-newuser-install
-#
-bindkey '^R' history-incremental-pattern-search-backward
 
 # -----------------------------------------------------------------------------
 # --- Plugins ---
@@ -37,16 +35,22 @@ source /usr/share/zsh/scripts/zplug/init.zsh
 # Load completion library for those sweet [tab] squares
 zplug "lib/completion", from:oh-my-zsh
 
+zplug "greymd/docker-zsh-completion"
+
 # Async for zsh, used by pure
-zplug "mafredri/zsh-async", from:github, defer:0
+zplug "mafredri/zsh-async", from:github
+
+# history search like in fish
+zplug "zsh-users/zsh-history-substring-search"
 
 # syntax highlighting: this has to come before vimode-visual to avoid conflicts
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-syntax-highlighting"
 # v-mode for vi mode
-zplug "b4b4r07/zsh-vimode-visual", defer:3
+zplug "b4b4r07/zsh-vimode-visual"
 
 # Theme
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+#zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+zplug "themes/dst", as:theme, from:oh-my-zsh
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -57,6 +61,20 @@ if ! zplug check --verbose; then
 fi
 
 zplug load --verbose
+
+# -----------------------------------------------------------------------------
+# --- Key Bindings ---
+
+bindkey '^R' history-incremental-pattern-search-backward
+
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# END ZSH CONFIGURATION
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
 # --- Aliases ---
@@ -75,8 +93,7 @@ alias gs='git status'
 alias gg='git gui&'
 alias gk='gitk --all&'
 
-alias pms='pacman -Ss'
-alias pmi='sudo pacman -S'
+alias yu='yay -Syu --answerclean n --answerdiff n'
 
 # grep: case-insensitive, ignore binaries, print filename, recursive, print line numbers
 alias gr='grep -iIsrn'
