@@ -1,13 +1,32 @@
 #!/bin/bash
 # vim: set syntax bash
 
-externalMonitor='HDMI-1-2'
+internalMonitor='eDP1'
+externalMonitors='DP2-3 DP2-2 HDMI2'
 
-xrandr | grep "$externalMonitor connected"
-hasMultipleMonitors=$?
+externalMonitorCount=$(xrandr | grep ' connected' | grep -v primary | wc -l)
 
-if [ $hasMultipleMonitors ]; then
-    xrandr --output $externalMonitor --auto --right-of eDP-1-1
-else
-    xrandr --output $externalMonitor --off
-fi
+case $externalMonitorCount in
+0)
+    for monitor in $externalMonitors; do
+        xrandr --output $monitor --off
+    done
+    ;;
+1)
+    externalMonitor='HDMI2'
+    xrandr --output "$externalMonitor" --auto --right-of "$internalMonitor"
+    ;;
+2)
+    leftMonitor='DP2-3'
+    rightMonitor='DP2-2'
+    xrandr --output "$internalMonitor" --off
+    xrandr --output "$leftMonitor" --auto
+    xrandr --output "$rightMonitor" --auto --right-of "$leftMonitor"
+    ;;
+*)
+    echo "Unknown number of connected monitors."
+    xrandr --output $externalMonitor1 --off
+    xrandr --output $externalMonitor2 --off
+    exit 1
+    ;;
+esac
