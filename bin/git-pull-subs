@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for subDir in */.git; do (
+    echo Updating $subDir ...
+    cd $subDir/..
+    git fp
+) done
+
+# vim: syntax=sh

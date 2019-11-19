@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ $# -lt 1 -o "$1" == "-h" -o "$1" == "--help" ];
+then
+    echo "Usage: $(basename $0) <command> <arguments>"
+    echo
+    echo "Execute the given command and it's arguments in all sub directories that contain a '.git'"
+    echo "subfolder."
+
+    exit 0
+fi
+
+for subDir in */.git; do (
+    echo Going to $subDir ...
+    cd $subDir/..
+    "$@"
+    echo
+) done
+
+# vim: syntax=sh
