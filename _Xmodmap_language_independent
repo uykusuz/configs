@@ -1,7 +1,10 @@
 remove control = Control_R
 add mod3 = Control_R
 
+! set left windows key to the special mode switch for the umlaute
 keycode 133 = Mode_switch
+
+! define umlaute
 keycode  20 = minus underscore ssharp
 keycode  26 = e E EuroSign
 keycode  34 = bracketleft braceleft udiaeresis Udiaeresis
