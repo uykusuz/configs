@@ -17,14 +17,10 @@ nextStep=1
 if [ $startStep -lt $nextStep ]; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python npm ranger
+    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python npm ranger unzip
 
     # i3
-    sudo pacman -S i3 dmenu acpi
-    mkdir -p ~/.config
-    git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
-    # for i3blocks' arch-udpate
-    sudo pacman -S pacman-contrib
+    sudo pacman -S i3 dmenu acpi pulseaudio
 
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
@@ -53,12 +49,16 @@ if [ $startStep -lt $nextStep ]; then
     popd
 
     yay ttf-font-awesome-4
+
+    yay networkmanager-dmenu-git
 fi
 
 nextStep+=1
 
 if [ $startStep -lt $nextStep ]; then
     echo "Copying configs ..."
+
+    mkdir -p ~/.config
 
     configs=`find . -name "_*"`
 
@@ -102,6 +102,17 @@ if [ $startStep -lt $nextStep ]; then
     sudo mkdir -p /root/.vim/bundle
     sudo git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim
     sudo vim +PluginInstall +qall
+fi
+
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
+    echo "Setting up i3blocks ..."
+
+    # we want to clone the custom scripts and just after it place our own config
+    rm -fr ~/.config/i3blocks
+    git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
+    cp _config/i3blocks/config ~/.config/i3blocks/
 fi
 
 nextStep+=1
