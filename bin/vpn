@@ -1,6 +1,46 @@
 #!/usr/bin/bash
 # vim: set syntax=sh
 
+execName=$(basename $0)
+
+function usageAndExit() {
+    echo "Usage: $execName <command>"
+    echo
+    echo "Commands:"
+    echo "  start"
+    echo "  stop"
+    echo "  status"
+    echo "  help"
+
+    exit $1
+}
+
+if [ $# -lt 1 ];
+then
+    usageAndExit 1
+else
+    case "$1" in
+    start)
+        nmcli connection up --ask uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65
+        ;;
+    stop)
+        nmcli connection down uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65
+        ;;
+    status)
+        tmp=$(nmcli connection show --active uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65)
+        if [ ${#tmp} -lt 1 ]; then
+            echo "down"
+        else
+            echo "up"
+        fi
+        ;;
+    help|-h|--help)
+        usageAndExit 0
+        ;;
+    esac
+fi
+
+<<COMMENT
 echo "YOU NEED TO SPECIFY THE CONFIG TO USE BELOW"
 exit 1
 
@@ -29,4 +69,4 @@ then
 else
     sudo systemctl $1 openvpn-client@$config
 fi
-
+COMMENT
