@@ -127,8 +127,8 @@ interval=30
 # Date Time
 #
 [time]
-command=date '+%H:%M:%S %Y-%m-%d'
-interval=5
+command=date '+%H:%M %Y-%m-%d'
+interval=60
 
 # Generic media player support
 #
@@ -164,17 +164,18 @@ interval=5
 #interval=once
 #signal=11
 
-#[arch-update]
-#interval=3600
-#markup=pango
-
 [arch-update]
-command=$SCRIPT_DIR/arch-update
+interval=3600
 markup=pango
-interval= 3600
-QUIET=true
-WATCH=^linux.* ^pacman.*
-BASE_COLOR=#5fff5f
-UPDATE_COLOR=#FFFF85
-AUR=true
 LABEL= 
+
+#[arch-update]
+#command=$SCRIPT_DIR/arch-update
+#markup=pango
+#interval= 3600
+#QUIET=true
+#WATCH=^linux.* ^pacman.*
+#BASE_COLOR=#5fff5f
+#UPDATE_COLOR=#FFFF85
+#AUR=true
+#LABEL= 
