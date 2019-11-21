@@ -8,6 +8,7 @@ declare -A devices=(
 )
 
 scriptName=$(basename $0)
+bluetoothProfile='a2dp_sink'
 
 function usageAndExit {
     echo "Usage: $scriptName <command> <name>"
@@ -53,13 +54,16 @@ function connect {
             if [ $(isActive $1) -eq 0 ];
             then
                 echo "Device active."
-                return 0
+                break
             else
                 echo "Device can't be activated. Trying to reconnect."
                 disconnect $1
             fi
         fi
     done
+
+    activateDefaultSink $1
+    echo "Device set as default sink."
 }
 
 function disconnect {
@@ -103,11 +107,17 @@ function isConnected {
 function isActive {
     if [ "$1" == "x3" ];
     then
-        pactl list cards | grep -i 'active profile: a2dp_sink' > /dev/null
+        pactl list cards | grep -i "active profile: $bluetoothProfile" > /dev/null
         echo $?
     else
         echo 0
     fi
+}
+
+function activateDefaultSink {
+    local name="bluez_sink."$(sed 's/:/_/g' <<< "${devices[$1]}")".$bluetoothProfile"
+    echo "name: $name"
+    pactl set-default-sink "$name"
 }
 
 if [ "$#" -eq 0 ];
