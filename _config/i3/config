@@ -205,6 +205,9 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+# send caps lock events to i3blocks so we can visualize it
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+
 bar {
     status_command i3blocks
 }
