@@ -170,6 +170,7 @@ COLOR_OFF=#990000
 interval=3600
 markup=pango
 LABEL= 
+signal=12
 
 #[arch-update]
 #command=$SCRIPT_DIR/arch-update
