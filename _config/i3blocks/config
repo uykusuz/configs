@@ -159,7 +159,7 @@ instance=CAPS
 interval=once
 signal=11
 markup=pango
-COLOR_OFF=#990000
+COLOR_OFF=#444444
 
 #[keyindicator]
 #instance=NUM
