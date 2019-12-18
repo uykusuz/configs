@@ -18,21 +18,6 @@ font pango:monospace 11
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-
-# move workspace to other monitors
-bindsym $mod+Shift+u move workspace to output up
-bindsym $mod+Shift+d move workspace to output down
-
 # define monitors for the workspaces: the first x go to the big screen, the others to the small screen
 workspace 1 output DP2-3 HDMI2 eDP1
 workspace 2 output DP2-3 HDMI2 eDP1
@@ -43,10 +28,6 @@ workspace 6 output DP2-2 HDMI2 eDP1
 workspace 7 output DP2-2 HDMI2 eDP1
 workspace 8 output DP2-2 eDP1
 workspace 9 output DP2-2 eDP1
-
-# start dmenu (a program launcher)
-bindsym $mod+Shift+e exec dmenu_run
-bindsym $mod+e exec --no-startup-id i3-dmenu-desktop
 
 mode "window" {
     # change focus
@@ -178,6 +159,29 @@ mode "mouse" {
     # exit mode
     bindsym Escape mode "default"
 }
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+# move workspace to other monitors
+bindsym $mod+Shift+u move workspace to output up
+bindsym $mod+Shift+d move workspace to output down
+
+# start dmenu (a program launcher)
+bindsym $mod+Shift+e exec dmenu_run
+bindsym $mod+e exec --no-startup-id i3-dmenu-desktop
+
+# fix a bug in i3: https://github.com/i3/i3/issues/3528
+# simply refocus the launched window
+bindsym $mod+t exec termite; focus parent; focus child
 
 bindsym $mod+w mode "window"
 bindsym $mod+r mode "resize"
