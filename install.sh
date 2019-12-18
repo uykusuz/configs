@@ -48,9 +48,7 @@ if [ $startStep -lt $nextStep ]; then
 
     popd
 
-    yay ttf-font-awesome-4
-
-    yay networkmanager-dmenu-git
+    yay -S ttf-font-awesome-4 networkmanager-dmenu-git asdf-vm
 fi
 
 nextStep+=1
