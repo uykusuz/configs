@@ -90,9 +90,11 @@ separator=false
 
 # vpn support
 [vpn]
-label=VPN 
-command=~/bin/vpn status
+markup=pango
+command=~/bin/vpn status -i3
 interval=20
+COLOR_ON=#00FF00
+COLOR_OFF=#333333
 
 #[bandwidth]
 #instance=eth0

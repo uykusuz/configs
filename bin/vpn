@@ -15,6 +15,9 @@ function usageAndExit() {
     exit $1
 }
 
+colorOn=$COLOR_ON || '#00FF00'
+colorOff=$COLOR_OFF || '#333333'
+
 if [ $# -lt 1 ];
 then
     usageAndExit 1
@@ -29,9 +32,17 @@ else
     status)
         tmp=$(nmcli connection show --active uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65)
         if [ ${#tmp} -lt 1 ]; then
-            echo "down"
+            if [ "$2" == "-i3" ]; then
+                echo "<span color='$colorOff'>VPN</span>"
+            else
+                echo "down"
+            fi
         else
-            echo "up"
+            if [ "$2" == "-i3" ]; then
+                echo "<span color='$colorOn'>VPN</span>"
+            else
+                echo "up"
+            fi
         fi
         ;;
     help|-h|--help)
