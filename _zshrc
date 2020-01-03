@@ -79,8 +79,9 @@ bindkey -M vicmd 'j' history-substring-search-down
 # -----------------------------------------------------------------------------
 # --- Aliases ---
 
-alias ll='ls -alhF'
-alias la='ls -A'
+alias ls='ls --color'
+alias ll='ls --color -alhF'
+alias la='ls --color -A'
 alias ..='cd ..'
 
 alias tl='tar --exclude="*/*/*" -tf'
