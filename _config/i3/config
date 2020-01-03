@@ -177,7 +177,8 @@ bindsym $mod+Shift+d move workspace to output down
 
 # start dmenu (a program launcher)
 bindsym $mod+Shift+e exec dmenu_run
-bindsym $mod+e exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+e exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+e exec --no-startup-id /home/bobbel/bin/run-rofi
 
 # fix a bug in i3: https://github.com/i3/i3/issues/3528
 # simply refocus the launched window
@@ -215,8 +216,11 @@ bar {
     status_command i3blocks
 }
 
+gaps inner 5
+
 # special window actions
 for_window [title="Git Gui"] floating enable
 for_window [id="0x3800062"] floating enable
 for_window [title="gitk"] floating enable
 for_window [id="0x1a00007"] floating enable
+#for_window [class=".*"] border pixel 0

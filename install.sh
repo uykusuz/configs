@@ -20,7 +20,7 @@ if [ $startStep -lt $nextStep ]; then
     sudo pacman -S vim git tk gitg aspell-en tmux maven docker python npm ranger unzip
 
     # i3
-    sudo pacman -S i3 dmenu acpi pulseaudio
+    sudo pacman -S i3 rofi acpi pulseaudio
 
     # dependencies for switch-monitor
     sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
