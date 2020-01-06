@@ -27,7 +27,7 @@
 #command=/usr/lib/i3blocks/$BLOCK_NAME
 command=/home/bobbel/.config/i3blocks/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
-markup=none
+markup=pango
 
 # Volume indicator
 #
@@ -90,7 +90,6 @@ separator=false
 
 # vpn support
 [vpn]
-markup=pango
 command=~/bin/vpn status -i3
 interval=20
 COLOR_ON=#00FF00
@@ -116,21 +115,17 @@ COLOR_OFF=#444444
 # Battery indicator
 #
 # The battery instance defaults to 0.
-[battery]
-label=BAT
-label=⚡
-instance=1
+#[battery]
+#label=BAT
+#label=⚡
+#instance=1
+#interval=30
+
+[batterybar]
 interval=30
 
 #[battery2]
-#markup=pango
 #interval=30
-
-# Date Time
-#
-[time]
-command=date '+%H:%M %Y-%m-%d'
-interval=60
 
 # Generic media player support
 #
@@ -157,10 +152,9 @@ interval=60
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 [keyindicator]
-instance=CAPS
+LABEL=בּ
 interval=once
 signal=11
-markup=pango
 COLOR_OFF=#444444
 
 #[keyindicator]
@@ -170,13 +164,11 @@ COLOR_OFF=#444444
 
 [arch-update]
 interval=3600
-markup=pango
-LABEL= 
+LABEL=
 signal=12
 
 #[arch-update]
 #command=$SCRIPT_DIR/arch-update
-#markup=pango
 #interval= 3600
 #QUIET=true
 #WATCH=^linux.* ^pacman.*
@@ -184,3 +176,9 @@ signal=12
 #UPDATE_COLOR=#FFFF85
 #AUR=true
 #LABEL= 
+
+# Date Time
+#
+[time]
+command=date '+%H:%M %Y-%m-%d'
+interval=60
