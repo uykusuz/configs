@@ -30,3 +30,8 @@ case $externalMonitorCount in
     exit 1
     ;;
 esac
+
+# reconfigure xmodmap
+# when connecting the external keyboard linux needs to be told to remap the modmap
+[[ -f ~/.Xmodmap_en ]] && xmodmap ~/.Xmodmap_en
+[[ -f ~/.Xmodmap_language_independent ]] && xmodmap ~/.Xmodmap_language_independent
