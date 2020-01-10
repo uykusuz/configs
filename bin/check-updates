@@ -12,6 +12,6 @@ if [[ $(checkupdates | wc -l) -gt 0 || $(yay -Qua | wc -l) -gt 0 ]];
 then
     echo "<span color='#FF0000'>ﮮ</span>"
 else
-    echo "<span color='#00FF00'></span>"
+    echo "<span color='#00AA00'></span>"
 fi
 
