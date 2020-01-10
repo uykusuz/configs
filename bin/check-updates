@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [[ "$1" == "-h" || "$1" == "--help" ]];
+then
+    echo "check-updates checks for system updates and outputs the information for i3blocks."
+    echo
+    echo "Usage: $(basename $0)"
+    exit 0
+fi
+
 if [[ $(checkupdates | wc -l) -gt 0 || $(yay -Qua | wc -l) -gt 0 ]];
 then
     echo "<span color='#FF0000'>ﮮ</span>"
