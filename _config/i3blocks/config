@@ -162,9 +162,14 @@ COLOR_OFF=#444444
 #interval=once
 #signal=11
 
+#[arch-update]
+#interval=3600
+#LABEL=
+#signal=12
+
 [arch-update]
+command=~/bin/check-updates
 interval=3600
-LABEL=
 signal=12
 
 #[arch-update]
