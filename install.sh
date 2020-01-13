@@ -48,7 +48,7 @@ if [ $startStep -lt $nextStep ]; then
 
     popd
 
-    yay -S ttf-font-awesome-4 networkmanager-dmenu-git asdf-vm
+    yay -S ttf-font-awesome-4 networkmanager-dmenu-git asdf-vm google-chrome
 fi
 
 nextStep+=1
@@ -112,6 +112,15 @@ if [ $startStep -lt $nextStep ]; then
     #git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
     git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks
     cp _config/i3blocks/config ~/.config/i3blocks/
+fi
+
+nextStep+=1
+
+if [ $startStep -lt $nextStep ]; then
+    echo "Setting up chrome ..."
+
+    xdg-mime default google-chrome.desktop x-scheme-handler/http
+    xdg-mime default google-chrome.desktop x-scheme-handler/https
 fi
 
 nextStep+=1
