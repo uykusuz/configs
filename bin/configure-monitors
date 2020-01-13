@@ -3,33 +3,53 @@
 
 internalMonitor='eDP1'
 externalMonitors='DP2-3 DP2-2 HDMI2'
+autoConfigure=0
+
+turnOffExternalMonitors() {
+    externalMonitors=$(xrandr | grep 'connected' | grep -v primary | awk '{print $1}')
+    for monitor in $externalMonitors;
+    do
+        xrandr --output "$externalMonitor" --off
+    done
+}
+
+case "$1" in
+-h|--help)
+    echo "$(basename $0)"
+    echo
+    echo "Options:"
+    echo "\t--auto: auto-detect monitors and configure them"
+
+    exit 0
+    ;;
+--auto)
+    autoConfigure=1
+    ;;
+esac
 
 externalMonitorCount=$(xrandr | grep ' connected' | grep -v primary | wc -l)
 
-case $externalMonitorCount in
-0)
-    for monitor in $externalMonitors; do
-        xrandr --output $monitor --off
+externalMonitors=$(xrandr | grep ' connected' | grep -v primary | awk '{print $1}')
+externalMonitorCount=$(echo "$externalMonitors" | wc -l)
+
+if [[ $externalMonitorCount -lt 1 ]];
+then
+    turnOffExternalMonitors
+elif [[ $externalMonitorCount -lt 2 || $autoConfigure -eq 1 ]];
+then
+    previousMonitor="$internalMonitor"
+    for monitor in $externalMonitors;
+    do
+        xrandr --output "$monitor" --auto --right-of "$previousMonitor"
+        previousMonitor="$monitor"
     done
-    ;;
-1)
-    externalMonitor='HDMI2'
-    xrandr --output "$externalMonitor" --auto --right-of "$internalMonitor"
-    ;;
-2)
+else
     leftMonitor='DP2-3'
     rightMonitor='DP2-2'
     xrandr --output "$internalMonitor" --off
     xrandr --output "$leftMonitor" --auto
     xrandr --output "$rightMonitor" --auto --right-of "$leftMonitor"
-    ;;
-*)
-    echo "Unknown number of connected monitors."
-    xrandr --output $externalMonitor1 --off
-    xrandr --output $externalMonitor2 --off
-    exit 1
-    ;;
-esac
+fi
 
 # reconfigure xmodmap
 # when connecting the external keyboard linux needs to be told to remap the modmap
