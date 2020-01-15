@@ -1,36 +1,43 @@
-#!/bin/bash
+#!/bin/bash -x
 # vim: set syntax bash
 
 internalMonitor='eDP1'
 externalMonitors='DP2-3 DP2-2 HDMI2'
 autoConfigure=0
 
+usageAndExit() {
+    echo "$(basename $0)"
+    echo
+    echo "Options:"
+    echo "\t--auto: auto-detect monitors and configure them"
+    echo "\t--off : turn off external monitors"
+
+    exit $1
+}
+
 turnOffExternalMonitors() {
+    xrandr --output "$internalMonitor" --auto
     externalMonitors=$(xrandr | grep 'connected' | grep -v primary | awk '{print $1}')
     for monitor in $externalMonitors;
     do
-        xrandr --output "$externalMonitor" --off
+        xrandr --output "$monitor" --off
     done
 }
 
 case "$1" in
 -h|--help)
-    echo "$(basename $0)"
-    echo
-    echo "Options:"
-    echo "\t--auto: auto-detect monitors and configure them"
-
-    exit 0
+    usageAndExit 0
     ;;
 --auto)
     autoConfigure=1
     ;;
+--off)
+    turnOffExternalMonitors
+    ;;
 esac
 
-externalMonitorCount=$(xrandr | grep ' connected' | grep -v primary | wc -l)
-
 externalMonitors=$(xrandr | grep ' connected' | grep -v primary | awk '{print $1}')
-externalMonitorCount=$(echo "$externalMonitors" | wc -l)
+externalMonitorCount=$(echo "$externalMonitors" | wc -w)
 
 if [[ $externalMonitorCount -lt 1 ]];
 then
