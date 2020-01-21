@@ -125,3 +125,11 @@ fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
     eval "$(<~/.ssh-agent-thing)" > /dev/null
 fi
+
+# -----------------------------------------------------------------------------
+# --- asdf ---
+
+export ASDF_HOME=/opt/asdf-vm
+
+source $ASDF_HOME/asdf.sh
+source $ASDF_HOME/completions/asdf.bash
