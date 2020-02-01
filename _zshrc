@@ -99,6 +99,8 @@ alias yu='yay -Syu --answerclean n --answerdiff n'
 # grep: case-insensitive, ignore binaries, print filename, recursive, print line numbers
 alias gr='grep -iIsrn'
 
+alias fs='feh --scale-down'
+
 # -----------------------------------------------------------------------------
 # --- paths ---
 

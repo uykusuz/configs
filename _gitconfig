@@ -14,7 +14,6 @@
 [user]
     email = uykusuz@hintergarten.de
     name = Boris Broenner
-    signingkey = 91CEF515FF26074864BC313D76AF809AEB3085F9
 [core]
     editor = vim
     excludesfile = ~/.gitignore
@@ -27,7 +26,3 @@
 [mergetool]
     keepBackup = false
     prompt = false
-[commit]
-	gpgsign = true
-[tag]
-	gpgsign = true

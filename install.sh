@@ -1,8 +1,16 @@
-#!/bin/bash
+#!/bin/bash -e
 
 printError()
 {
     (>&2 echo $1)
+}
+
+printUsage()
+{
+    echo "Usage: $0 <options>"
+    echo
+    echo "Options:"
+    echo "  --steps <steps>"
 }
 
 if [ ! -f ./_bashrc ]; then
@@ -10,130 +18,67 @@ if [ ! -f ./_bashrc ]; then
     exit 1
 fi
 
-exitCode=0
-startStep=0
-nextStep=1
+install='pacman -S --needed'
+aurInstall='yay -S --needed --nocleanmenu --nodiffmenu --noupgrademenu'
+updateOnly=false
 
-if [ $startStep -lt $nextStep ]; then
+case $1 in
+--update)
+    updateOnly=true
+    ;;
+*)
+    printError "unknown argument: $1"
+    printUsage
+    exit 1
+    ;;
+esac
+
+if ! $updateOnly ; then
     echo "Installing base packages ..."
 
-    sudo pacman -S vim git tk gitg aspell-en tmux maven docker python npm ranger unzip
+    # for some reason not installed already. Needed by makepkg
+    sudo ${install} fakeroot
+
+    sudo ${install} vim git tk gitg aspell-en tmux maven docker python npm ranger unzip termite feh ttf-ubuntu-font-family
+    sudo ${install} xorg-xmodmap
 
     # i3
-    sudo pacman -S i3 rofi acpi pulseaudio
+    sudo ${install} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
 
     # dependencies for switch-monitor
-    sudo pacman -S xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
-
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
+    sudo ${install} xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
 
     # python stuff
-    sudo easy_install pip
+    sudo ${install} python-pip
     sudo pip install virtualenv
-fi
 
-nextStep+=1
+    if [[ ! -d ~/local/yay ]]; then
+        mkdir -p ~/local
 
-if [ $startStep -lt $nextStep ]; then
+        git clone https://aur.archlinux.org/yay.git ~/local/yay
+        pushd ~/local/yay
+        makepkg -is
+
+        popd
+    fi
+
     echo "Installing aur packages ..."
-    mkdir -p ~/aur
 
-    pushd ~/aur
+    ${aurInstall} nerd-fonts-complete ttf-font-awesome-4 asdf-vm google-chrome
 
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -is
+    echo "Setting up zsh ..."
+    ${aurInstall} zsh zplug
+    chsh -s /bin/zsh
 
-    popd
-
-    yay -S ttf-font-awesome-4 networkmanager-dmenu-git asdf-vm google-chrome
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
-    echo "Copying configs ..."
-
-    mkdir -p ~/.config
-
-    configs=`find . -name "_*"`
-
-    for config in $configs
-    do
-        # ./_vimrc -> _vimrc
-        newConfig=`echo $config | sed 's#^\./##'`
-
-        # _vimrc -> .vimrc
-        newConfig=`echo $newConfig | sed 's/^_/\./'`
-
-        # copy to home directory
-        cp -R $config ~/$newConfig
-    done
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
-    echo "Copying scripts ..."
-    1&>/dev/null mkdir ~/bin
-    cp ./bin/* ~/bin
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
-    echo "Setting up root configs ..."
-    sudo mkdir /root
-    sudo cp _vimrc /root/.vimrc
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
-    echo "Setting up vim ..."
-    mkdir -p ~/.vim/bundle
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    vim +PluginInstall +qall
-
-    sudo mkdir -p /root/.vim/bundle
-    sudo git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim
-    sudo vim +PluginInstall +qall
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
-    echo "Setting up i3blocks ..."
-
-    # we want to clone the custom scripts and just after it place our own config
-    rm -fr ~/.config/i3blocks
-    #git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
-    git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks
-    cp _config/i3blocks/config ~/.config/i3blocks/
-fi
-
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
     echo "Setting up chrome ..."
 
     xdg-mime default google-chrome.desktop x-scheme-handler/http
     xdg-mime default google-chrome.desktop x-scheme-handler/https
-fi
 
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
     echo "Initializing docker ..."
     sudo systemctl enable docker.service
     sudo systemctl start docker.service
-fi
 
-nextStep+=1
-
-if [ $startStep -lt $nextStep ]; then
     echo "Adapting user ..."
     sudo usermod -a -G video $USER
     sudo mkdir -p /etc/udev/rules.d
@@ -141,16 +86,58 @@ if [ $startStep -lt $nextStep ]; then
     sudo chown root:root /etc/udev/rules.d/backlight.rules
 fi
 
-nextStep+=1
+echo "Copying configs ..."
 
-if [ $startStep -lt $nextStep ]; then
-    echo "Installing shell ..."
-    yay -S zsh zplug
-    chsh -s /bin/zsh
+mkdir -p ~/.config
+
+configs=`find . -name "_*"`
+
+for config in $configs
+do
+    # ./_vimrc -> _vimrc
+    newConfig=`echo $config | sed 's#^\./##'`
+
+    # _vimrc -> .vimrc
+    newConfig=`echo $newConfig | sed 's/^_/\./'`
+
+    echo "Copying $config to $newConfig ..."
+
+    # copy to home directory
+    if [[ -d ~/$newConfig ]]; then
+        cp -R $config/* ~/$newConfig
+    else
+        cp -R $config ~/$newConfig
+    fi
+done
+
+echo "Copying scripts ..."
+mkdir -p ~/bin
+cp ./bin/* ~/bin
+
+echo "Setting up root configs ..."
+sudo mkdir -p /root
+sudo cp _vimrc /root/.vimrc
+
+if ! $updateOnly ; then
+    echo "Setting up vim ..."
+
+    if [[ ! -d ~/.vim/bundle ]]; then
+        mkdir -p ~/.vim/bundle
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    fi
+    vim +PluginInstall +qall
 fi
+
+echo "Setting up i3blocks ..."
+
+# we want to clone the custom scripts and just after it place our own config
+rm -fr ~/.config/i3blocks
+#git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
+git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks
+cp _config/i3blocks/config ~/.config/i3blocks/
+
 
 echo "Sourcing new bashrc ..."
 source ~/.bashrc
 
 echo "Done."
-exit $exitCode
