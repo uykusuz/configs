@@ -18,10 +18,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'fatih/vim-go'
 Plugin 'brooth/far.vim'
-Plugin 'dag/vim-fish'
-Plugin 'modille/groovy.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -74,9 +71,6 @@ set splitbelow
 " enable per-file settings
 set modeline
 
-" turn off beep for e.g. reaching end of file
-set visualbell
-
 " ----------------------------------
 " --- Search ---
 " ----------------------------------
@@ -124,15 +118,8 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>F :NERDTreeFind<CR>
 
 " grep
-"nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
+nmap <leader>f :execute " grep -srnw --binary-files=without-match --exclude-dir=.git . -e " . expand("<cword>")<CR>
 nmap <leader>f :Grep -isr --binary-files=without-match --exclude-dir=.git  *<left><left>
 
 " move to left-most pane
 nmap <leader>h :1winc w<CR>
-
-" paste from system clipboards
-nmap <leader>p "+p
-nmap <leader>P "*p
-
-" Go
-nmap <leader>gg :GoDef<CR>
