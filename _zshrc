@@ -52,6 +52,8 @@ zplug "b4b4r07/zsh-vimode-visual"
 #zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 zplug "themes/dst", as:theme, from:oh-my-zsh
 
+zplug "superbrothers/zsh-kubectl-prompt"
+
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -61,6 +63,15 @@ if ! zplug check --verbose; then
 fi
 
 zplug load --verbose
+
+# -----------------------------------------------------------------------------
+# --- Prompt ---
+# -----------------------------------------------------------------------------
+
+#  kubectl context - current date
+date='%{$fg[yellow]%}[%D{%L:%M:%S} %D{%f/%m/%y}]%{$reset_color%}'
+kubectl='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+RPROMPT="${kubectl} ${date}"
 
 # -----------------------------------------------------------------------------
 # --- Key Bindings ---
@@ -99,7 +110,7 @@ alias yu='yay -Syu --answerclean n --answerdiff n'
 # grep: case-insensitive, ignore binaries, print filename, recursive, print line numbers
 alias gr='grep -iIsrn'
 
-alias fs='feh --scale-down'
+alias mk='minikube kubectl'
 
 # -----------------------------------------------------------------------------
 # --- paths ---
@@ -127,6 +138,18 @@ fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
     eval "$(<~/.ssh-agent-thing)" > /dev/null
 fi
+
+# -----------------------------------------------------------------------------
+# --- aws ---
+ec2ls() {
+    aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`Name`].Value|[0],State.Name,PrivateIpAddress,PublicIpAddress,LaunchTime,Placement.AvailabilityZone,Tags[?Key==`team`].Value|[0]]' --output text | column -t
+}
+asgls() {
+  aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].[AutoScalingGroupName,length(Instances[*]),DesiredCapacity,MinSize,MaxSize]'  --output text  | column -t
+}
+asgcapacity() {
+  aws autoscaling set-desired-capacity --auto-scaling-group-name $1 --desired-capacity $2
+}
 
 # -----------------------------------------------------------------------------
 # --- asdf ---
