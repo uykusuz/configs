@@ -109,6 +109,6 @@ hi Error	cterm=bold ctermfg=7 ctermbg=1
 highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=240
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=240
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=240
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=247
+highlight DiffText   cterm=bold ctermfg=238 ctermbg=247
 
 "vim: sw=4
