@@ -4,7 +4,11 @@
 execName=$(basename $0)
 
 function usageAndExit() {
-    echo "Usage: $execName <command>"
+    echo "Usage: $execName <domain> <command>"
+    echo
+    echo "Domains:"
+    echo "  xelonic"
+    echo "  neuland"
     echo
     echo "Commands:"
     echo "  start"
@@ -19,11 +23,18 @@ colorOn=${COLOR_ON:-'#00FF00'}
 colorOff=${COLOR_OFF:-'#333333'}
 label=${LABEL:-'VPN'}
 
-if [ $# -lt 1 ];
+if [ $# -lt 2 ];
 then
     usageAndExit 1
-else
-    case "$1" in
+fi
+
+domain=$1
+command=$2
+additionalArg=$3
+
+if [[ "$domain" == "neuland" ]];
+then
+    case "$command" in
     start)
         nmcli connection up --ask uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65
         ;;
@@ -33,13 +44,13 @@ else
     status)
         tmp=$(nmcli connection show --active uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65)
         if [ ${#tmp} -lt 1 ]; then
-            if [ "$2" == "-i3" ]; then
+            if [ "$additionalArg" == "-i3" ]; then
                 echo "<span color='$colorOff'>$label</span>"
             else
                 echo "down"
             fi
         else
-            if [ "$2" == "-i3" ]; then
+            if [ "$additionalArg" == "-i3" ]; then
                 echo "<span color='$colorOn'>$label</span>"
             else
                 echo "up"
@@ -50,35 +61,26 @@ else
         usageAndExit 0
         ;;
     esac
-fi
-
-<<COMMENT
-echo "YOU NEED TO SPECIFY THE CONFIG TO USE BELOW"
-exit 1
-
-config=
-command=start
-
-if [ $# -lt 1 ];
+elif [[ "$domain" == "xelonic" ]];
 then
-    name=$(basename $0)
-    echo "Usage: $name <service command>"
-    exit 1
-elif [ "$1" == "status" ];
-then
-    if [ "$2" == "-v" ];
+    if [[ "$command" == "status" ]];
     then
-        systemctl status openvpn-client@$config
-    else
-        systemctl status openvpn-client@$config | grep "active (running)" &> /dev/null
-        if [ $? -eq 0 ];
+        if [[ "$additionalArg" == "-v" ]];
         then
-            echo "up"
+            systemctl status openvpn-client@xelonic
         else
-            echo "down"
+            systemctl status openvpn-client@xelonic | grep "active (running)" &> /dev/null
+            if [ $? -eq 0 ];
+            then
+                echo "up"
+            else
+                echo "down"
+            fi
         fi
+    else
+        sudo systemctl $command openvpn-client@xelonic
     fi
 else
-    sudo systemctl $1 openvpn-client@$config
+    echo "Unknown domain: $command"
+    usageAndExit 1
 fi
-COMMENT

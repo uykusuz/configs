@@ -36,7 +36,7 @@ markup=pango
 # See the script for details.
 #[volume]
 #label=VOL
-#label=♪
+#label= 
 #instance=Master
 #instance=PCM
 #interval=once
@@ -45,6 +45,7 @@ markup=pango
 [volume-pulseaudio]
 interval=once
 signal=1
+USE_ALSA_NAME=1
 
 # Memory usage
 #
@@ -90,7 +91,7 @@ separator=false
 
 # vpn support
 [vpn]
-command=~/bin/vpn status -i3
+command=~/bin/vpn neuland status -i3
 interval=20
 COLOR_ON=#00FF00
 COLOR_OFF=#444444
