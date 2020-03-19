@@ -50,11 +50,13 @@ then
         xrandr --output "$monitor" --auto --right-of "$previousMonitor"
         previousMonitor="$monitor"
     done
+
+    xrandr --output "$previousMonitor" --primary
 else
     leftMonitor='DP2-3'
     rightMonitor='DP2-2'
     xrandr --output "$internalMonitor" --off
-    xrandr --output "$leftMonitor" --auto
+    xrandr --output "$leftMonitor" --auto --primary
     xrandr --output "$rightMonitor" --auto --right-of "$leftMonitor"
 fi
 
