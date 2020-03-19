@@ -1,0 +1,92 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+set -euo pipefail
+
+function usage() {
+    echo "Usage: $(basename $0) <command>"
+    echo
+    echo "command:"
+    echo "  context <context> <mfa token>: switch kubernetes context"
+    echo "  secret <name> <key>: get a secret and store it in the clipboard"
+    echo "  logs <selector>: wait until the container is up and then stream the logs for it"
+}
+
+function failTooFewArguments() {
+    echo "Too few arguments for command."
+    echo
+    usage
+    exit 1
+}
+
+function switchContext() {
+    if (( $# < 2 ));
+    then
+        failTooFewArguments
+    fi
+
+    context=$1
+    mfa_token=$2
+
+    source aws-get-session $context $mfa_token
+    kubectl config use-context $context
+}
+
+function getSecret() {
+    if (( $# < 2 ));
+    then
+        failTooFewArguments
+    fi
+
+    name=$1
+    key=$2
+
+    kubectl get secret $name -o jsonpath --template="{..$key}" | base64 -d | xclip -i
+}
+
+function streamLogs() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    until kubectl logs $@
+    do
+        sleep 10
+    done
+
+    echo
+
+    kubectl logs -f $@
+}
+
+
+if (( $# < 1 ));
+then
+    failTooFewArguments
+    exit 1
+fi
+
+case "$1" in
+-h|--help)
+    usage
+    exit 0
+    ;;
+context)
+    shift
+    switchContext "$@"
+    ;;
+secret)
+    shift
+    getSecret "$@"
+    ;;
+logs)
+    shift
+    streamLogs "$@"
+    ;;
+*)
+    echo "Unknown argument: $1"
+    usage
+    exit 1
+    ;;
+esac
