@@ -123,3 +123,6 @@ nmap <leader>f :Grep -isr --binary-files=without-match --exclude-dir=.git  *<lef
 
 " move to left-most pane
 nmap <leader>h :1winc w<CR>
+
+nmap <leader>dd O :Gdiff<CR>
+nmap <leader>c :wa<CR> :tabclose<CR>
