@@ -28,9 +28,11 @@ workspace 3 output DP2-3 HDMI2 eDP1
 workspace 4 output DP2-3 HDMI2 eDP1
 workspace 5 output DP2-2 HDMI2 eDP1
 workspace 6 output DP2-2 HDMI2 eDP1
-workspace 7 output DP2-2 HDMI2 eDP1
-workspace 8 output DP2-2 eDP1
-workspace 9 output DP2-2 eDP1
+workspace z output DP2-2 HDMI2 eDP1
+workspace x output DP2-2 HDMI2 eDP1
+workspace c output DP2-2 HDMI2 eDP1
+workspace v output DP2-2 HDMI2 eDP1
+workspace b output eDP1
 
 mode "window" {
     # change focus
@@ -66,9 +68,11 @@ mode "window" {
     bindsym Shift+4 move container to workspace 4; workspace 4; mode "default"
     bindsym Shift+5 move container to workspace 5; workspace 5; mode "default"
     bindsym Shift+6 move container to workspace 6; workspace 6; mode "default"
-    bindsym Shift+7 move container to workspace 7; workspace 7; mode "default"
-    bindsym Shift+8 move container to workspace 8; workspace 8; mode "default"
-    bindsym Shift+9 move container to workspace 9; workspace 9; mode "default"
+    bindsym Shift+z move container to workspace z; workspace z; mode "default"
+    bindsym Shift+x move container to workspace x; workspace x; mode "default"
+    bindsym Shift+c move container to workspace c; workspace c; mode "default"
+    bindsym Shift+v move container to workspace v; workspace v; mode "default"
+    bindsym Shift+b move container to workspace b; workspace b; mode "default"
 
     # leave mode
     bindsym Escape mode "default"
@@ -80,6 +84,12 @@ mode "resize" {
     bindsym k resize shrink height 10 px or 10 ppt
     bindsym l resize grow width 10 px or 10 ppt
     bindsym h resize shrink width 10 px or 10 ppt
+
+    # move focused window
+    bindsym Shift+j move down
+    bindsym Shift+k move up
+    bindsym Shift+h move left
+    bindsym Shift+l move right
 
     # leave mode
     bindsym Return mode "default"
@@ -170,9 +180,11 @@ bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+z workspace z
+bindsym $mod+x workspace x
+bindsym $mod+c workspace c
+bindsym $mod+v workspace v
+bindsym $mod+b workspace b
 
 # move workspace to other monitors
 bindsym $mod+Shift+u move workspace to output up
