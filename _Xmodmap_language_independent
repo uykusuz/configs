@@ -3,10 +3,15 @@ add mod3 = Control_R
 
 ! set left windows key to the special mode switch for the umlaute
 keycode 133 = Mode_switch
+! set home key to special mode switch for umlaute
+keycode 110 = Mode_switch
 
 ! define umlaute
 keycode  20 = minus underscore ssharp
 keycode  26 = e E EuroSign
+keycode  30 = u U udiaeresis Udiaeresis
+keycode  32 = o O odiaeresis Odiaeresis
 keycode  34 = bracketleft braceleft udiaeresis Udiaeresis
+keycode  38 = a A adiaeresis Adiaeresis
 keycode  47 = semicolon colon odiaeresis Odiaeresis
 keycode  48 = apostrophe quotedbl adiaeresis Adiaeresis
