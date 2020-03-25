@@ -7,9 +7,10 @@ function usage() {
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  context <context> <mfa token>: switch kubernetes context"
+    echo "  context <context> <mfa token> [<role>]: switch kubernetes context"
     echo "  secret <name> <key>: get a secret and store it in the clipboard"
     echo "  logs <selector>: wait until the container is up and then stream the logs for it"
+    echo "  events <grep expression>: watch events for the given grep expression"
 }
 
 function failTooFewArguments() {
@@ -27,8 +28,9 @@ function switchContext() {
 
     context=$1
     mfa_token=$2
+    role=${3:-such_developer}
 
-    source aws-get-session $context $mfa_token
+    source aws-get-session $context $mfa_token $role
     kubectl config use-context $context
 }
 
@@ -60,6 +62,15 @@ function streamLogs() {
     kubectl logs -f $@
 }
 
+function watchEvents() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    watch -d "kubectl get events | grep $@"
+}
+
 
 if (( $# < 1 ));
 then
@@ -83,6 +94,10 @@ secret)
 logs)
     shift
     streamLogs "$@"
+    ;;
+events)
+    shift
+    watchEvents "$@"
     ;;
 *)
     echo "Unknown argument: $1"
