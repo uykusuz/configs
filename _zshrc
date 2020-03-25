@@ -98,11 +98,9 @@ alias ..='cd ..'
 alias tl='tar --exclude="*/*/*" -tf'
 
 alias v='vim -c "NERDTree | wincmd w"'
-alias gv='gvim -c "NERDTree | wincmd w"'
-alias vd='gvim +Gvdiff'
 
 alias gs='git status'
-alias gg='git gui&'
+alias gg='lazygit'
 alias gk='gitk --all&'
 
 alias yu='yay -Syu --answerclean n --answerdiff n'
