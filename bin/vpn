@@ -4,82 +4,101 @@
 execName=$(basename $0)
 
 function usageAndExit() {
-    echo "Usage: $execName <domain> <command>"
-    echo
-    echo "Domains:"
-    echo "  xelonic"
-    echo "  neuland"
+    echo "Usage: $execName <command> <domain>"
     echo
     echo "Commands:"
     echo "  start"
     echo "  stop"
     echo "  status"
     echo "  help"
+    echo
+    echo "Domains:"
+    echo "  xelonic"
+    echo "  neuland"
 
     exit $1
+}
+
+function statusNeuland() {
+    tmp=$(nmcli connection show --active 'neuland vpn')
+    if [ ${#tmp} -lt 1 ]; then
+        echo "down"
+    else
+        echo "up"
+    fi
+}
+
+function statusXelonic() {
+    systemctl status openvpn-client@xelonic | grep "active (running)" &> /dev/null
+    if [ $? -eq 0 ];
+    then
+        echo "up"
+    else
+        echo "down"
+    fi
 }
 
 colorOn=${COLOR_ON:-'#00FF00'}
 colorOff=${COLOR_OFF:-'#333333'}
 label=${LABEL:-'VPN'}
 
-if [ $# -lt 2 ];
+if (( $# < 1 ));
 then
     usageAndExit 1
 fi
 
-domain=$1
-command=$2
+
+command=$1
+domain=$2
 additionalArg=$3
 
-if [[ "$domain" == "neuland" ]];
+if [[ "$command" == "--help" ]];
+then
+    usageAndExit 0
+elif [[ "$command" == "status" ]];
+then
+    if [[ "$(statusNeuland)" == "up" ]];
+    then
+        if [ "$2" == "-i3" ]; then
+            echo "<span color='$colorOn'>$label n</span>"
+        else
+            echo "up"
+        fi
+    elif [[ "$(statusXelonic)" == "up" ]];
+    then
+        if [ "$2" == "-i3" ]; then
+            echo "<span color='$colorOn'>$label x</span>"
+        else
+            echo "up"
+        fi
+    else
+        if [ "$2" == "-i3" ]; then
+            echo "<span color='$colorOff'>$label</span>"
+        else
+            echo "down"
+        fi
+    fi
+elif (( $# < 2 ));
+then
+    echo "Not enough arguments"
+    usageAndExit 1
+elif [[ "$command" != "start" && "$command" != "stop" ]];
+then
+    echo "Unknown command: $command"
+    usageAndExit 1
+elif [[ "$domain" == "neuland" ]];
 then
     case "$command" in
     start)
-        nmcli connection up --ask uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65
+        nmcli connection up --ask 'neuland vpn'
         ;;
     stop)
-        nmcli connection down uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65
-        ;;
-    status)
-        tmp=$(nmcli connection show --active uuid 11124e4d-12f3-49f4-9c06-2cb28aad0c65)
-        if [ ${#tmp} -lt 1 ]; then
-            if [ "$additionalArg" == "-i3" ]; then
-                echo "<span color='$colorOff'>$label</span>"
-            else
-                echo "down"
-            fi
-        else
-            if [ "$additionalArg" == "-i3" ]; then
-                echo "<span color='$colorOn'>$label</span>"
-            else
-                echo "up"
-            fi
-        fi
-        ;;
-    help|-h|--help)
-        usageAndExit 0
+        nmcli connection down 'neuland vpn'
         ;;
     esac
 elif [[ "$domain" == "xelonic" ]];
 then
-    if [[ "$command" == "status" ]];
-    then
-        if [[ "$additionalArg" == "-v" ]];
-        then
-            systemctl status openvpn-client@xelonic
-        else
-            systemctl status openvpn-client@xelonic | grep "active (running)" &> /dev/null
-            if [ $? -eq 0 ];
-            then
-                echo "up"
-            else
-                echo "down"
-            fi
-        fi
-    else
-        sudo systemctl $command openvpn-client@xelonic
-    fi
+    sudo systemctl $command openvpn-client@xelonic
 else
     echo "Unknown domain: $command"
     usageAndExit 1
