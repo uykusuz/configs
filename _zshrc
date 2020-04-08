@@ -14,8 +14,9 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 zstyle ':completion:*' squeeze-slashes true
 zstyle :compinstall filename '/home/bobbel/.zshrc'
 
-autoload -Uz compinit
-compinit
+# comment it out: compinit is called at the very end
+#autoload -Uz compinit
+#compinit
 # End of lines added by compinstall
 
 # Lines configured by zsh-newuser-install
@@ -155,4 +156,12 @@ asgcapacity() {
 export ASDF_HOME=/opt/asdf-vm
 
 source $ASDF_HOME/asdf.sh
-source $ASDF_HOME/completions/asdf.bash
+fpath=($ASDF_HOME/completions $fpath)
+
+
+# -----------------------------------------------------------------------------
+# --- compinit ---
+
+autoload -Uz compinit
+compinit
+
