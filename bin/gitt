@@ -27,6 +27,12 @@ master)
     git checkout origin/master
     git stash pop
     ;;
+delete)
+    currentBranch=$(git branch | grep '*' | sed 's/* //')
+    git fetch
+    git checkout origin/master
+    git branch -d $currentBranch
+    ;;
 *)
     echo "Unknown argument: $1"
     usage

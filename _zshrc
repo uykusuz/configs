@@ -80,7 +80,7 @@ MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD steady bar"
 MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #00ffff"
 
 # -----------------------------------------------------------------------------
-# --- Prompt ---
+# --- Right Prompt ---
 # -----------------------------------------------------------------------------
 
 # vim mode
@@ -100,6 +100,22 @@ date='%{$fg[yellow]%}[%D{%L:%M:%S} %D{%f/%m/%y}]%{$reset_color%}'
 kubectl='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 RPROMPT="${vim_mode} ${kubectl} ${date}"
+
+# -----------------------------------------------------------------------------
+# --- Left Prompt ---
+# -----------------------------------------------------------------------------
+newline=$'\n'
+# user@host:
+PROMPT="%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}: "
+# directory
+PROMPT+="%{$fg_bold[blue]%}%~%{$reset_color%}"
+# git
+PROMPT+="$(git_prompt_info)"
+PROMPT+="${newline}"
+# previous command exit status
+PROMPT+="%(?,,%{$fg[red]%}FAIL %{$reset_color%})"
+# $ at the end
+PROMPT+="$(prompt_char) "
 
 # -----------------------------------------------------------------------------
 # --- Key Bindings ---
