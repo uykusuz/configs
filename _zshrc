@@ -50,6 +50,8 @@ zplug "zsh-users/zsh-syntax-highlighting"
 #  vim mode
 zplug 'softmoth/zsh-vim-mode'
 
+zplug "woefe/git-prompt.zsh"
+
 # Theme
 #zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 zplug "themes/dst", as:theme, from:oh-my-zsh
@@ -104,18 +106,19 @@ RPROMPT="${kubectl} ${date}"
 # --- Left Prompt ---
 # -----------------------------------------------------------------------------
 newline=$'\n'
-PROMPT=""
+PROMPT="${newline}"
 # user@host:
 #PROMPT+="%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}: "
 # directory
 PROMPT+="%{$fg_bold[blue]%}%~%{$reset_color%}"
 # git
-PROMPT+="$(git_prompt_info)"
+PROMPT+='$(gitprompt)'
 PROMPT+="${newline}"
 # previous command exit status
 PROMPT+="%(?,,%{$fg[red]%}FAIL %{$reset_color%})"
-# $ at the end
-PROMPT+="[${vim_mode}] $(prompt_char) "
+# vim mode indicator
+PROMPT+="[${vim_mode}] "
+PROMPT+='$(prompt_char) '
 
 # -----------------------------------------------------------------------------
 # --- Key Bindings ---
