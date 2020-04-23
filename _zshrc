@@ -19,13 +19,24 @@ zstyle :compinstall filename '/home/bobbel/.zshrc'
 #compinit
 # End of lines added by compinstall
 
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=9999999999
 SAVEHIST=$HISTSIZE
+
 unsetopt beep
+
 bindkey -v
-# End of lines configured by zsh-newuser-install
+
+# -----------------------------------------------------------------------------
+# --- History ---
+# -----------------------------------------------------------------------------
+
+HISTFILE=~/.histfile
+HISTSIZE=9999999999
+SAVEHIST=$HISTSIZE
+
+# don't record command output when it starts with a space
+setopt HIST_IGNORE_SPACE
 
 # -----------------------------------------------------------------------------
 # --- Plugins ---
@@ -114,11 +125,10 @@ PROMPT+="%{$fg_bold[blue]%}%~%{$reset_color%}"
 # git
 PROMPT+='$(gitprompt)'
 PROMPT+="${newline}"
-# previous command exit status
-PROMPT+="%(?,,%{$fg[red]%}FAIL %{$reset_color%})"
 # vim mode indicator
 PROMPT+="[${vim_mode}] "
-PROMPT+='$(prompt_char) '
+# prompt character with indicator of exit code
+PROMPT+="%(?,%{$fg[green]%}$%{$reset_color%},%{$fg[red]%}$%{$reset_color%}) "
 
 # -----------------------------------------------------------------------------
 # --- Key Bindings ---
