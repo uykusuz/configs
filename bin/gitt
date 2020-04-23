@@ -4,10 +4,25 @@
 set -euo pipefail
 
 function usage() {
+    echo
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  master: fetch and checkout origin/master with current changes on top of it"
+    echo "  new <branch name>: fetch and checkout origin/master with current changes on top of it"
+}
+
+function newBranch() {
+    if (( $# < 1 ));
+    then
+        echo "Too few arguments."
+        usage
+        exit 1
+    fi
+
+    git fetch
+    git stash push
+    git checkout -b $1 origin/master
+    git stash pop
 }
 
 if (( $# < 1 ));
@@ -21,11 +36,9 @@ case "$1" in
     usage
     exit 0
     ;;
-master)
-    git fetch
-    git stash push
-    git checkout origin/master
-    git stash pop
+new)
+    shift
+    newBranch $1
     ;;
 delete)
     currentBranch=$(git branch | grep '*' | sed 's/* //')
