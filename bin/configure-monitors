@@ -39,7 +39,7 @@ esac
 externalMonitors=$(xrandr | grep ' connected' | grep -v primary | awk '{print $1}')
 externalMonitorCount=$(echo "$externalMonitors" | wc -w)
 
-if [[ $externalMonitorCount -lt 1 ]];
+if (( $externalMonitorCount < 1 ));
 then
     turnOffExternalMonitors
 elif [[ $externalMonitorCount -lt 2 || $autoConfigure -eq 1 ]];
@@ -64,3 +64,8 @@ fi
 # when connecting the external keyboard linux needs to be told to remap the modmap
 [[ -f ~/.Xmodmap_en ]] && xmodmap ~/.Xmodmap_en
 [[ -f ~/.Xmodmap_language_independent ]] && xmodmap ~/.Xmodmap_language_independent
+
+# reconfigure Ploopy
+# swap 3 and 8
+# 8 -> 2
+xinput --set-button-map "Unknown Ploopy Trackball" 1 2 8 4 5 6 7 3 2
