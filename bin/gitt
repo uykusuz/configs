@@ -8,20 +8,19 @@ function usage() {
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  new <branch name>: fetch and checkout origin/master with current changes on top of it"
+    echo "  new [<branch name>]: fetch and checkout origin/master with current changes on top of it"
 }
 
 function newBranch() {
-    if (( $# < 1 ));
+    newBranch=
+    if (( $# > 0 ));
     then
-        echo "Too few arguments."
-        usage
-        exit 1
+        newBranch="-b $1"
     fi
 
     git fetch
     git stash push
-    git checkout -b $1 origin/master
+    git checkout $newBranch origin/master
     git stash pop
 }
 
@@ -38,7 +37,7 @@ case "$1" in
     ;;
 new)
     shift
-    newBranch $1
+    newBranch ${1-}
     ;;
 delete)
     currentBranch=$(git branch | grep '*' | sed 's/* //')
