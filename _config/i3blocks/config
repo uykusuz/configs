@@ -47,6 +47,13 @@ interval=once
 signal=1
 USE_ALSA_NAME=1
 
+[microphone]
+command=~/bin/microphone-status
+interval=once
+COLOR_ON=#00AA00
+COLOR_OFF=#444444
+signal=2
+
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
@@ -91,7 +98,7 @@ separator=false
 
 # vpn support
 [vpn]
-command=~/bin/vpn neuland status -i3
+command=~/bin/vpn status -i3
 interval=20
 COLOR_ON=#00FF00
 COLOR_OFF=#444444
