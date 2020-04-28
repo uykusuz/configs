@@ -1,0 +1,26 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+set -euo pipefail
+
+usage() {
+    echo "Usage: $(basename $0) <time>"
+}
+
+sleep_until() {
+    if (( $# < 1 ));
+    then
+        echo "No time given."
+        return
+    fi
+
+    current_epoch=$(date +%s)
+    target_epoch=$(date -d "$1" +%s)
+
+    sleep_seconds=$(( $target_epoch - $current_epoch ))
+
+    sleep $sleep_seconds
+}
+
+sleep_until $1
+zenity --info --text="Meeting."
