@@ -18,6 +18,8 @@ font pango:monospace 11
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+default_orientation auto
+
 # define monitors for the workspaces: the first x go to the big screen, the others to the small screen
 # eDP1: internal
 # DP2-x: workplace

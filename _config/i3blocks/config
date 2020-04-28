@@ -51,7 +51,7 @@ USE_ALSA_NAME=1
 command=~/bin/microphone-status
 interval=once
 COLOR_ON=#00AA00
-COLOR_OFF=#444444
+COLOR_OFF=#CC0000
 signal=2
 
 # Memory usage
