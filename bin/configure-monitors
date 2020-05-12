@@ -1,5 +1,7 @@
-#!/bin/bash -x
+#!/bin/bash
 # vim: set syntax bash
+
+set -euo pipefail
 
 internalMonitor='eDP1'
 externalMonitors='DP2-3 DP2-2 HDMI2'
@@ -24,19 +26,22 @@ turnOffExternalMonitors() {
     done
 }
 
-case "$1" in
--h|--help)
-    usageAndExit 0
-    ;;
---auto)
-    autoConfigure=1
-    ;;
---off)
-    turnOffExternalMonitors
-    ;;
-esac
+if (( $# > 0 ));
+then
+    case "$1" in
+    -h|--help)
+        usageAndExit 0
+        ;;
+    --auto)
+        autoConfigure=1
+        ;;
+    --off)
+        turnOffExternalMonitors
+        ;;
+    esac
+fi
 
-externalMonitors=$(xrandr | grep ' connected' | grep -v primary | awk '{print $1}')
+externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}')
 externalMonitorCount=$(echo "$externalMonitors" | wc -w)
 
 if (( $externalMonitorCount < 1 ));
@@ -47,7 +52,7 @@ then
     previousMonitor="$internalMonitor"
     for monitor in $externalMonitors;
     do
-        xrandr --output "$monitor" --auto --right-of "$previousMonitor"
+        xrandr --output "$monitor" --auto --left-of "$previousMonitor"
         previousMonitor="$monitor"
     done
 
@@ -66,6 +71,5 @@ fi
 [[ -f ~/.Xmodmap_language_independent ]] && xmodmap ~/.Xmodmap_language_independent
 
 # reconfigure Ploopy
-# swap 3 and 8
-# 8 -> 2
-xinput --set-button-map "Unknown Ploopy Trackball" 1 2 8 4 5 6 7 3 2
+# 9 -> 2
+xinput --set-button-map "Unknown Ploopy Trackball" 1 2 3 4 5 6 7 8 2
