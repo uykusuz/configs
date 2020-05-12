@@ -1,0 +1,21 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+set -euo pipefail
+
+pushd ~/dactyl/firmware/qmk_firmware
+trap 'popd' EXIT
+
+source ../venv/bin/activate
+sudo make handwired/dactyl_manuform/5x6:uykusuz:avrdude
+
+until lsusb | grep 'feed:3060';
+do
+    sleep 1;
+done
+
+# don't know why, but it helps to wait a bit until the device is fully there
+sleep 2
+
+configure-monitors
+
