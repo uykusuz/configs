@@ -45,6 +45,10 @@ delete)
     git checkout origin/master
     git branch -d $currentBranch
     ;;
+pull)
+    git fetch
+    git rebase origin/master
+    ;;
 *)
     echo "Unknown argument: $1"
     usage
