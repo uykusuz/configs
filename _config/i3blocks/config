@@ -45,7 +45,7 @@ markup=pango
 [volume-pulseaudio]
 interval=once
 signal=1
-USE_ALSA_NAME=1
+LONG_FORMAT="${SYMB}${VOL}%"
 
 [microphone]
 command=~/bin/microphone-status
