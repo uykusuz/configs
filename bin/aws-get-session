@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# just a reminder: explicitly don't set this!! Else some zsh stuff doesn't work because we source
+# this script.
+#set -euo pipefail
+
+usage() {
+    echo "Usage: . aws-get-session <profile> <mfa token>"
+    echo
+    echo "profile: dev | prod"
+}
+
+$(return >/dev/null 2>&1)
+if [ $? -ne 0 ];
+then
+    echo "Script is not sourced."
+    echo
+    usage
+    exit 1
+fi
+
+if [[ $# -lt 2 ]];
+then
+    usage
+    return 2
+fi
+
+env=$1
+mfaToken=$2
+role=${3:-such_developer}
+
+(
+# get session
+aws_get_session $env $role $mfaToken
+)
+
+# set some variables so that docker can pull images from the ECR
+# cf. Readme #Usage in https://github.com/awslabs/amazon-ecr-credential-helper
+export AWS_PROFILE=breuninger-$env
+export AWS_SDK_LOAD_CONFIG=true
