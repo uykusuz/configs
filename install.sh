@@ -67,7 +67,7 @@ if ! $updateOnly ; then
     ${aurInstall} nerd-fonts-complete ttf-font-awesome-4 asdf-vm google-chrome lazygit
 
     echo "Setting up zsh ..."
-    ${aurInstall} zsh zplug
+    ${aurInstall} zsh antibody
     chsh -s /bin/zsh
 
     echo "Setting up chrome ..."

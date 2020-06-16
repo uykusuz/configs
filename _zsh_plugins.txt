@@ -1,0 +1,20 @@
+# Load completion library for those sweet [tab] squares
+ohmyzsh/ohmyzsh path:lib/completion.zsh
+
+greymd/docker-zsh-completion
+
+# history search like in fish
+zsh-users/zsh-history-substring-search
+
+# syntax highlighting: this has to come before vimode-visual to avoid conflicts
+zsh-users/zsh-syntax-highlighting
+
+#  vim mode
+softmoth/zsh-vim-mode
+
+woefe/git-prompt.zsh
+
+# Theme
+ohmyzsh/ohmyzsh path:themes/dst.zsh-theme
+
+superbrothers/zsh-kubectl-prompt

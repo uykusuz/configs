@@ -1,4 +1,6 @@
-# The following lines were added by compinstall
+if [[ "$ZPROF" = true ]]; then
+  zmodload zsh/zprof
+fi
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
@@ -13,11 +15,6 @@ zstyle ':completion:*' original true
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' squeeze-slashes true
 zstyle :compinstall filename '/home/bobbel/.zshrc'
-
-# comment it out: compinit is called at the very end
-#autoload -Uz compinit
-#compinit
-# End of lines added by compinstall
 
 HISTFILE=~/.histfile
 HISTSIZE=9999999999
@@ -42,42 +39,8 @@ setopt HIST_IGNORE_SPACE
 # --- Plugins ---
 #
 
-source /usr/share/zsh/scripts/zplug/init.zsh
-
-# Load completion library for those sweet [tab] squares
-zplug "lib/completion", from:oh-my-zsh
-
-zplug "greymd/docker-zsh-completion"
-
-# Async for zsh, used by pure
-zplug "mafredri/zsh-async", from:github
-
-# history search like in fish
-zplug "zsh-users/zsh-history-substring-search"
-
-# syntax highlighting: this has to come before vimode-visual to avoid conflicts
-zplug "zsh-users/zsh-syntax-highlighting"
-
-#  vim mode
-zplug 'softmoth/zsh-vim-mode'
-
-zplug "woefe/git-prompt.zsh"
-
-# Theme
-#zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-zplug "themes/dst", as:theme, from:oh-my-zsh
-
-zplug "superbrothers/zsh-kubectl-prompt"
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-zplug load --verbose
+source <(antibody init)
+antibody bundle < ~/.zsh_plugins.txt
 
 # -----------------------------------------------------------------------------
 # --- Git Prompt ---
@@ -142,6 +105,13 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+
+# -----------------------------------------------------------------------------
+# --- compinit ---
+
+autoload -Uz compinit
+compinit
+
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -219,10 +189,18 @@ export ASDF_HOME=/opt/asdf-vm
 source $ASDF_HOME/asdf.sh
 fpath=($ASDF_HOME/completions $fpath)
 
-
 # -----------------------------------------------------------------------------
-# --- compinit ---
 
-autoload -Uz compinit
-compinit
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do time $shell -i -c exit; done
+}
 
+profzsh() {
+  shell=${1-$SHELL}
+  ZPROF=true $shell -i -c exit
+}
+
+if [[ "$ZPROF" = true ]]; then
+  zprof
+fi
