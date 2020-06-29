@@ -7,13 +7,12 @@
     ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n 10
     lln = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches -n
     ls = show --name-only
-    pr = push-ref
     fp = fetch --prune
 [push]
     default = current
 [user]
     email = uykusuz@hintergarten.de
-    name = Boris Broenner
+	name = Boris Brönner
 [core]
     editor = vim
     excludesfile = ~/.gitignore
@@ -26,3 +25,5 @@
 [mergetool]
     keepBackup = false
     prompt = false
+[pull]
+	rebase = true
