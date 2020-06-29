@@ -64,7 +64,7 @@ if ! $updateOnly ; then
 
     echo "Installing aur packages ..."
 
-    ${aurInstall} nerd-fonts-complete ttf-font-awesome-4 asdf-vm google-chrome lazygit
+    ${aurInstall} nerd-fonts-ubuntu-mono asdf-vm google-chrome lazygit
 
     echo "Setting up zsh ..."
     ${aurInstall} zsh antibody
