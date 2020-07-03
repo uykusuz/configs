@@ -104,55 +104,8 @@ COLOR_ON=#00FF00
 COLOR_OFF=#444444
 LABEL=
 
-#[bandwidth]
-#instance=eth0
-#interval=5
-
-# CPU usage
-#
-# The script may be called with -w and -c switches to specify thresholds,
-# see the script for details.
-#[cpu_usage]
-#label=CPU
-#interval=10
-#min_width=CPU: 100.00%
-#separator=false
-
-#[load_average]
-#interval=10
-
-# Battery indicator
-#
-# The battery instance defaults to 0.
-#[battery]
-#label=BAT
-#label=⚡
-#instance=1
-#interval=30
-
 [batterybar]
 interval=30
-
-#[battery2]
-#interval=30
-
-# Generic media player support
-#
-# This displays "ARTIST - SONG" if a music is playing.
-# Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
-#[mediaplayer]
-#instance=spotify
-#interval=5
-#signal=10
-
-# Temperature
-#
-# Support multiple chips, though lm-sensors.
-# The script may be called with -w and -c switches to specify thresholds,
-# see the script for details.
-#[temperature]
-#label=TEMP
-#interval=10
 
 # Key indicators
 #
@@ -161,20 +114,11 @@ interval=30
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 [keyindicator]
-LABEL=בּ
+LABEL=ﰵ
 interval=once
 signal=11
 COLOR_OFF=#444444
-
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11
-
-#[arch-update]
-#interval=3600
-#LABEL=
-#signal=12
+COLOR_ON=#00AA00
 
 [arch-update]
 command=~/bin/check-updates
