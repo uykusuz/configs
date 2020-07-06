@@ -130,11 +130,8 @@ fi
 
 echo "Setting up i3blocks ..."
 
-# we want to clone the custom scripts and just after it place our own config
-rm -fr ~/.config/i3blocks
 #git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
-git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks
-cp _config/i3blocks/config ~/.config/i3blocks/
+git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks/i3blocks-contrib
 
 
 echo "Sourcing new bashrc ..."
