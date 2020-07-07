@@ -8,7 +8,10 @@ function usage() {
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  new [<branch name>]: fetch and checkout origin/master with current changes on top of it"
+    echo "  delete              : delete the current branch and checkout origin/master"
+    echo "  new [<branch name>] : fetch and checkout origin/master with current changes on top of it"
+    echo "  prune               : delete all local branches"
+    echo "  pull                : fetch and rebase on origin/master"
 }
 
 function newBranch() {
@@ -48,6 +51,9 @@ delete)
 pull)
     git fetch
     git rebase origin/master
+    ;;
+prune)
+    git branch | grep -v '*' | xargs git branch -d
     ;;
 *)
     echo "Unknown argument: $1"
