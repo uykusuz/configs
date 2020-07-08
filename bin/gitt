@@ -11,6 +11,7 @@ function usage() {
     echo "  delete              : delete the current branch and checkout origin/master"
     echo "  new [<branch name>] : fetch and checkout origin/master with current changes on top of it"
     echo "  prune               : delete all local branches"
+    echo "      -f|--force      : force the deletion of not fully merged branches"
     echo "  pull                : fetch and rebase on origin/master"
 }
 
@@ -25,6 +26,25 @@ function newBranch() {
     git stash push
     git checkout $newBranch origin/master
     git stash pop
+}
+
+function pruneBranches() {
+    deletion=-d
+    if (( $# > 0 ));
+    then
+        case "$1" in
+        -f|--force)
+            deletion=-D
+            ;;
+        *)
+            echo "Unknown parameter: $1"
+            usage
+            exit 1
+            ;;
+        esac
+    fi
+
+    git branch | grep -v '*' | xargs git branch ${deletion}
 }
 
 if (( $# < 1 ));
@@ -53,7 +73,8 @@ pull)
     git rebase origin/master
     ;;
 prune)
-    git branch | grep -v '*' | xargs git branch -d
+    shift
+    pruneBranches ${1-}
     ;;
 *)
     echo "Unknown argument: $1"
