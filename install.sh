@@ -1,79 +1,65 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -euo pipefail
 
 printError()
 {
     (>&2 echo $1)
 }
 
-printUsage()
+usage()
 {
-    echo "Usage: $0 <options>"
+    echo "Usage: $0 [parameters]"
     echo
-    echo "Options:"
-    echo "  --steps <steps>"
+    echo "Parameters:"
+    echo "  --skip-packages: skip installation of packages"
 }
 
-if [ ! -f ./_bashrc ]; then
-    printError "Run this script from within the configs repository."
-    exit 1
-fi
+installPackages()
+{
+    install='pacman -S --needed'
+    aurInstall='yay -S --needed --nocleanmenu --nodiffmenu --noupgrademenu'
 
-install='pacman -S --needed'
-aurInstall='yay -S --needed --nocleanmenu --nodiffmenu --noupgrademenu'
-updateOnly=false
-
-case $1 in
---update)
-    updateOnly=true
-    ;;
-*)
-    printError "unknown argument: $1"
-    printUsage
-    exit 1
-    ;;
-esac
-
-if ! $updateOnly ; then
     echo "Installing base packages ..."
 
     # for some reason not installed already. Needed by makepkg
     sudo ${install} fakeroot
 
-    sudo ${install} vim git tk gitg aspell-en tmux maven docker python npm ranger unzip termite feh ttf-ubuntu-font-family
-    sudo ${install} xorg-xmodmap
-
-    # i3
-    sudo ${install} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
-
-    # dependencies for switch-monitor
-    sudo ${install} xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
-
-    # python stuff
-    sudo ${install} python-pip
-    sudo pip install virtualenv
-
-    if [[ ! -d ~/local/yay ]]; then
+    if ! command -v yay &> /dev/null; then
         mkdir -p ~/local
 
         git clone https://aur.archlinux.org/yay.git ~/local/yay
         pushd ~/local/yay
         makepkg -is
-
         popd
     fi
 
-    echo "Installing aur packages ..."
+    ${aurInstall} vim git aspell-en \
+        maven docker \
+        python python-pip npm ranger unzip termite feh ttf-ubuntu-font-family \
+        xorg-xmodmap \
+        brave \
+        nerd-fonts-ubuntu-mono asdf-vm google-chrome lazygit \
+        zsh antibody
 
-    ${aurInstall} nerd-fonts-ubuntu-mono asdf-vm google-chrome lazygit
+    # i3
+    ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
+
+    # dependencies for switch-monitor
+    ${aurInstall} xorg-xrandr xdotool xorg-xprop xorg-xwininfo wmctrl
+
+    # python stuff
+    if ! command -v virtualenv &> /dev/null;
+    then
+        sudo pip install virtualenv
+    fi
 
     echo "Setting up zsh ..."
-    ${aurInstall} zsh antibody
     chsh -s /bin/zsh
 
-    echo "Setting up chrome ..."
-
-    xdg-mime default google-chrome.desktop x-scheme-handler/http
-    xdg-mime default google-chrome.desktop x-scheme-handler/https
+    echo "Setting up brave ..."
+    xdg-mime default brave.desktop x-scheme-handler/http
+    xdg-mime default brave.desktop x-scheme-handler/https
 
     echo "Initializing docker ..."
     sudo systemctl enable docker.service
@@ -81,12 +67,66 @@ if ! $updateOnly ; then
 
     echo "Adapting user ..."
     sudo usermod -a -G video $USER
+}
+
+linkNode() {
+    if (( $# < 2 ));
+    then
+        printError "Invalid number of arguments."
+        exit 1
+    fi
+
+    relativeSource=$1
+    source=$(readlink -f $relativeSource)
+    destination=$2
+
+    echo "Linking $source to $destination ..."
+
+    if [[ -L $destination ]];
+    then
+        echo "File $destination exists: skipping"
+    elif [[ -f $destination || -d $destination ]];
+    then
+        echo "File $destination exists and is regular: skipping."
+    else
+        ln -s $path $destination
+    fi
+}
+
+if [ ! -f ./_bashrc ]; then
+    printError "Run this script from within the configs repository."
+    exit 1
+fi
+
+doInstallPackages=1
+
+if (( $# > 0));
+then
+    case "$1" in
+    --skip-packages)
+        doInstallPackages=0
+        ;;
+    *)
+        printError "Unknown parameter: $1"
+        usage
+        exit 1
+        ;;
+    esac
+fi
+
+if (( $doInstallPackages == 1 ));
+then
+    installPackages
+fi
+
+if sudo test ! -f /etc/udev/rules.d/backlight.rules;
+then
     sudo mkdir -p /etc/udev/rules.d
     sudo cp backlight.rules /etc/udev/rules.d
     sudo chown root:root /etc/udev/rules.d/backlight.rules
 fi
 
-echo "Copying configs ..."
+echo "Setting up configs ..."
 
 mkdir -p ~/.config
 
@@ -100,39 +140,67 @@ do
     # _vimrc -> .vimrc
     newConfig=`echo $newConfig | sed 's/^_/\./'`
 
-    echo "Copying $config to $newConfig ..."
+    newConfig=~/$newConfig
 
-    # copy to home directory
-    if [[ -d ~/$newConfig ]]; then
-        cp -R $config/* ~/$newConfig
+    echo "Linking $config to $newConfig ..."
+
+    if [[ -d $config ]]; then
+        echo "$config is a directory. Linking all nodes in it..."
+        mkdir -p $newConfig
+
+        for entry in $(ls $config);
+        do
+            relativeSource=$config/$entry
+            destination=$newConfig/$entry
+
+            linkNode "$relativeSource" "$destination"
+        done
     else
-        cp -R $config ~/$newConfig
+        linkNode "$config" "$newConfig"
     fi
 done
 
-echo "Copying scripts ..."
+echo "Setting up scripts ..."
 mkdir -p ~/bin
-cp ./bin/* ~/bin
+echo "directory: $(pwd)"
+for script in $(ls bin);
+do
+    source=bin/$script
+    destination=~/bin/$script
+
+    linkNode "$source" "$destination"
+done
 
 echo "Setting up root configs ..."
 sudo mkdir -p /root
-sudo cp _vimrc /root/.vimrc
-
-if ! $updateOnly ; then
-    echo "Setting up vim ..."
-
-    if [[ ! -d ~/.vim/bundle ]]; then
-        mkdir -p ~/.vim/bundle
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    fi
-    vim +PluginInstall +qall
+path=$(readlink -f _vimrc)
+destination=/root/.vimrc
+if sudo test -f $destination;
+then
+    echo "  File $destination exists, skipping."
+else
+    sudo ln -s $path $destination
 fi
 
-echo "Setting up i3blocks ..."
+echo "Setting up vim ..."
 
-#git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
-git clone https://github.com/uykusuz/i3blocks-contrib ~/.config/i3blocks/i3blocks-contrib
+if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then
+    mkdir -p ~/.vim/bundle
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+else
+    echo "Vundle already installed, skipping."
+fi
 
+echo "Setting up i3blocks-contrib ..."
+
+path=~/.config/i3blocks/i3blocks-contrib
+if [[ ! -d $path ]];
+then
+    git clone https://github.com/uykusuz/i3blocks-contrib $path
+else
+    echo "i3blocks-contrib already present, skpping."
+fi
 
 echo "Sourcing new bashrc ..."
 source ~/.bashrc
