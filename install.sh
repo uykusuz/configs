@@ -194,7 +194,7 @@ fi
 
 echo "Setting up i3blocks-contrib ..."
 
-path=~/.config/i3blocks/i3blocks-contrib
+path=_config/i3blocks/i3blocks-contrib
 if [[ ! -d $path ]];
 then
     git clone https://github.com/uykusuz/i3blocks-contrib $path
