@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function usageAndExit() {
+    echo "Usage: $0 <container name>"
+    exit $1
+}
+
+if [ -z "$1" ]; then
+    usageAndExit 1
+fi
+
+
+echo $(docker container ls | grep -m 1 $1 | awk '{print $1}')
+
+# vim: set syntax=sh

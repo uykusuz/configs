@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -euo pipefail
+set -x
+
 backlightBase=/sys/class/backlight/intel_backlight
 
 current=$(cat $backlightBase/actual_brightness)

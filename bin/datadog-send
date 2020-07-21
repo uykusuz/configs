@@ -1,0 +1,125 @@
+#!/bin/bash
+# vim: set syntax=sh
+
+usage()
+{
+    echo "Usage: $(basename $0) <type>"
+    echo
+    echo "type:"
+    echo "  event: <title> <text> [<taq1> <tag2> ...]"
+    echo "      example: 'my.event' 'my cool event' team:hurz stage:prod"
+    echo "  series: <name> <point> <type> [<tag1> <tag2> ...]"
+    echo "      type: gauge, rate or count"
+}
+
+joinBy()
+{
+    local IFS="$1";
+    shift;
+    echo "$*";
+}
+
+sendEvent() {
+    if $(( $# < 2 ));
+    then
+        echo "Missing required argument."
+        echo
+        usage
+        exit 1
+    fi
+
+    title=$1
+    shift
+
+    text=$1
+
+    shift
+
+    tags=
+    sep=
+    for tag in $@
+    do
+        tags+="${sep}\"${tag}\""
+        sep=,
+    done
+
+    event="{
+    \"title\": \"${title}\",
+          \"text\": \"${text}\",
+          \"priority\": \"normal\",
+          \"tags\": [${tags}],
+          \"alert_type\": \"info\"
+    }
+    "
+
+    api_key=$(kubectl get secret datadog -o go-template='{{ index .data "apikey" }}' | base64 --decode)
+
+    curl -X POST -H "Content-type: application/json" \
+        -d "${event}" \
+        "https://api.datadoghq.com/api/v1/events?api_key=${api_key}"
+}
+
+sendSeries() {
+    if (( $# < 3 ));
+    then
+        echo "Missing required argument."
+        echo
+        usage
+        exit 1
+    fi
+
+    name=$1
+    shift
+
+    point=$1
+    shift
+
+    seriesType=$1
+    shift
+
+    tags=
+    sep=
+    for tag in $@
+    do
+        tags+="${sep}\"${tag}\""
+        sep=,
+    done
+
+    currentTime=$(date +%s)
+    series="{ \"series\": [
+        {
+            \"metric\":\"${name}\",
+            \"points\":[[${currentTime}, ${point}]],
+            \"type\":\"${seriesType}\",
+            \"tags\": [${tags}]
+        }
+    ]}"
+
+    api_key=$(kubectl get secret datadog -o go-template='{{ index .data "apikey" }}' | base64 --decode)
+
+    curl -X POST -H "Content-type: application/json" \
+        -d "${series}" \
+        "https://api.datadoghq.com/api/v1/series?api_key=${api_key}"
+}
+
+if (($# < 2));
+then
+    usage
+    exit 1
+fi
+
+case "$1" in
+event)
+    shift
+    sendEvent "$@"
+    ;;
+series)
+    shift
+    sendSeries "$@"
+    ;;
+*)
+    usage
+    exit 1
+    ;;
+esac
+

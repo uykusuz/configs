@@ -89,7 +89,7 @@ linkNode() {
     then
         echo "File $destination exists and is regular: skipping."
     else
-        ln -s $path $destination
+        ln -s $source $destination
     fi
 }
 

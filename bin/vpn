@@ -8,7 +8,6 @@ function usageAndExit() {
     echo
     echo "Commands:"
     echo "  start"
-    echo "  stop"
     echo "  status"
     echo "  help"
     echo
@@ -36,6 +35,14 @@ function statusXelonic() {
     else
         echo "down"
     fi
+}
+
+function startNeuland() {
+    nmcli connection up 'neuland vpn' passwd-file ~/vpn/neuland-password.txt
+}
+
+function stopNeuland() {
+    nmcli connection down 'neuland vpn'
 }
 
 colorOn=${COLOR_ON:-'#00FF00'}
@@ -82,24 +89,22 @@ elif (( $# < 2 ));
 then
     echo "Not enough arguments"
     usageAndExit 1
-elif [[ "$command" != "start" && "$command" != "stop" ]];
-then
-    echo "Unknown command: $command"
-    usageAndExit 1
 elif [[ "$domain" == "neuland" ]];
 then
-    case "$command" in
-    start)
-        nmcli connection up --ask 'neuland vpn'
-        ;;
-    stop)
-        nmcli connection down 'neuland vpn'
-        ;;
-    esac
-elif [[ "$domain" == "xelonic" ]];
-then
-    sudo systemctl $command openvpn-client@xelonic
-else
-    echo "Unknown domain: $command"
-    usageAndExit 1
+    if [[ "$command" == "start" ]];
+    then
+        if [[ "$(statusNeuland)" == "up" ]];
+        then
+            stopNeuland
+            startNeuland
+        else
+            startNeuland
+        fi
+    elif [[ "$command" == "stop" ]];
+    then
+        stopNeuland
+    else
+        echo "Unknown command: $command"
+        usageAndExit 1
+    fi
 fi
