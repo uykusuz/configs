@@ -151,6 +151,8 @@ alias gr='grep -iIsrn'
 
 alias mk='minikube kubectl'
 
+alias k='kubectl'
+
 # -----------------------------------------------------------------------------
 # --- paths ---
 
