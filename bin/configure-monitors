@@ -18,7 +18,8 @@ usageAndExit() {
 }
 
 turnOffExternalMonitors() {
-    xrandr --output "$internalMonitor" --auto
+    xrandr --output "$internalMonitor" --auto --primary
+
     externalMonitors=$(xrandr | grep 'connected' | grep -v primary | awk '{print $1}')
     for monitor in $externalMonitors;
     do
