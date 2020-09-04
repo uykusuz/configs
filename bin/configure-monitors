@@ -2,10 +2,7 @@
 # vim: set syntax bash
 
 set -euo pipefail
-
-internalMonitor='eDP1'
-externalMonitors='DP2-3 DP2-2 HDMI2'
-autoConfigure=0
+set -x
 
 usageAndExit() {
     echo "$(basename $0)"
@@ -18,15 +15,22 @@ usageAndExit() {
 }
 
 turnOffExternalMonitors() {
+    local internalMonitor=$1
     xrandr --output "$internalMonitor" --auto --primary
 
-    externalMonitors=$(xrandr | grep 'connected' | grep -v primary | awk '{print $1}')
+    if (( $# < 2 ));
+    then
+        return
+    fi
+
+    local externalMonitors=$2
     for monitor in $externalMonitors;
     do
         xrandr --output "$monitor" --off
     done
 }
 
+autoConfigure=0
 if (( $# > 0 ));
 then
     case "$1" in
@@ -42,12 +46,13 @@ then
     esac
 fi
 
-externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}')
+internalMonitor='eDP1'
+externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}') || echo ""
 externalMonitorCount=$(echo "$externalMonitors" | wc -w)
 
 if (( $externalMonitorCount < 1 ));
 then
-    turnOffExternalMonitors
+    turnOffExternalMonitors $internalMonitor $externalMonitors
 elif [[ $externalMonitorCount -lt 2 || $autoConfigure -eq 1 ]];
 then
     previousMonitor="$internalMonitor"
