@@ -7,10 +7,18 @@ function usage() {
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  context <context> <mfa token> [<role>]: switch kubernetes context"
-    echo "  secret <name> <key>: get a secret and store it in the clipboard"
-    echo "  logs <selector>: wait until the container is up and then stream the logs for it"
-    echo "  events <grep expression>: watch events for the given grep expression"
+    echo "  context <context> <mfa token> [<role>]:"
+    echo "      switch kubernetes context"
+    echo "  secret <name> <key>:"
+    echo "      get a secret and store it in the clipboard"
+    echo "  logs <selector>:"
+    echo "      wait until the container is up and then stream the logs for it"
+    echo "  events <grep expression>:"
+    echo "      watch events for the given grep expression"
+    echo "  podid <expression>:"
+    echo "      prints the pod id of the pod matching the expression"
+    echo "  bash <expression>:"
+    echo "      open /bin/bash on the pod matching the given expression"
 }
 
 function failTooFewArguments() {
@@ -71,6 +79,24 @@ function watchEvents() {
     watch -d "kubectl get events | grep $@"
 }
 
+function podId() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    kubectl get pods | grep -m 1 "$1" | awk '{print $1}'
+}
+
+function launchBash() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    local podId=$(podId $1)
+    kubectl exec -it $podId /bin/bash
+}
 
 if (( $# < 1 ));
 then
@@ -98,6 +124,14 @@ logs)
 events)
     shift
     watchEvents "$@"
+    ;;
+podid)
+    shift
+    podId "$@"
+    ;;
+bash)
+    shift
+    launchBash "$@"
     ;;
 *)
     echo "Unknown argument: $1"
