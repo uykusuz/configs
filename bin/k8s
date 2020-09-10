@@ -9,8 +9,10 @@ function usage() {
     echo "command:"
     echo "  context <context> <mfa token> [<role>]:"
     echo "      switch kubernetes context"
-    echo "  secret <name> <key>:"
+    echo "  secret [options] <name> <key>:"
     echo "      get a secret and store it in the clipboard"
+    echo "      options:"
+    echo "          --stdout: pipe secret to stdout"
     echo "  logs <selector>:"
     echo "      wait until the container is up and then stream the logs for it"
     echo "  events <grep expression>:"
@@ -43,15 +45,27 @@ function switchContext() {
 }
 
 function getSecret() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    local finalPipe=' | xclip -i'
+    if [[ $1 == "--stdout" ]];
+    then
+        finalPipe=
+        shift
+    fi
+
     if (( $# < 2 ));
     then
         failTooFewArguments
     fi
 
-    name=$1
-    key=$2
+    local name=$1
+    local key=$2
 
-    kubectl get secret $name -o jsonpath --template="{..$key}" | base64 -d | xclip -i
+    kubectl get secret $name -o jsonpath --template="{..$key}" | base64 -d $finalPipe
 }
 
 function streamLogs() {
