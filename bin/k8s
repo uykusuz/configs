@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-function usage() {
+function printUsage() {
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
@@ -23,10 +23,14 @@ function usage() {
     echo "      open /bin/bash on the pod matching the given expression"
 }
 
+function printError() {
+    echo >&2 echo "$1"
+}
+
 function failTooFewArguments() {
-    echo "Too few arguments for command."
+    printError "Too few arguments for command."
     echo
-    usage
+    printUsage
     exit 1
 }
 
@@ -50,11 +54,20 @@ function getSecret() {
         failTooFewArguments
     fi
 
-    local finalPipe=' | xclip -i'
-    if [[ $1 == "--stdout" ]];
+    local finalPipe=" | xclip -i"
+    local copyToStdout=0
+    if (( $# > 2 ));
     then
-        finalPipe=
-        shift
+        if [[ $1 != "--stdout" ]];
+        then
+            printError "Illegal argument: $1"
+            echo
+            printUsage
+            exit 1
+        else
+            copyToStdout=1
+            shift
+        fi
     fi
 
     if (( $# < 2 ));
@@ -65,7 +78,14 @@ function getSecret() {
     local name=$1
     local key=$2
 
-    kubectl get secret $name -o jsonpath --template="{..$key}" | base64 -d $finalPipe
+    local secret=$(kubectl get secret "$name" -o jsonpath --template="{..$key}" | base64 -d)
+
+    if (( $copyToStdout == 0 ));
+    then
+        echo -n "$secret" | xclip -i
+    else
+        echo -n "$secret"
+    fi
 }
 
 function streamLogs() {
@@ -120,7 +140,7 @@ fi
 
 case "$1" in
 -h|--help)
-    usage
+    printUsage
     exit 0
     ;;
 context)
@@ -148,8 +168,8 @@ bash)
     launchBash "$@"
     ;;
 *)
-    echo "Unknown argument: $1"
-    usage
+    printError "Unknown argument: $1"
+    printUsage
     exit 1
     ;;
 esac
