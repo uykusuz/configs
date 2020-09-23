@@ -23,9 +23,7 @@ function newBranch() {
     fi
 
     git fetch
-    git stash push
     git checkout $newBranch origin/master
-    git stash pop
 }
 
 function pruneBranches() {
