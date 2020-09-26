@@ -17,13 +17,13 @@ usage()
 
 installPackages()
 {
-    install='pacman -S --needed'
-    aurInstall='yay -S --needed --nocleanmenu --nodiffmenu --noupgrademenu'
+    install='pacman -S --needed --noconfirm'
+    aurInstall='yay -S --needed --nocleanmenu --nodiffmenu --noupgrademenu --noconfirm'
 
     echo "Installing base packages ..."
 
     # for some reason not installed already. Needed by makepkg
-    sudo ${install} fakeroot
+    sudo ${install} base-devel fakeroot
 
     if ! command -v yay &> /dev/null; then
         mkdir -p ~/local
@@ -36,11 +36,15 @@ installPackages()
 
     ${aurInstall} vim git aspell-en \
         maven docker \
-        python python-pip npm ranger unzip termite feh ttf-ubuntu-font-family \
-        xorg-xmodmap \
-        brave \
-        nerd-fonts-ubuntu-mono asdf-vm google-chrome lazygit \
-        zsh antibody
+        python python-pip npm ranger unzip termite feh \
+        xorg xorg-xinit org-xmodmap \
+        xdg-utils \
+        brave-bin \
+        openssh \
+        ttf-fira-code nerd-fonts-fira-code \
+        asdf-vm lazygit \
+        zsh antibody \
+        cdm
 
     # i3
     ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
@@ -55,7 +59,10 @@ installPackages()
     fi
 
     echo "Setting up zsh ..."
-    chsh -s /bin/zsh
+    if [[ "$SHELL" != "/bin/zsh" ]];
+    then
+        chsh -s /bin/zsh
+    fi
 
     echo "Setting up brave ..."
     xdg-mime default brave.desktop x-scheme-handler/http
