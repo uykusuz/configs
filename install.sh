@@ -38,7 +38,7 @@ installPackages()
         maven docker \
         python python-pip npm ranger unzip termite feh \
         xorg xorg-xinit org-xmodmap \
-        xdg-utils \
+        xdg-utils xclip \
         brave-bin \
         openssh \
         ttf-fira-code nerd-fonts-fira-code \
