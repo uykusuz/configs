@@ -44,7 +44,7 @@ installPackages()
         ttf-fira-code nerd-fonts-fira-code \
         asdf-vm lazygit \
         zsh antibody \
-        iw
+        iw bc
 
     # i3
     ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
