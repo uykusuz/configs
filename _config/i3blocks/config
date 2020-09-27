@@ -37,7 +37,7 @@ separator=false
 
 [iface]
 label=直
-instance=wlp0s20f3
+instance=wlp61s0
 color=#00FF00
 interval=10
 separator=false
