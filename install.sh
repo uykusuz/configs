@@ -36,7 +36,9 @@ installPackages()
 
     ${aurInstall} vim git aspell-en \
         maven docker \
-        python python-pip npm ranger unzip termite feh \
+        python python-pip npm unzip termite feh \
+        w3m ranger \
+        mplayer \
         xorg xorg-xinit org-xmodmap \
         xdg-utils xclip \
         brave-bin \
