@@ -5,8 +5,8 @@ add mod3 = Control_R
 keycode 133 = Mode_switch
 
 ! define umlaute
-keycode  20 = minus underscore ssharp
 keycode  26 = e E EuroSign
-keycode  34 = bracketleft braceleft udiaeresis Udiaeresis
-keycode  47 = semicolon colon odiaeresis Odiaeresis
-keycode  48 = apostrophe quotedbl adiaeresis Adiaeresis
+keycode  30 = u U udiaeresis Udiaeresis NoSymbol NoSymbol NoSymbol NoSymbol u U
+keycode  32 = o O odiaeresis Odiaeresis NoSymbol NoSymbol NoSymbol NoSymbol o O
+keycode  38 = a A adiaeresis Adiaeresis NoSymbol NoSymbol NoSymbol NoSymbol a A
+keycode  39 = s S ssharp S NoSymbol NoSymbol NoSymbol NoSymbol s S
