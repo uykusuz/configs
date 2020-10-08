@@ -180,17 +180,6 @@ do
     linkNode "$source" "$destination"
 done
 
-echo "Setting up root configs ..."
-sudo mkdir -p /root
-path=$(readlink -f _vimrc)
-destination=/root/.vimrc
-if sudo test -f $destination;
-then
-    echo "  File $destination exists, skipping."
-else
-    sudo ln -s $path $destination
-fi
-
 echo "Setting up vim ..."
 
 if [[ ! -d ~/.vim/bundle/Vundle.vim ]]; then

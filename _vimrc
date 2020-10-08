@@ -16,9 +16,6 @@ Plugin 'L9'
 " from github
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/grep.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'brooth/far.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
