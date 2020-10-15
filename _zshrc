@@ -1,3 +1,5 @@
+# vim: set syntax=zsh
+
 if [[ "$ZPROF" = true ]]; then
   zmodload zsh/zprof
 fi
@@ -153,6 +155,10 @@ alias mk='minikube kubectl'
 
 alias k='kubectl'
 
+alias ssh='ssh-ident'
+alias scp='BINARY_SSH=scp ssh-ident'
+
+
 # -----------------------------------------------------------------------------
 # --- paths ---
 
@@ -169,28 +175,6 @@ if [ -f '/home/bobbel/local/google-cloud-sdk/path.bash.inc' ]; then source '/hom
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/bobbel/local/google-cloud-sdk/completion.bash.inc' ]; then source '/home/bobbel/local/google-cloud-sdk/completion.bash.inc'; fi
-
-# -----------------------------------------------------------------------------
-# --- SSH Agent ---
-
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent > ~/.ssh-agent-thing
-fi
-if [[ "$SSH_AGENT_PID" == "" ]]; then
-    eval "$(<~/.ssh-agent-thing)" > /dev/null
-fi
-
-# -----------------------------------------------------------------------------
-# --- aws ---
-ec2ls() {
-    aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`Name`].Value|[0],State.Name,PrivateIpAddress,PublicIpAddress,LaunchTime,Placement.AvailabilityZone,Tags[?Key==`team`].Value|[0]]' --output text | column -t
-}
-asgls() {
-  aws autoscaling describe-auto-scaling-groups --query 'AutoScalingGroups[*].[AutoScalingGroupName,length(Instances[*]),DesiredCapacity,MinSize,MaxSize]'  --output text  | column -t
-}
-asgcapacity() {
-  aws autoscaling set-desired-capacity --auto-scaling-group-name $1 --desired-capacity $2
-}
 
 # -----------------------------------------------------------------------------
 # --- asdf ---
