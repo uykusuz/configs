@@ -115,4 +115,6 @@ fi
 # ---- own stuff
 export TERM=xterm
 set -o vi
+
 alias ipt='sudo iptables'
+alias k='kubectl'
