@@ -50,10 +50,10 @@ mode "window" {
     bindsym f fullscreen toggle; mode "default"
 
     # move focused window
-    bindsym Shift+j move down 30 px
-    bindsym Shift+k move up 30 px
-    bindsym Shift+h move left 30 px
-    bindsym Shift+l move right 30 px
+    bindsym Shift+j move down; mode "default"
+    bindsym Shift+k move up; mode "default"
+    bindsym Shift+h move left; mode "default"
+    bindsym Shift+l move right; mode "default"
 
     # move to workspace
     bindsym n workspace next; mode "default"
@@ -88,10 +88,10 @@ mode "resize" {
     bindsym h resize shrink width 10 px or 10 ppt
 
     # move focused window
-    bindsym Shift+j move down
-    bindsym Shift+k move up
-    bindsym Shift+h move left
-    bindsym Shift+l move right
+    bindsym Shift+j move down 30 px
+    bindsym Shift+k move up 30 px
+    bindsym Shift+h move left 30 px
+    bindsym Shift+l move right 30 px
 
     # leave mode
     bindsym Return mode "default"
