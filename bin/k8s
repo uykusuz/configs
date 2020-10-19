@@ -129,7 +129,7 @@ function launchBash() {
     fi
 
     local podId=$(podId $1)
-    kubectl exec -it $podId /bin/bash
+    kubectl exec -it $podId -- /bin/bash
 }
 
 if (( $# < 1 ));
