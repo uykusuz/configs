@@ -3,8 +3,10 @@
 
 set -euo pipefail
 
+namespace=
+
 function printUsage() {
-    echo "Usage: $(basename $0) <command>"
+    echo "Usage: $(basename $0) [-n <namespace] <command>"
     echo
     echo "command:"
     echo "  context <context> <mfa token> [<role>]:"
@@ -47,7 +49,7 @@ function switchContext() {
     role=${3:-such_developer}
 
     source aws-get-session $context $mfa_token $role
-    kubectl config use-context $context
+    kubectl ${namespace} config use-context $context
 }
 
 function getSecret() {
@@ -80,7 +82,7 @@ function getSecret() {
     local name=$1
     local key=$2
 
-    local secret=$(kubectl get secret "$name" -o jsonpath --template="{..$key}" | base64 -d)
+    local secret=$(kubectl ${namespace} get secret "$name" -o jsonpath --template="{..$key}" | base64 -d)
 
     if (( $copyToStdout == 0 ));
     then
@@ -96,14 +98,14 @@ function streamLogs() {
         failTooFewArguments
     fi
 
-    until kubectl logs $@
+    until kubectl ${namespace} logs $@
     do
         sleep 10
     done
 
     echo
 
-    kubectl logs -f $@
+    kubectl ${namespace} logs -f $@
 }
 
 function watchEvents() {
@@ -112,7 +114,7 @@ function watchEvents() {
         failTooFewArguments
     fi
 
-    watch -d "kubectl get events | grep $@"
+    watch -d "kubectl ${namespace} get events | grep $@"
 }
 
 function podId() {
@@ -121,7 +123,7 @@ function podId() {
         failTooFewArguments
     fi
 
-    kubectl get pods | grep -m 1 "$1" | awk '{print $1}'
+    kubectl ${namespace} get pods | grep -m 1 "$1" | awk '{print $1}'
 }
 
 function launchBash() {
@@ -131,11 +133,11 @@ function launchBash() {
     fi
 
     local podId=$(podId $1)
-    kubectl exec -it $podId -- /bin/bash
+    kubectl ${namespace} exec -it $podId -- /bin/bash
 }
 
 function monitorPods() {
-    watch -d 'kubectl get pods -A'
+    watch -d "kubectl ${namespace} get pods -A"
 }
 
 if (( $# < 1 ));
@@ -144,41 +146,56 @@ then
     exit 1
 fi
 
-case "$1" in
--h|--help)
-    printUsage
-    exit 0
-    ;;
-context)
-    shift
-    switchContext "$@"
-    ;;
-secret)
-    shift
-    getSecret "$@"
-    ;;
-logs)
-    shift
-    streamLogs "$@"
-    ;;
-events)
-    shift
-    watchEvents "$@"
-    ;;
-podid)
-    shift
-    podId "$@"
-    ;;
-bash)
-    shift
-    launchBash "$@"
-    ;;
-monitor)
-    monitorPods
-    ;;
-*)
-    printError "Unknown argument: $1"
-    printUsage
-    exit 1
-    ;;
-esac
+while (( $# > 0 ));
+do
+    case "$1" in
+    -h|--help)
+        printUsage
+        exit 0
+        ;;
+    -n)
+        shift
+        namespace="-n $1"
+        shift
+        ;;
+    context)
+        shift
+        switchContext "$@"
+        exit 0
+        ;;
+    secret)
+        shift
+        getSecret "$@"
+        exit 0
+        ;;
+    logs)
+        shift
+        streamLogs "$@"
+        exit 0
+        ;;
+    events)
+        shift
+        watchEvents "$@"
+        exit 0
+        ;;
+    podid)
+        shift
+        podId "$@"
+        exit 0
+        ;;
+    bash)
+        shift
+        launchBash "$@"
+        exit 0
+        ;;
+    monitor)
+        monitorPods
+        exit 0
+        ;;
+    *)
+        printError "Unknown argument: $1"
+        printUsage
+        exit 1
+        ;;
+    esac
+done
