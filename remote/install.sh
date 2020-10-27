@@ -25,5 +25,5 @@ host=boris@${hostName}
 
 scp _bashrc ${host}:./.bashrc
 
-ssh ${host} -- mkdir bin
+ssh ${host} -- mkdir -p bin
 scp ${directory}/../bin/k8s ${host}:./bin/k8s

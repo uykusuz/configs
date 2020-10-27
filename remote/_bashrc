@@ -118,3 +118,5 @@ set -o vi
 
 alias ipt='sudo iptables'
 alias k='kubectl'
+
+export PATH=${PATH}:${HOME}/bin
