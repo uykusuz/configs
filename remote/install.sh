@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 usage() {
     echo "Usage: $0 <hostname>"
 }
@@ -19,5 +21,9 @@ then
 fi
 
 hostName=$1
+host=boris@${hostName}
 
-scp _bashrc boris@$hostName:./.bashrc
+scp _bashrc ${host}:./.bashrc
+
+ssh ${host} -- mkdir bin
+scp ${directory}/../bin/k8s ${host}:./bin/k8s

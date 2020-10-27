@@ -21,6 +21,8 @@ function printUsage() {
     echo "      prints the pod id of the pod matching the expression"
     echo "  bash <expression>:"
     echo "      open /bin/bash on the pod matching the given expression"
+    echo "  monitor:"
+    echo "      watch pods from all namespaces"
 }
 
 function printError() {
@@ -132,6 +134,10 @@ function launchBash() {
     kubectl exec -it $podId -- /bin/bash
 }
 
+function monitorPods() {
+    watch -d 'kubectl get pods -A'
+}
+
 if (( $# < 1 ));
 then
     failTooFewArguments
@@ -166,6 +172,9 @@ podid)
 bash)
     shift
     launchBash "$@"
+    ;;
+monitor)
+    monitorPods
     ;;
 *)
     printError "Unknown argument: $1"
