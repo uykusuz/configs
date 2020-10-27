@@ -38,6 +38,12 @@ SAVEHIST=$HISTSIZE
 setopt HIST_IGNORE_SPACE
 
 # -----------------------------------------------------------------------------
+# --- compinit ---
+
+autoload -Uz compinit
+compinit
+
+# -----------------------------------------------------------------------------
 # --- Plugins ---
 #
 
@@ -116,12 +122,6 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
-
-# -----------------------------------------------------------------------------
-# --- compinit ---
-
-autoload -Uz compinit
-compinit
 
 
 # -----------------------------------------------------------------------------

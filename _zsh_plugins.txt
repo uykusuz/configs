@@ -1,3 +1,4 @@
+
 # Load completion library for those sweet [tab] squares
 ohmyzsh/ohmyzsh path:lib/completion.zsh
 
@@ -8,6 +9,8 @@ zsh-users/zsh-history-substring-search
 
 # syntax highlighting: this has to come before vimode-visual to avoid conflicts
 zsh-users/zsh-syntax-highlighting
+
+Aloxaf/fzf-tab
 
 #  vim mode
 softmoth/zsh-vim-mode

@@ -12,7 +12,7 @@ usage()
     echo "Usage: $0 [parameters]"
     echo
     echo "Parameters:"
-    echo "  --skip-packages: skip installation of packages"
+    echo "  --install-packages: install packages"
 }
 
 installPackages()
@@ -47,6 +47,7 @@ installPackages()
         asdf-vm lazygit \
         zsh antibody \
         iw bc \
+        fzf \
         ssh-ident
 
     # i3
@@ -108,13 +109,13 @@ if [ ! -f ./_bashrc ]; then
     exit 1
 fi
 
-doInstallPackages=1
+doInstallPackages=0
 
 if (( $# > 0));
 then
     case "$1" in
-    --skip-packages)
-        doInstallPackages=0
+    --install-packages)
+        doInstallPackages=1
         ;;
     *)
         printError "Unknown parameter: $1"
@@ -140,7 +141,7 @@ echo "Setting up configs ..."
 
 mkdir -p ~/.config
 
-configs=`find . -name "_*"`
+configs=$(find . -maxdepth 1 -name "_*")
 
 for config in $configs
 do
