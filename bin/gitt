@@ -3,16 +3,18 @@
 
 set -euo pipefail
 
+mainlineBranch=develop
+
 function usage() {
     echo
     echo "Usage: $(basename $0) <command>"
     echo
     echo "command:"
-    echo "  delete              : delete the current branch and checkout origin/master"
-    echo "  new [<branch name>] : fetch and checkout origin/master with current changes on top of it"
+    echo "  delete              : delete the current branch and checkout origin/${mainlineBranch}"
+    echo "  new [<branch name>] : fetch and checkout origin/${mainlineBranch} with current changes on top of it"
     echo "  prune               : delete all local branches"
     echo "      -f|--force      : force the deletion of not fully merged branches"
-    echo "  pull                : fetch and rebase on origin/master"
+    echo "  pull                : fetch and rebase on origin/${mainlineBranch}"
 }
 
 function newBranch() {
@@ -23,7 +25,7 @@ function newBranch() {
     fi
 
     git fetch
-    git checkout $newBranch origin/master
+    git checkout $newBranch origin/${mainlineBranch}
 }
 
 function pruneBranches() {
@@ -63,12 +65,12 @@ new)
 delete)
     currentBranch=$(git branch | grep '*' | sed 's/* //')
     git fetch
-    git checkout origin/master
+    git checkout origin/${mainlineBranch}
     git branch -d $currentBranch
     ;;
 pull)
     git fetch
-    git rebase origin/master
+    git rebase origin/${mainlineBranch}
     ;;
 prune)
     shift
