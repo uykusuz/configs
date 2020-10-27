@@ -1,0 +1,41 @@
+#!/bin/bash
+# vim: set syntax=bash
+
+usage() {
+    echo "Usage: $(basename $0) [options] <url>"
+    echo
+    echo "Options:"
+    echo "  -h, --help : print this message and exit"
+    echo "  --head     : perform HEAD request instead of GET"
+}
+
+headOnly=
+url=
+
+if (( $# < 1 ));
+then
+    echo "No URL specified."
+    echo
+    usage
+    exit 1
+fi
+
+while (( $# > 0 ));
+do
+    case "$1" in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    --head)
+        headOnly=--head
+        shift
+        ;;
+    *)
+        url=$1
+        break
+        ;;
+    esac
+done
+
+curl -s ${headOnly} -o /dev/null -w "%{http_code}" ${url}
