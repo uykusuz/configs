@@ -36,7 +36,7 @@ installPackages()
 
     ${aurInstall} vim git aspell-en \
         maven docker \
-        python python-pip npm unzip termite feh \
+        python python-pip unzip termite feh \
         w3m ranger \
         mplayer \
         xorg xorg-xinit org-xmodmap \
@@ -46,9 +46,8 @@ installPackages()
         ttf-fira-code nerd-fonts-fira-code \
         asdf-vm lazygit \
         zsh antibody \
-        iw bc \
-        fzf \
-        ssh-ident
+        iw bc htop ssh-ident \
+        fzf
 
     # i3
     ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
