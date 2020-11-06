@@ -155,10 +155,6 @@ alias mk='minikube kubectl'
 
 alias k='kubectl'
 
-alias ssh='ssh-ident'
-alias scp='BINARY_SSH=scp ssh-ident'
-
-
 # -----------------------------------------------------------------------------
 # --- paths ---
 
@@ -175,6 +171,16 @@ if [ -f '/home/bobbel/local/google-cloud-sdk/path.bash.inc' ]; then source '/hom
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/bobbel/local/google-cloud-sdk/completion.bash.inc' ]; then source '/home/bobbel/local/google-cloud-sdk/completion.bash.inc'; fi
+
+# -----------------------------------------------------------------------------
+# --- SSH ---
+
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+fi
+if [[ ! "$SSH_AUTH_SOCK" ]]; then
+    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+fi
 
 # -----------------------------------------------------------------------------
 # --- asdf ---
