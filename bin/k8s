@@ -15,7 +15,7 @@ function printUsage() {
     echo "      switch kubernetes context"
     echo "  events <grep expression>:"
     echo "      watch events for the given grep expression"
-    echo "  logs <selector>:"
+    echo "  logs <pod expression>:"
     echo "      wait until the container is up and then stream the logs for it"
     echo "  monitor [--more]:"
     echo "      watch pods from all namespaces"
@@ -98,14 +98,16 @@ function streamLogs() {
         failTooFewArguments
     fi
 
-    until kubectl ${namespace} logs $@
+    targetPod=$(podId $1)
+
+    until kubectl ${namespace} logs ${targetPod}
     do
         sleep 10
     done
 
     echo
 
-    kubectl ${namespace} logs -f $@
+    kubectl ${namespace} logs -f ${targetPod}
 }
 
 function watchEvents() {
