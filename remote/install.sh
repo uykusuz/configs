@@ -26,4 +26,9 @@ host=boris@${hostName}
 scp _bashrc ${host}:./.bashrc
 
 ssh ${host} -- mkdir -p bin
-scp ${directory}/../bin/k8s ${host}:./bin/k8s
+
+binaries="k8s http-status"
+for binary in ${binaries};
+do
+    scp ${directory}/../bin/${binary} ${host}:./bin/
+done
