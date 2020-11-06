@@ -46,7 +46,7 @@ installPackages()
         ttf-fira-code nerd-fonts-fira-code \
         asdf-vm lazygit \
         zsh antibody \
-        iw bc htop ssh-ident \
+        iw bc htop \
         fzf
 
     # i3
