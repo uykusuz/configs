@@ -1,0 +1,7 @@
+#!/bin/bash
+# vim: set syntax=bash
+
+set -euo pipefail
+
+protonmail-bridge --noninteractive &
+thunderbird &
