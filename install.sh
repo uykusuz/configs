@@ -47,7 +47,8 @@ installPackages()
         asdf-vm lazygit \
         zsh antibody \
         iw bc htop \
-        fzf
+        fzf \
+        bluez bluez-utils
 
     # i3
     ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
@@ -74,6 +75,10 @@ installPackages()
     echo "Initializing docker ..."
     sudo systemctl enable docker.service
     sudo systemctl start docker.service
+
+    echo "Initializing bluetooth ..."
+    sudo systemctl enable bluetooth.service
+    sudo systemctl start bluetooth.service
 
     echo "Adapting user ..."
     sudo usermod -a -G video $USER
