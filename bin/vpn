@@ -4,30 +4,17 @@
 execName=$(basename $0)
 
 function usageAndExit() {
-    echo "Usage: $execName <command> <domain>"
+    echo "Usage: $execName <command>"
     echo
     echo "Commands:"
     echo "  start"
     echo "  status"
     echo "  help"
-    echo
-    echo "Domains:"
-    echo "  xelonic"
-    echo "  neuland"
 
     exit $1
 }
 
-function statusNeuland() {
-    tmp=$(nmcli connection show --active 'neuland vpn')
-    if [ ${#tmp} -lt 1 ]; then
-        echo "down"
-    else
-        echo "up"
-    fi
-}
-
-function statusXelonic() {
+function status() {
     systemctl status openvpn-client@xelonic | grep "active (running)" &> /dev/null
     if [ $? -eq 0 ];
     then
@@ -35,14 +22,6 @@ function statusXelonic() {
     else
         echo "down"
     fi
-}
-
-function startNeuland() {
-    nmcli connection up 'neuland vpn' passwd-file ~/vpn/neuland-password.txt
-}
-
-function stopNeuland() {
-    nmcli connection down 'neuland vpn'
 }
 
 colorOn=${COLOR_ON:-'#00FF00'}
@@ -56,7 +35,6 @@ fi
 
 
 command=$1
-domain=$2
 additionalArg=$3
 
 if [[ "$command" == "--help" ]];
@@ -64,17 +42,10 @@ then
     usageAndExit 0
 elif [[ "$command" == "status" ]];
 then
-    if [[ "$(statusNeuland)" == "up" ]];
+    if [[ "$(status)" == "up" ]];
     then
         if [ "$2" == "-i3" ]; then
-            echo "<span color='$colorOn'>$label n</span>"
-        else
-            echo "up"
-        fi
-    elif [[ "$(statusXelonic)" == "up" ]];
-    then
-        if [ "$2" == "-i3" ]; then
-            echo "<span color='$colorOn'>$label x</span>"
+            echo "<span color='$colorOn'>$label</span>"
         else
             echo "up"
         fi
@@ -89,22 +60,4 @@ elif (( $# < 2 ));
 then
     echo "Not enough arguments"
     usageAndExit 1
-elif [[ "$domain" == "neuland" ]];
-then
-    if [[ "$command" == "start" ]];
-    then
-        if [[ "$(statusNeuland)" == "up" ]];
-        then
-            stopNeuland
-            startNeuland
-        else
-            startNeuland
-        fi
-    elif [[ "$command" == "stop" ]];
-    then
-        stopNeuland
-    else
-        echo "Unknown command: $command"
-        usageAndExit 1
-    fi
 fi
