@@ -104,8 +104,7 @@ nmap <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
 " search/replace visually selected text when hitting Ctrl-R in visual mode
 vnoremap <C-r> y:%s/\<<C-r>0\>//gc<left><left>
 
-vnoremap <M-r> y:Far \<<C-r>0\><Space>
-nmap <leader>y :Fardo<CR> :q<CR>
+vnoremap <leader>y "+y
 
 " CtrlP
 nmap <leader>m :CtrlPMRUFiles<CR>

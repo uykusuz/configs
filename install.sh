@@ -34,7 +34,7 @@ installPackages()
         popd
     fi
 
-    ${aurInstall} vim git aspell-en \
+    ${aurInstall} gvim git aspell-en \
         maven docker \
         python python-pip unzip termite feh \
         w3m ranger \
