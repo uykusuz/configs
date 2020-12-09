@@ -9,6 +9,8 @@ function printUsage() {
     echo "Usage: $(basename $0) [-n <namespace] <command>"
     echo
     echo "command:"
+    echo "  alpine:"
+    echo "      start a container based on alpine"
     echo "  bash <expression>:"
     echo "      open /bin/bash on the pod matching the given expression"
     echo "  context <context>:"
@@ -39,6 +41,10 @@ function failTooFewArguments() {
     echo
     printUsage
     exit 1
+}
+
+function runAlpine() {
+    kubectl ${namespace} run -i --tty --rm debug --image=alpine --restart=Never -- /bin/sh
 }
 
 function switchContext() {
@@ -150,7 +156,12 @@ function monitorPods() {
         flags='-o wide'
     fi
 
-    watch -d "kubectl ${namespace} get pods -A ${flags}"
+    if [[ -z "${namespace}" ]];
+    then
+        namespace="-A"
+    fi
+
+    watch -d "kubectl get pods ${flags} ${namespace} "
 }
 
 if (( $# < 1 ));
@@ -170,6 +181,11 @@ do
         shift
         namespace="-n $1"
         shift
+        ;;
+    alpine)
+        shift
+        runAlpine
+        exit 0
         ;;
     context)
         shift
