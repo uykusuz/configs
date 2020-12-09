@@ -1,6 +1,8 @@
 #!/bin/bash
 # vim: set syntax bash
 
+set -euo pipefail
+
 declare -A devices=(
     ["edifier"]="40:EF:4C:C3:AB:3F"
     ["jbl"]="B8:D5:0B:BE:2E:66"
