@@ -1,0 +1,15 @@
+#!/bin/bash
+# vim: set syntax=bash
+
+set -euo pipefail
+
+if (( $# < 1 ));
+then
+    echo "Usage: $(basename $0) <wifi name>"
+    exit 1
+fi
+
+name=$1
+
+nmcli c up ${name}
+sudo systemctl restart wg-quick@wg0.service
