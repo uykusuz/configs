@@ -8,7 +8,6 @@ usageAndExit() {
     echo "$(basename $0)"
     echo
     echo "Options:"
-    echo "\t--auto: auto-detect monitors and configure them"
     echo "\t--off : turn off external monitors"
 
     exit $1
@@ -30,31 +29,10 @@ turnOffExternalMonitors() {
     done
 }
 
-autoConfigure=0
-if (( $# > 0 ));
-then
-    case "$1" in
-    -h|--help)
-        usageAndExit 0
-        ;;
-    --auto)
-        autoConfigure=1
-        ;;
-    --off)
-        turnOffExternalMonitors
-        ;;
-    esac
-fi
+switchToExternalMonitors() {
+    local internalMonitor=$1
+    local externalMonitors=$2
 
-internalMonitor='eDP1'
-externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}') || echo ""
-externalMonitorCount=$(echo "$externalMonitors" | wc -w)
-
-if (( $externalMonitorCount < 1 ));
-then
-    turnOffExternalMonitors $internalMonitor $externalMonitors
-elif [[ $externalMonitorCount -lt 2 || $autoConfigure -eq 1 ]];
-then
     previousMonitor="$internalMonitor"
     for monitor in $externalMonitors;
     do
@@ -64,12 +42,30 @@ then
 
     xrandr --output "$previousMonitor" --primary
     xrandr --output "$internalMonitor" --off
+}
+
+if (( $# > 0 ));
+then
+    case "$1" in
+    -h|--help)
+        usageAndExit 0
+        ;;
+    --off)
+        turnOffExternalMonitors
+        exit
+        ;;
+    esac
+fi
+
+internalMonitor='eDP-1'
+externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}') || echo ""
+externalMonitorCount=$(echo "$externalMonitors" | wc -w)
+
+if (( $externalMonitorCount < 1 ));
+then
+    turnOffExternalMonitors $internalMonitor $externalMonitors
 else
-    leftMonitor='DP2-3'
-    rightMonitor='DP2-2'
-    xrandr --output "$internalMonitor" --off
-    xrandr --output "$leftMonitor" --auto --primary
-    xrandr --output "$rightMonitor" --auto --right-of "$leftMonitor"
+    switchToExternalMonitors $internalMonitor $externalMonitors
 fi
 
 # reconfigure xmodmap
