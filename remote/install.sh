@@ -27,7 +27,7 @@ scp _bashrc ${host}:./.bashrc
 
 ssh ${host} -- mkdir -p bin
 
-binaries="k8s http-status"
+binaries="k8s http-status start-tmux-k8s"
 for binary in ${binaries};
 do
     scp ${directory}/../bin/${binary} ${host}:./bin/
