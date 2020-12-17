@@ -15,7 +15,7 @@ function printUsage() {
     echo "      open /bin/bash on the pod matching the given expression"
     echo "  context <context>:"
     echo "      switch kubernetes context"
-    echo "  events <grep expression>:"
+    echo "  events [--once] [<grep expression>]:"
     echo "      watch events for the given grep expression"
     echo "  logs <pod expression> [<container name>]:"
     echo "      wait until the container is up and then stream the logs for it"
@@ -122,12 +122,27 @@ function streamLogs() {
 }
 
 function watchEvents() {
-    if (( $# < 1 ));
+    filter=
+    watch=1
+    if [[ $# -gt 0 && "$1" == "--once" ]];
     then
-        failTooFewArguments
+        watch=0
+        shift
     fi
 
-    watch -d "kubectl ${namespace} get events | grep $@"
+    if (( $# > 0 ));
+    then
+        filter="| grep $@"
+    fi
+
+    command="kubectl ${namespace} get events --sort-by '.metadata.creationTimestamp' ${filter}"
+
+    if (( ${watch} == 0 ));
+    then
+        eval ${command}
+    else
+        watch -d "${command}"
+    fi
 }
 
 function podId() {
