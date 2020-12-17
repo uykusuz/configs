@@ -44,6 +44,10 @@ switchToExternalMonitors() {
     xrandr --output "$internalMonitor" --off
 }
 
+internalMonitor='eDP-1'
+externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}') || echo ""
+externalMonitorCount=$(echo "$externalMonitors" | wc -w)
+
 if (( $# > 0 ));
 then
     case "$1" in
@@ -51,15 +55,11 @@ then
         usageAndExit 0
         ;;
     --off)
-        turnOffExternalMonitors
+        turnOffExternalMonitors $internalMonitor
         exit
         ;;
     esac
 fi
-
-internalMonitor='eDP-1'
-externalMonitors=$(xrandr | grep ' connected' | grep -v $internalMonitor | awk '{print $1}') || echo ""
-externalMonitorCount=$(echo "$externalMonitors" | wc -w)
 
 if (( $externalMonitorCount < 1 ));
 then
@@ -68,6 +68,7 @@ else
     switchToExternalMonitors $internalMonitor $externalMonitors
 fi
 
+
 # reconfigure xmodmap
 # when connecting the external keyboard linux needs to be told to remap the modmap
 [[ -f ~/.Xmodmap_en ]] && xmodmap ~/.Xmodmap_en
@@ -75,4 +76,4 @@ fi
 
 # reconfigure Ploopy
 # 9 -> 2
-xinput --set-button-map "Unknown Ploopy Trackball" 1 2 3 4 5 6 7 8 2
+(set +o pipefail; xinput --set-button-map "Unknown Ploopy Trackball" 1 2 3 4 5 6 7 8 2 | true)

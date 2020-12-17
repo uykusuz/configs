@@ -222,7 +222,8 @@ bindsym Pause exec --no-startup-id pactl set-source-mute alsa_input.pci-0000_00_
 # kill window
 bindsym $mod+q kill
 
-bindsym $mod+m exec --no-startup-id "~/bin/configure-monitors"
+bindsym $mod+m exec --no-startup-id ~/bin/configure-monitors
+bindsym $mod+Shift+m exec --no-startup-id ~/bin/configure-monitors --off
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
