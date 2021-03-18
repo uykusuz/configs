@@ -2,6 +2,7 @@
 # vim: set syntax=sh
 
 set -euo pipefail
+#set -x
 
 namespace=
 
@@ -15,6 +16,8 @@ function printUsage() {
     echo "      open /bin/bash on the pod matching the given expression"
     echo "  context <context>:"
     echo "      switch kubernetes context"
+    echo "  delete <node>:"
+    echo "      drain and delete a node"
     echo "  events [--once] [<grep expression>]:"
     echo "      watch events for the given grep expression"
     echo "  logs <pod expression> [<container name>]:"
@@ -29,11 +32,12 @@ function printUsage() {
     echo "      get a secret and store it in the clipboard"
     echo "      options:"
     echo "          --stdout: pipe secret to stdout"
-
+    echo "  copy-secret <name> <target namespace>:"
+    echo "      recreate the given secret in the given target namespace"
 }
 
 function printError() {
-    echo >&2 echo "$1"
+    echo >&2 "$1"
 }
 
 function failTooFewArguments() {
@@ -44,7 +48,7 @@ function failTooFewArguments() {
 }
 
 function runAlpine() {
-    kubectl ${namespace} run -i --tty --rm debug --image=alpine --restart=Never -- /bin/sh
+    kubectl ${namespace} run -i --tty --rm debug --image=docker.io/byrnedo/alpine-curl --restart=Never --command /bin/sh
 }
 
 function switchContext() {
@@ -56,6 +60,18 @@ function switchContext() {
     context=$1
 
     kubectl config use-context $context
+}
+
+function deleteNode() {
+    if (( $# < 1 ));
+    then
+        failTooFewArguments
+    fi
+
+    node=$1
+
+    kubectl drain "${node}" --ignore-daemonsets --delete-emptydir-data
+    kubectl delete node "${node}"
 }
 
 function getSecret() {
@@ -96,6 +112,26 @@ function getSecret() {
     else
         echo -n "$secret"
     fi
+}
+
+function copySecret() {
+    if (( $# < 2 ));
+    then
+        failTooFewArguments
+    fi
+
+    secretName=$1; shift
+    targetNamespace=$1; shift
+
+    if ! type jq > /dev/null;
+    then
+        printError "jq is not installed. Can't copy."
+        exit 1
+    fi
+
+    kubectl ${namespace} get secret "${secretName}" -o json \
+        | jq '{apiVersion: .apiVersion, data: .data, kind: .kind, metadata: {name: .metadata.name}, type: .type}' \
+        | kubectl -n "${targetNamespace}" apply -f -
 }
 
 function streamLogs() {
@@ -207,6 +243,21 @@ do
         switchContext "$@"
         exit 0
         ;;
+    copy-secret)
+        shift
+        copySecret "$@"
+        exit 0
+        ;;
+    delete)
+        shift
+        deleteNode "$@"
+        exit 0
+        ;;
+    events)
+        shift
+        watchEvents "$@"
+        exit 0
+        ;;
     secret)
         shift
         getSecret "$@"
@@ -215,11 +266,6 @@ do
     logs)
         shift
         streamLogs "$@"
-        exit 0
-        ;;
-    events)
-        shift
-        watchEvents "$@"
         exit 0
         ;;
     podid)
