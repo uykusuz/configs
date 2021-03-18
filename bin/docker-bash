@@ -6,10 +6,11 @@ set -euo pipefail
 imageHome=/home/builder
 
 usage() {
-    echo "Usage: $(basename $0) <image> [options]"
+    echo "Usage: $(basename $0) [options] <image>"
     echo
     echo "Options:"
     echo "  -h, --home <home>: home directory in the image. Default: ${imageHome}"
+    echo "  -r, --root: run as root"
 }
 
 if (( $# < 1 ));
@@ -18,26 +19,29 @@ then
     exit 0
 fi
 
-image=$1
+user=""
 
-if (( $# > 1 ));
-then
+while (( $# > 0 ));
+do
     case "$1" in
     -h|--home)
         shift
         imageHome=$1
         shift
         ;;
+    -r|--root)
+        user="-u 0"
+        shift
+        ;;
     *)
-        echo "Unknown argument: $1."
-        echo
-        usage
-        exit 1
+        image=$1
+        break
         ;;
     esac
-fi
+done
 
 docker run --rm -it \
+    ${user} \
     -v $(pwd):/workspace \
     -v ${HOME}/.npmrc:${imageHome}/.npmrc \
     -v ${HOME}/.ssh/id_ed25519:${imageHome}/.ssh/id_ed25519 \
