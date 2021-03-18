@@ -114,6 +114,7 @@ fi
 
 # ---- own stuff
 export TERM=xterm
+export EDITOR=vim
 set -o vi
 
 alias ipt='sudo iptables'
