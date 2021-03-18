@@ -8,10 +8,10 @@ tmux new-session -s asdf -n 'myWindow' -d
 # I address the first pane using the -t flag. This is not necessary,
 # I'm doing it so explicitly to show you how to do it.
 # for the <enter> key, we can use either C-m (linefeed) or C-j (newline)
-tmux send-keys -t asdf:myWindow.0 'k8s monitor' C-j
+tmux send-keys -t asdf:myWindow.0 'k9s' C-j
 
 # split the window *vertically*
-tmux split-window -h
+tmux split-window -v
 
 # uncomment the following command if you want to attach
 # explicitly to the window we just created
