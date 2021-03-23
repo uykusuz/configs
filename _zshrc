@@ -39,16 +39,26 @@ setopt HIST_IGNORE_SPACE
 
 # -----------------------------------------------------------------------------
 # --- compinit ---
+# -----------------------------------------------------------------------------
 
 autoload -Uz compinit
 compinit
 
 # -----------------------------------------------------------------------------
 # --- Plugins ---
-#
+# -----------------------------------------------------------------------------
 
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
+
+# -----------------------------------------------------------------------------
+# --- HCloud Prompt ---
+# -----------------------------------------------------------------------------
+
+add-zsh-hook precmd _zsh_hcloud_context_precmd
+function _zsh_hcloud_context_precmd() {
+    ZSH_HCLOUD_CONTEXT=$(hcloud context active)
+}
 
 # -----------------------------------------------------------------------------
 # --- Git Prompt ---
@@ -94,9 +104,10 @@ vim_mode='${MODE_INDICATOR_PROMPT}'
 
 #  kubectl context - current date
 date='%{$fg[yellow]%}[%D{%L:%M:%S} %D{%f/%m/%y}]%{$reset_color%}'
-kubectl='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+#kubectl='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+hcloud_context='%{$fg[magenta]%}($ZSH_HCLOUD_CONTEXT)%{$reset_color%}'
 
-RPROMPT="${kubectl} ${date}"
+RPROMPT="${hcloud_context} ${date}"
 
 # -----------------------------------------------------------------------------
 # --- Left Prompt ---
@@ -205,3 +216,4 @@ profzsh() {
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
+source /usr/share/nvm/init-nvm.sh
