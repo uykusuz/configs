@@ -1,0 +1,135 @@
+#!/bin/bash
+# vim: set syntax=bash
+
+set -euo pipefail
+set -x
+
+ssh_username=boris
+node=
+
+function printUsage() {
+    echo "Usage: $(basename $0) [<options>] <command>"
+    echo
+    echo "Options:"
+    echo "  -u,--user <username>"
+    echo "  -n,--node <node>"
+    echo
+    echo "command:"
+    echo "  forall <command>"
+    echo "      execute command for all servers"
+    echo "  ssh [<server>]"
+    echo "      ssh into the master"
+    echo "  upload <directory>"
+    echo "      uploads the given directory to the master."
+}
+
+function printError() {
+    echo >&2 echo "$1"
+}
+
+function failTooFewArguments() {
+    printError "Too few arguments for command."
+    echo
+    printUsage
+    exit 1
+}
+
+function masterNodeName() {
+    hcloud server list -l node_type=master -o noheader -o columns=name
+}
+
+function executeForAllServers() {
+    local command=$1
+
+    local context=$(hcloud context active)
+    local servers=$(hcloud server list -o noheader -o columns=name | tr '\n' ' ')
+
+    echo "Execute '${command}' in '${context}' for: ${servers}."
+    read -n 1 -s -r -p "Press any key to continue."
+
+    for server in ${servers};
+    do
+        hcloud server "${command}" "${server}"
+    done
+}
+
+function startSSH() {
+    local node=
+
+    if (( $# > 0 ));
+    then
+        node=$1
+        shift
+    else
+        node=$(masterNodeName)
+    fi
+
+    until hcloud server ssh -u "${ssh_username}" "${node}" true; do
+        echo -n "."
+        sleep 5
+    done
+
+    TERM=xterm hcloud server ssh -u "${ssh_username}" "${node}" $@
+}
+
+function uploadDirectory() {
+    local node="$1"; shift
+    local directory="$1"; shift
+    local node_ip=$(hcloud server ip "${node}")
+    local remote_directory="/home/${ssh_username}/"$(basename "${directory}")
+
+    echo "Removing already existing ${remote_directory} ..."
+    ssh "${ssh_username}@${node_ip}" rm -fr "${remote_directory}"
+
+    echo
+    echo "Uploading ..."
+    scp -r "${directory}" "${ssh_username}@${node_ip}":.
+}
+
+node=$(masterNodeName)
+
+if (( $# < 1 ));
+then
+    failTooFewArguments
+    exit 1
+fi
+
+while (( $# > 0 ));
+do
+    case "$1" in
+    -h|--help)
+        printUsage
+        break
+        ;;
+    -u|--user)
+        shift
+        ssh_username="$1"
+        shift
+        ;;
+    -n|--node)
+        shift
+        node="$1"
+        shift
+        ;;
+    forall)
+        shift
+        executeForAllServers "$1"
+        break
+        ;;
+    ssh)
+        shift
+        startSSH $@
+        break
+        ;;
+    upload)
+        shift
+        uploadDirectory "${node}" "$1"
+        break
+        ;;
+    *)
+        printError "Unknown argument: $1"
+        printUsage
+        exit 1
+        ;;
+    esac
+done
