@@ -25,10 +25,12 @@ host=boris@${hostName}
 
 scp _bashrc ${host}:./.bashrc
 
-ssh ${host} -- mkdir -p bin
+ssh ${host} -- mkdir -p bin && mkdir -p .k9s
 
 binaries="k8s http-status start-tmux-k8s"
 for binary in ${binaries};
 do
     scp ${directory}/../bin/${binary} ${host}:./bin/
 done
+
+scp ${directory}/../_k9s/skin.yml ${host}:./.k9s/
