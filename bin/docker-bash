@@ -6,7 +6,7 @@ set -euo pipefail
 imageHome=/home/builder
 
 usage() {
-    echo "Usage: $(basename $0) [options] <image>"
+    echo "Usage: $(basename $0) [options] <image> <parameters to docker>"
     echo
     echo "Options:"
     echo "  -h, --home <home>: home directory in the image. Default: ${imageHome}"
@@ -35,10 +35,18 @@ do
         ;;
     *)
         image=$1
+        shift
         break
         ;;
     esac
 done
+
+command=/bin/bash
+
+if (( $# > 0));
+then
+    command=$*
+fi
 
 docker run --rm -it \
     ${user} \
@@ -49,4 +57,4 @@ docker run --rm -it \
     -v ${HOME}/configs/_ssh/config:${imageHome}/.ssh/config \
     --network host \
     ${image} \
-    /bin/bash
+    ${command}
