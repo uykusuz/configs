@@ -1,0 +1,29 @@
+#!/bin/bash
+# vim: set syntax bash
+
+set -euo pipefail
+set -x
+
+usageAndExit() {
+    echo "$(basename $0)"
+    echo
+    echo "Options:"
+    echo "\t--off : turn off external monitors"
+
+    exit $1
+}
+
+if (( $# > 0 ));
+then
+    case "$1" in
+    -h|--help)
+        usageAndExit 0
+        ;;
+    *)
+        echo "Unknown argument: $1"
+        usageAndExit 1
+        ;;
+    esac
+fi
+
+import ~/Pictures/screenshot-$(date '+%Y%m%d-%H%M%S').png
