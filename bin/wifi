@@ -2,6 +2,7 @@
 # vim: set syntax=bash
 
 set -euo pipefail
+set -x
 
 if (( $# < 1 ));
 then
@@ -11,5 +12,10 @@ fi
 
 name=$1
 
-nmcli c up ${name}
-sudo systemctl restart wg-quick@wg0.service
+if [[ "${name}" == list ]];
+then
+    watch -d 'nmcli d wifi list'
+else
+    nmcli c up ${name}
+    sudo systemctl restart wg-quick@wg0.service
+fi
