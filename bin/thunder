@@ -3,5 +3,5 @@
 
 set -euo pipefail
 
-protonmail-bridge --noninteractive &
+protonmail-bridge &
 thunderbird &
