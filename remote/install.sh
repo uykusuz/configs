@@ -24,6 +24,7 @@ hostName=$1
 host=boris@${hostName}
 
 scp _bashrc ${host}:./.bashrc
+scp _vimrc ${host}:./.vimrc
 
 ssh ${host} -- mkdir -p bin && mkdir -p .k9s
 
