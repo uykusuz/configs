@@ -11,8 +11,9 @@
 [push]
     default = current
 [user]
-    email = uykusuz@hintergarten.de
-	name = Boris Brönner
+    email = broenner@xelonic.com
+    name = Boris Brönner
+	signingkey = 72CC97189DF9F5894E026E303BF30A26A2744162
 [core]
     editor = vim
     excludesfile = ~/.gitignore
@@ -26,4 +27,10 @@
     keepBackup = false
     prompt = false
 [pull]
-	rebase = true
+    rebase = true
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[url "ssh://git@bitbucket.sol3.xelonic.de"]
+	insteadOf = https://bitbucket.sol3.xelonic.de/scm

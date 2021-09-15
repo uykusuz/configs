@@ -76,14 +76,15 @@ function uploadDirectory() {
     local node="$1"; shift
     local directory="$1"; shift
     local node_ip=$(hcloud server ip "${node}")
-    local remote_directory="/home/${ssh_username}/"$(basename "${directory}")
+    local remote_base_directory="/home/${ssh_username}/uploads"
+    local remote_directory="${remote_base_directory}/"$(basename "${directory}")
 
     echo "Removing already existing ${remote_directory} ..."
-    ssh "${ssh_username}@${node_ip}" rm -fr "${remote_directory}"
+    ssh "${ssh_username}@${node_ip}" rm -fr "${remote_directory} && mkdir -p ${remote_base_directory}"
 
     echo
     echo "Uploading ..."
-    scp -r "${directory}" "${ssh_username}@${node_ip}":.
+    scp -r "${directory}" "${ssh_username}@${node_ip}:${remote_directory}"
 }
 
 node=$(masterNodeName)

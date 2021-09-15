@@ -1,0 +1,76 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    "explorer.confirmDragAndDrop": false,
+    "[yaml]": {
+
+        "editor.tabSize": 2,
+        "editor.quickSuggestions": {
+            "other": false,
+            "comments": false,
+            "strings": false
+        }
+    },
+    "cmake.configureOnOpen": true,
+    "workbench.editor.enablePreview": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "go.lintTool": "golangci-lint",
+    "go.delveConfig": {
+        "dlvLoadConfig": {
+            "followPointers": true,
+            "maxVariableRecurse": 1,
+            "maxStringLen": 64,
+            "maxArrayValues": 64,
+            "maxStructFields": -1
+        },
+        "apiVersion": 2,
+        "showGlobalVariables": false
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "files.trimTrailingWhitespace": true,
+    "explorer.confirmDelete": false,
+    "editor.tabSize": 2,
+    "java.project.importOnFirstTimeStartup": "automatic",
+    "redhat.telemetry.enabled": true,
+    "go.toolsManagement.autoUpdate": true,
+    "vim.statusBarColors.replace": "",
+    "vim.handleKeys": {
+        "<C-h>": false
+    },
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.cursorSurroundingLines": 7,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "go.buildTags": "release_stage_development",
+    "go.lintOnSave": "file",
+    "editor.rulers": [
+     120
+    ],
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "go.testFlags": [
+        "-count=1",
+        "-v"
+    ],
+    "editor.cursorStyle": "line",
+    "editor.insertSpaces": false,
+    "editor.lineNumbers": "on",
+    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+    "editor.wordWrap": "off",
+    "security.workspace.trust.untrustedFiles": "open",
+    "emeraldwalk.runonsave": {
+
+    },
+    "yaml.format.printWidth": 120
+}

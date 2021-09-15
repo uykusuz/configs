@@ -16,6 +16,7 @@ if [[ "${name}" == list ]];
 then
     watch -d 'nmcli d wifi list'
 else
-    nmcli c up ${name}
+    nmcli c up "${name}"
     sudo systemctl restart wg-quick@wg0.service
+    sudo systemctl restart wg-quick@wg1.service
 fi

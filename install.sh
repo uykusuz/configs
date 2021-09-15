@@ -37,7 +37,7 @@ installPackages()
     ${aurInstall} gvim git aspell-en \
         maven docker \
         python python-pip unzip termite feh imagemagick \
-        w3m ranger \
+        w3m \
         mplayer \
         xorg xorg-xinit org-xmodmap \
         xdg-utils xclip \
@@ -48,6 +48,7 @@ installPackages()
         zsh antibody \
         iw bc htop \
         fzf \
+        vifm \
         bluez bluez-utils usbutils
 
     # i3
