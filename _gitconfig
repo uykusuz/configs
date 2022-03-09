@@ -34,3 +34,5 @@
 	gpgsign = true
 [url "ssh://git@bitbucket.sol3.xelonic.de"]
 	insteadOf = https://bitbucket.sol3.xelonic.de/scm
+[init]
+	defaultBranch = develop

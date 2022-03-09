@@ -216,4 +216,19 @@ profzsh() {
 if [[ "$ZPROF" = true ]]; then
   zprof
 fi
+
+# -----------------------------------------------------------------------------
+# --- nvm ---
 source /usr/share/nvm/init-nvm.sh
+
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -f "$nvmrc_path" ]; then
+    nvm use
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+

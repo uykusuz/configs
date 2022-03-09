@@ -1,0 +1,7 @@
+#!/bin/bash
+# vim: set syntax=bash
+
+set -euo pipefail
+
+rm -fr package-lock.json node_modules
+docker-bash docker.sol3.xelonic.de/xelonic/builder-node:15-snapshot npm install

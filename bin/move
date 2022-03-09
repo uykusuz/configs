@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+
+while true;
+do
+    play -q -n synth 0.1 sin 880 >& /dev/null;
+    sleep 600;
+done
