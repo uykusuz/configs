@@ -80,11 +80,11 @@ function uploadDirectory() {
     local remote_directory="${remote_base_directory}/"$(basename "${directory}")
 
     echo "Removing already existing ${remote_directory} ..."
-    ssh "${ssh_username}@${node_ip}" rm -fr "${remote_directory} && mkdir -p ${remote_base_directory}"
+    ssh "${ssh_username}@${node}" rm -fr "${remote_directory} && mkdir -p ${remote_base_directory}"
 
     echo
     echo "Uploading ..."
-    scp -r "${directory}" "${ssh_username}@${node_ip}:${remote_directory}"
+    scp -r "${directory}" "${ssh_username}@${node}:${remote_directory}"
 }
 
 node=$(masterNodeName)
