@@ -6,7 +6,7 @@ set -euo pipefail
 
 declare -A devices=(
     ["edifier"]="40:EF:4C:C3:AB:3F"
-    ["jbl"]="B8:D5:0B:BE:2E:66"
+    ["jbl"]="28:FA:19:48:E3:47"
     ["x3"]="88:C6:26:DD:70:B5"
 )
 
