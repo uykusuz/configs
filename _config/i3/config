@@ -213,6 +213,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% &&
 bindsym Prior exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks
 bindsym Next exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle && pkill -RTMIN+2 i3blocks
 
 bindsym XF86MonBrightnessUp exec --no-startup-id "~/bin/adjust-brightness increase 100"
 bindsym XF86MonBrightnessDown exec --no-startup-id "~/bin/adjust-brightness decrease 100"
@@ -241,9 +242,7 @@ bar {
 }
 
 # special window actions
-for_window [title="Git Gui"] floating enable
 for_window [id="0x3800062"] floating enable
-for_window [title="gitk"] floating enable
 for_window [id="0x1a00007"] floating enable
 for_window [class=".*"] border pixel 3
 
