@@ -14,6 +14,7 @@ function usage() {
     echo "  new [<branch name>] : fetch and checkout origin/${mainlineBranch} with current changes on top of it"
     echo "  prune               : delete all local branches"
     echo "      -f|--force      : force the deletion of not fully merged branches"
+    echo "      -A              : checkout origin/${mainlineBranch} and delete all local branches"
     echo "  pull                : fetch and rebase on origin/${mainlineBranch}"
 }
 
@@ -30,11 +31,17 @@ function newBranch() {
 
 function pruneBranches() {
     deletion=-d
+    checkoutMain=0
+
     if (( $# > 0 ));
     then
         case "$1" in
         -f|--force)
             deletion=-D
+            ;;
+        -A)
+            deletion=-D
+            checkoutMain=1
             ;;
         *)
             echo "Unknown parameter: $1"
@@ -44,7 +51,13 @@ function pruneBranches() {
         esac
     fi
 
+    if (( checkoutMain == 1));
+    then
+        newBranch
+    fi
+
     git branch | grep -v '*' | xargs git branch ${deletion}
+    git fetch -p
 }
 
 if (( $# < 1 ));
