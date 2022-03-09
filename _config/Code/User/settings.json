@@ -23,7 +23,6 @@
         "**/.factorypath": true
     },
     "go.formatTool": "goimports",
-    "go.useLanguageServer": true,
     "go.lintTool": "golangci-lint",
     "go.delveConfig": {
         "dlvLoadConfig": {
@@ -64,7 +63,6 @@
         "-v"
     ],
     "editor.cursorStyle": "line",
-    "editor.insertSpaces": false,
     "editor.lineNumbers": "on",
     "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
     "editor.wordWrap": "off",
@@ -72,5 +70,12 @@
     "emeraldwalk.runonsave": {
 
     },
-    "yaml.format.printWidth": 120
+    "yaml.format.printWidth": 120,
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.tsdk": "/home/bobbel/.nvm/versions/node/v15.14.0/lib/node_modules/typescript/lib",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSaveMode": "modifications"
 }
