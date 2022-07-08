@@ -40,20 +40,21 @@
     "files.trimTrailingWhitespace": true,
     "explorer.confirmDelete": false,
     "editor.tabSize": 2,
+    "editor.scrollBeyondLastLine": false, // neovim advises to turn this off
     "java.project.importOnFirstTimeStartup": "automatic",
     "redhat.telemetry.enabled": true,
     "go.toolsManagement.autoUpdate": true,
-    "vim.statusBarColors.replace": "",
-    "vim.handleKeys": {
-        "<C-h>": false
-    },
+    // "vim.statusBarColors.replace": "",
+    // "vim.handleKeys": {
+    //     "<C-h>": false
+    // },
     "C_Cpp.updateChannel": "Insiders",
     "editor.cursorSurroundingLines": 7,
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter.notebook.ipynb"
     },
     "go.buildTags": "release_stage_development",
-    "go.lintOnSave": "file",
+    "go.lintOnSave": "off",
     "editor.rulers": [
      120
     ],
@@ -77,5 +78,10 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.autoSave": "onFocusChange",
-    "editor.formatOnSaveMode": "modifications"
+    "editor.formatOnSaveMode": "modifications",
+    "files.autoSaveDelay": 10000,
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "go.vetOnSave": "off",
+    "go.buildOnSave": "workspace",
+    "rust-analyzer.checkOnSave.command": "clippy"
 }

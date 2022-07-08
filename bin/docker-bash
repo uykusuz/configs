@@ -35,6 +35,7 @@ do
         ;;
     -r|--root)
         user="-u 0"
+        imageHome=/root
         shift
         ;;
     *)

@@ -28,7 +28,7 @@ scp _vimrc ${host}:./.vimrc
 
 ssh ${host} -- mkdir -p bin && mkdir -p .k9s
 
-binaries="k8s http-status start-tmux-k8s"
+binaries="k8s http-status start-tmux-k8s gitt"
 for binary in ${binaries};
 do
     scp ${directory}/../bin/${binary} ${host}:./bin/
