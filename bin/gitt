@@ -27,6 +27,11 @@ function newBranch() {
 
     git fetch
     git checkout $newBranch origin/${mainlineBranch}
+
+    if [[ -n "${newBranch}" ]];
+    then
+        git push
+    fi
 }
 
 function pruneBranches() {
