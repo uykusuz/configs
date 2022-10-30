@@ -74,7 +74,7 @@
     "yaml.format.printWidth": 120,
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "typescript.preferences.importModuleSpecifier": "non-relative",
-    "typescript.tsdk": "/home/bobbel/.nvm/versions/node/v15.14.0/lib/node_modules/typescript/lib",
+    "typescript.tsdk": "/home/bobbel/.nvm/versions/node/v17.9.1/lib/node_modules/typescript/lib",
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.autoSave": "onFocusChange",
@@ -83,5 +83,6 @@
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "go.vetOnSave": "off",
     "go.buildOnSave": "workspace",
-    "rust-analyzer.checkOnSave.command": "clippy"
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "npm.keybindingsChangedWarningShown": true
 }
