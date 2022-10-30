@@ -1,6 +1,6 @@
 ! Use a truetype font and size.
 xterm*faceName: Monospace
-xterm*faceSize: 12
+xterm*faceSize: 14
 XTerm.vt100.saveLines: 4096
 XTerm.vt100.selectToClipboard: true
 XTerm.vt100.translations: #override \
