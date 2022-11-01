@@ -1,7 +1,32 @@
 ! Use a truetype font and size.
 xterm*faceName: Monospace
-xterm*faceSize: 14
-XTerm.vt100.saveLines: 4096
+xterm*faceSize: 12
+XTerm.vt100.saveLines: 10000
 XTerm.vt100.selectToClipboard: true
 XTerm.vt100.translations: #override \
       Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n
+
+XTerm.vt100.foreground: rgb:69/5d/69
+XTerm.vt100.background: rgb:f7/f3/f7
+XTerm.vt100.color0: rgb:1b/18/1b
+XTerm.vt100.color1: rgb:ca/40/2b
+XTerm.vt100.color2: rgb:37/9a/37
+XTerm.vt100.color3: rgb:bb/8a/35
+XTerm.vt100.color4: rgb:51/6a/ec
+XTerm.vt100.color5: rgb:7b/59/c0
+XTerm.vt100.color6: rgb:15/93/93
+XTerm.vt100.color7: rgb:ab/9b/ab
+XTerm.vt100.color8: rgb:77/69/77
+XTerm.vt100.color9: rgb:ca/40/2b
+XTerm.vt100.color10: rgb:37/9a/37
+XTerm.vt100.color11: rgb:bb/8a/35
+XTerm.vt100.color12: rgb:51/6a/ec
+XTerm.vt100.color13: rgb:7b/59/c0
+XTerm.vt100.color14: rgb:15/93/93
+XTerm.vt100.color15: rgb:f7/f3/f7
+XTerm.vt100.color16: rgb:a6/59/26
+XTerm.vt100.color17: rgb:cc/33/cc
+XTerm.vt100.color18: rgb:29/23/29
+XTerm.vt100.color19: rgb:69/5d/69
+XTerm.vt100.color20: rgb:9e/8f/9e
+XTerm.vt100.color21: rgb:d8/ca/d8
