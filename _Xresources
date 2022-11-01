@@ -1,10 +1,10 @@
 ! Use a truetype font and size.
-xterm*faceName: Monospace
+xterm*faceName: FiraCode
 xterm*faceSize: 12
 XTerm.vt100.saveLines: 10000
 XTerm.vt100.selectToClipboard: true
 XTerm.vt100.translations: #override \
-      Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n
+      Shift Ctrl<Key>V: insert-selection(CLIPBOARD)
 
 XTerm.vt100.foreground: rgb:69/5d/69
 XTerm.vt100.background: rgb:f7/f3/f7
