@@ -1,0 +1,95 @@
+#!/bin/bash
+
+set -euo pipefail
+set -x
+
+usageAndExit() {
+    echo
+    echo "$(basename $0) <command>"
+    echo
+    echo "Commands:"
+    echo "  volume <sink|source> <amount>"
+    echo "  mute <sink|source>"
+    echo "  unmute <sink|source>"
+
+    exit $1
+}
+
+findActiveDevices() {
+    local type=$1; shift
+
+    devices=$(pactl list "${type}s" short | grep -i "running" | awk '{print $1}')
+
+    if [[ -z "${devices}" ]];
+    then
+        echo "cannot find active ${type} devices"
+        exit 1
+    fi
+
+    echo "${devices}"
+}
+
+changeVolume() {
+    local type=$1; shift
+    local change=$1; shift
+
+    local devices=$(findActiveDevices "${type}")
+
+    for device in ${devices};
+    do
+        pactl "set-${type}-volume" "${device}" "${change}"
+    done
+}
+
+toggleDevices() {
+    local type=$1; shift
+    local mute=$1; shift
+
+    desired_current_state=yes
+    if [[ "${mute}" == "1" ]];
+    then
+        desired_current_state=no
+    fi
+
+    devices=$(findActiveDevices "${type}")
+    for device in ${devices};
+    do
+        pactl "set-${type}-mute" "${device}" "${mute}"
+    done
+}
+
+if (( $# < 1 ));
+then
+    usageAndExit 0
+fi
+
+while (( $# > 0 ));
+do
+    case "$1" in
+    -h|--help)
+        usageAndExit 0
+        ;;
+    volume)
+        shift
+        type="$1"
+        shift
+        change="$1"
+        changeVolume "${type}" "${change}"
+        ;;
+    mute)
+        shift
+        type="$1"
+        toggleDevices "${type}" 1
+        ;;
+    unmute)
+        shift
+        type="$1"
+        toggleDevices "${type}" 0
+        ;;
+    *)
+        echo "unkown command: $1"
+        usageAndExit 1
+        ;;
+    esac
+    shift
+done
