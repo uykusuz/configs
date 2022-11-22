@@ -68,9 +68,6 @@ function connect {
             echo "Can't connect. Trying to reconnect."
         fi
     done
-
-    activateDefaultSink $1
-    echo "Device set as default sink."
 }
 
 function disconnect {
