@@ -199,7 +199,7 @@ bindsym $mod+e exec --no-startup-id exec rofi -combi-modi "drun#window" -show co
 
 # fix a bug in i3: https://github.com/i3/i3/issues/3528
 # simply refocus the launched window
-bindsym $mod+t exec xterm; focus parent; focus child
+bindsym $mod+t exec alacritty; focus parent; focus child
 
 bindsym $mod+w mode "window"
 bindsym $mod+r mode "resize"
