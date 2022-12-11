@@ -49,7 +49,8 @@ installPackages()
         iw bc htop \
         fzf \
         vifm \
-        bluez bluez-utils usbutils
+        bluez bluez-utils usbutils \
+        alacritty
 
     # i3
     ${aurInstall} i3-gaps i3blocks i3lock i3status rofi acpi pulseaudio
