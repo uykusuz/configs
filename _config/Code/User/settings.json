@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Visual Studio Dark",
     "editor.minimap.enabled": false,
     "editor.renderWhitespace": "all",
     "explorer.confirmDragAndDrop": false,
@@ -84,5 +84,7 @@
     "go.vetOnSave": "off",
     "go.buildOnSave": "workspace",
     "rust-analyzer.checkOnSave.command": "clippy",
-    "npm.keybindingsChangedWarningShown": true
+    "npm.keybindingsChangedWarningShown": true,
+    "workbench.sideBar.location": "right",
+    "window.zoomLevel": 1
 }
