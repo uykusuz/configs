@@ -58,9 +58,11 @@ docker run --rm -it \
     -v $(pwd):/workspace \
     -v ${HOME}/.npmrc:${imageHome}/.npmrc \
     -v ${HOME}/.ssh/id_ed25519:${imageHome}/.ssh/id_ed25519 \
+    -v ${HOME}/.ssh/known_hosts:${imageHome}/.ssh/known_hosts \
     -v ${HOME}/.ssh/id_ed25519.pub:${imageHome}/.ssh/id_ed25519.pub \
     -v ${HOME}/configs/_ssh/config:${imageHome}/.ssh/config \
     -v ${HOME}/.config/pip/pip.conf:${imageHome}/.config/pip/pip.conf \
+    -v ${HOME}/.gitconfig:${imageHome}/.gitconfig \
     --network host \
     ${image} \
     ${command}
