@@ -18,7 +18,7 @@ usageAndExit() {
 findActiveDevices() {
     local type=$1; shift
 
-    devices=$(pactl list "${type}s" short | grep -i "running" | awk '{print $1}')
+    devices=$(pactl list "${type}s" short | grep -i "input" | awk '{print $1}')
 
     if [[ -z "${devices}" ]];
     then
