@@ -2,6 +2,7 @@
 # vim: set syntax=bash
 
 set -euo pipefail
+set -x
 
 imageHome=/home/builder
 
@@ -11,6 +12,7 @@ usage() {
     echo "Options:"
     echo "  -h, --home <home>: home directory in the image. Default: ${imageHome}"
     echo "  -r, --root: run as root"
+    echo "  --cpus <number>: number of cpus to give to the docker process"
 }
 
 if (( $# < 1 ));
@@ -20,6 +22,7 @@ then
 fi
 
 user=""
+cpus=2
 
 while (( $# > 0 ));
 do
@@ -27,7 +30,6 @@ do
     --home)
         shift
         imageHome=$1
-        shift
         ;;
     -h|--help)
         usage
@@ -36,7 +38,10 @@ do
     -r|--root)
         user="-u 0"
         imageHome=/root
+        ;;
+    --cpus)
         shift
+        cpus=$1
         ;;
     *)
         image=$1
@@ -44,6 +49,7 @@ do
         break
         ;;
     esac
+    shift
 done
 
 command=/bin/bash
@@ -64,5 +70,6 @@ docker run --rm -it \
     -v ${HOME}/.config/pip/pip.conf:${imageHome}/.config/pip/pip.conf \
     -v ${HOME}/.gitconfig:${imageHome}/.gitconfig \
     --network host \
+    --cpus="${cpus}" \
     ${image} \
     ${command}
