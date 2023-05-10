@@ -29,14 +29,14 @@ signal=2
 # If the instance is not specified, use the interface used for default route.
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
 [iface]
-label=
+label=C
 instance=enp0s31f6
 color=#00FF00
 interval=10
 separator=false
 
 [iface]
-label=直
+label=W
 instance=wlp61s0
 color=#00FF00
 interval=10
@@ -61,8 +61,8 @@ interval=30
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 [keyindicator]
-TEXT_ON=ﰵ
-TEXT_OFF=ﰵ
+TEXT_ON=C
+TEXT_OFF=C
 interval=once
 signal=11
 COLOR_OFF=#444444
