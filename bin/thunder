@@ -4,4 +4,5 @@
 set -euo pipefail
 
 protonmail-bridge &
+sleep 5
 thunderbird &
