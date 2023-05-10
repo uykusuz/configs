@@ -6,3 +6,6 @@ yay -Syu --nocleanmenu --nodiffmenu --noupgrademenu --noeditmenu --noconfirm
 
 # update i3blocks
 pkill -SIGRTMIN+12 i3blocks
+
+[[ -e ~/.Xmodmap_en ]] && xmodmap ~/.Xmodmap_en
+[[ -e ~/.Xmodmap_language_independent ]] && xmodmap ~/.Xmodmap_language_independent
