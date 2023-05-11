@@ -10,7 +10,7 @@ fi
 
 if [[ $(checkupdates | wc -l) -gt 0 || $(yay -Qua | wc -l) -gt 0 ]];
 then
-    echo "<span color='#FF0000'></span>"
+    echo "<span color='#FF0000'></span>"
 else
     echo "<span color='#00AA00'></span>"
 fi

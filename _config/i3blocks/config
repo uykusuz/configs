@@ -36,7 +36,7 @@ interval=10
 separator=false
 
 [iface]
-label=W
+label=
 instance=wlp61s0
 color=#00FF00
 interval=10
