@@ -61,8 +61,8 @@ interval=30
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 [keyindicator]
-TEXT_ON=C
-TEXT_OFF=C
+TEXT_ON=
+TEXT_OFF=
 interval=once
 signal=11
 COLOR_OFF=#444444
