@@ -230,10 +230,10 @@ fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
 " Images
 filextype {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
         \ {View in sxiv}
-        \ feh --auto-zoom %f
+        \ feh -. %f
 
 fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-         \ identify %f
+        " \ identify %f
 
 " OpenRaster
 filextype *.ora
