@@ -15,10 +15,28 @@ usageAndExit() {
     exit $1
 }
 
-findActiveDevices() {
+typeToInputOutput() {
     local type=$1; shift
 
-    devices=$(pactl list "${type}s" short | grep -i "input" | awk '{print $1}')
+    case "${type}" in
+    sink)
+        echo "output"
+        ;;
+    source)
+        echo "input"
+        ;;
+    *)
+        echo "Unknown device type: ${type}"
+        exit 1
+        ;;
+    esac
+}
+
+findActiveDevices() {
+    local type=$1; shift
+    local inOutput=$(typeToInputOutput "${type}")
+
+    devices=$(pactl list "${type}s" short | grep -i "${inOutput}" | awk '{print $1}')
 
     if [[ -z "${devices}" ]];
     then
