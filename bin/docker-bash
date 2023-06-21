@@ -22,7 +22,7 @@ then
 fi
 
 user=""
-cpus=2
+cpus=3
 
 while (( $# > 0 ));
 do
