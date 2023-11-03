@@ -70,6 +70,7 @@ docker run --rm -it \
     -v ${HOME}/.config/pip/pip.conf:${imageHome}/.config/pip/pip.conf \
     -v ${HOME}/.gitconfig:${imageHome}/.gitconfig \
     -v ${HOME}/.docker/config.json:${imageHome}/.docker/config.json \
+    -v /etc/xelonic:/etc/xelonic \
     --network host \
     --cpus="${cpus}" \
     ${image} \
