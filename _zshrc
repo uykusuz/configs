@@ -21,6 +21,8 @@ zstyle :compinstall filename '/home/bobbel/.zshrc'
 HISTFILE=~/.histfile
 HISTSIZE=9999999999
 SAVEHIST=$HISTSIZE
+EDITOR=vim
+SVN_EDITOR=vim
 
 unsetopt beep
 
@@ -170,7 +172,7 @@ alias k='kubectl'
 # --- paths ---
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin:$HOME/go/bin
 
 export JAVA_HOME=$(readlink -f /usr/bin/java | sed 's:/bin/java::')
 
