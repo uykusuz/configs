@@ -4,19 +4,29 @@
 set -euo pipefail
 set -x
 
+print_usage() {
+    echo "Usage: $(basename $0) <wifi name>"
+}
+
 if (( $# < 1 ));
 then
-    echo "Usage: $(basename $0) <wifi name>"
+    print_usage
     exit 1
 fi
 
 name=$1
 
-if [[ "${name}" == list ]];
-then
+case "${name}" in
+list)
     watch -d 'nmcli d wifi list'
-else
-    nmcli c up "${name}"
-    sudo systemctl restart wg-quick@wg0.service
-    sudo systemctl restart wg-quick@wg1.service
-fi
+    exit 0
+    ;;
+-h|--help)
+    print_usage
+    exit 0
+    ;;
+esac
+
+nmcli c up "${name}"
+sudo systemctl restart wg-quick@wg0.service
+sudo systemctl restart wg-quick@wg1.service
