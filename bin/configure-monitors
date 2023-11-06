@@ -41,7 +41,6 @@ switchToExternalMonitors() {
     done
 
     xrandr --output "$previousMonitor" --primary
-    xrandr --output "$internalMonitor" --off
 }
 
 internalMonitor='eDP-1'
