@@ -1,0 +1,10 @@
+#!/bin/sh
+
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+xrandr --dpi 96
+
+[[ -e ~/bin/configure-monitors ]] && ~/bin/configure-monitors
+
+[[ -e ~/.Xmodmap_en ]] && xmodmap ~/.Xmodmap_en
+[[ -e ~/.Xmodmap_language_independent ]] && xmodmap ~/.Xmodmap_language_independent
