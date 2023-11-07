@@ -26,4 +26,6 @@ then
     esac
 fi
 
-import ~/Pictures/screenshot-$(date '+%Y%m%d-%H%M%S').png
+screenshot_directory=~/Pictures/screenshots
+mkdir -p "${screenshot_directory}"
+import "${screenshot_directory}/screenshot-$(date '+%Y%m%d-%H%M%S').png"
