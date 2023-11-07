@@ -52,7 +52,7 @@ do
     shift
 done
 
-command=/bin/bash
+command=
 
 if (( $# > 0));
 then
@@ -73,5 +73,6 @@ docker run --rm -it \
     -v /etc/xelonic:/etc/xelonic \
     --network host \
     --cpus="${cpus}" \
+    --entrypoint='/bin/bash' \
     ${image} \
     ${command}
