@@ -22,19 +22,18 @@ default_orientation auto
 
 # define monitors for the workspaces: the first x go to the big screen, the others to the small screen
 # eDP1: internal
-# DP2-x: workplace
 # HDMI2: usually at home
-workspace 1 output HDMI2 eDP1
-workspace 2 output HDMI2 eDP1
-workspace 3 output HDMI2 eDP1
-workspace 4 output HDMI2 eDP1
-workspace 5 output HDMI2 eDP1
-workspace 6 output HDMI2 eDP1
-workspace z output HDMI2 eDP1
-workspace x output HDMI2 eDP1
-workspace c output HDMI2 eDP1
-workspace v output HDMI2 eDP1
-workspace b output eDP1
+workspace 1 output 'HDMI-2' 'eDP-1'
+workspace 2 output 'HDMI-2' 'eDP-1'
+workspace 3 output 'HDMI-2' 'eDP-1'
+workspace 4 output 'HDMI-2' 'eDP-1'
+workspace 5 output 'HDMI-2' 'eDP-1'
+workspace 6 output 'HDMI-2' 'eDP-1'
+workspace z output 'eDP-1'
+workspace x output 'eDP-1'
+workspace c output 'eDP-1'
+workspace v output 'eDP-1'
+workspace b output 'eDP-1'
 
 mode "window" {
     # change focus
