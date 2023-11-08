@@ -5,6 +5,7 @@ set -euo pipefail
 set -x
 
 workspaces="1 2 3 4 5 6 z x c v b"
+primaryWorkspaces="1 2 3 4 5 6"
 
 usageAndExit() {
     echo "$(basename $0)"
@@ -24,12 +25,21 @@ moveWorkspacesToMonitor() {
     done
 }
 
+moveWorkspacesToMonitor() {
+    local monitor=$1; shift
+
+    for ws in $@;
+    do
+        i3-msg "[workspace=${ws}]" move workspace to output "${monitor}" || true
+    done
+}
+
 turnOffExternalMonitors() {
     local internalMonitor=$1
 
     xrandr --output "$internalMonitor" --auto --primary
 
-    moveWorkspacesToMonitor "${internalMonitor}"
+    moveWorkspacesToMonitor "${internalMonitor}" "${workspaces}"
 
     if (( $# < 2 ));
     then
@@ -54,7 +64,9 @@ switchToExternalMonitors() {
         previousMonitor="$monitor"
     done
 
-    xrandr --output "$externalMonitor" --primary
+    xrandr --output "${previousMonitor}" --primary
+
+    moveWorkspacesToMonitor "${previousMonitor}" "${primaryWorkspaces}"
 }
 
 internalMonitor='eDP-1'
