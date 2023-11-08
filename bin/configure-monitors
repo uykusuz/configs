@@ -4,8 +4,8 @@
 set -euo pipefail
 set -x
 
-workspaces="1 2 3 4 5 6 z x c v b"
-primaryWorkspaces="1 2 3 4 5 6"
+workspaces="1 2 3 4 5 6 z x c b"
+primaryWorkspaces="1 2 3 4 5 6 v"
 
 usageAndExit() {
     echo "$(basename $0)"

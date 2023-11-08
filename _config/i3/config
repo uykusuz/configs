@@ -32,7 +32,7 @@ workspace 6 output 'HDMI-2' 'eDP-1'
 workspace z output 'eDP-1'
 workspace x output 'eDP-1'
 workspace c output 'eDP-1'
-workspace v output 'eDP-1'
+workspace v output 'HDMI-2' 'eDP-1'
 workspace b output 'eDP-1'
 
 mode "window" {
