@@ -2,7 +2,7 @@
 # vim: set syntax=sh
 
 # update system
-yay -Syu --nocleanmenu --nodiffmenu --noeditmenu --noconfirm
+yay -Syu --cleanmenu=false --diffmenu=false --editmenu=false --noconfirm
 
 # update i3blocks
 pkill -SIGRTMIN+12 i3blocks
