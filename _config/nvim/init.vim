@@ -10,3 +10,4 @@ endif
 set hlsearch                    " highlight all search matches
 set ignorecase                  " ignore case by default
 set smartcase                   " switch to case-sensitive if uppercase letter present
+set number
