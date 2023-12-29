@@ -12,6 +12,8 @@ usage() {
     echo "Options:"
     echo "  -h, --home <home>: home directory in the image. Default: ${imageHome}"
     echo "  -r, --root: run as root"
+    echo "  -s, --shell <shell>: use that shell"
+    echo "  -n, --no-npmrc: disable mounting of npmrc"
     echo "  --cpus <number>: number of cpus to give to the docker process"
 }
 
@@ -23,6 +25,8 @@ fi
 
 user=""
 cpus=3
+shell=/bin/bash
+disableNpmrc=0
 
 while (( $# > 0 ));
 do
@@ -43,6 +47,13 @@ do
         shift
         cpus=$1
         ;;
+    -s|--shell)
+        shift
+        shell=$1
+        ;;
+    -n|--no-npmrc)
+        disableNpmrc=1
+        ;;
     *)
         image=$1
         shift
@@ -51,6 +62,12 @@ do
     esac
     shift
 done
+
+npmrc=
+if (( disableNpmrc == 0 ));
+then
+    npmrc="-v ${HOME}/.npmrc:${imageHome}/.npmrc"
+fi
 
 command=
 
@@ -62,10 +79,12 @@ fi
 docker run --rm -it \
     ${user} \
     -v $(pwd):/workspace \
-    -v ${HOME}/.npmrc:${imageHome}/.npmrc \
+    ${npmrc} \
     -v ${HOME}/.ssh/id_ed25519:${imageHome}/.ssh/id_ed25519 \
-    -v ${HOME}/.ssh/known_hosts:${imageHome}/.ssh/known_hosts \
     -v ${HOME}/.ssh/id_ed25519.pub:${imageHome}/.ssh/id_ed25519.pub \
+    -v ${HOME}/.ssh/id_ed25519_yubi:${imageHome}/.ssh/id_ed25519_yubi \
+    -v ${HOME}/.ssh/id_ed25519_yubi.pub:${imageHome}/.ssh/id_ed25519_yubi.pub \
+    -v ${HOME}/.ssh/known_hosts:${imageHome}/.ssh/known_hosts \
     -v ${HOME}/configs/_ssh/config:${imageHome}/.ssh/config \
     -v ${HOME}/.config/pip/pip.conf:${imageHome}/.config/pip/pip.conf \
     -v ${HOME}/.gitconfig:${imageHome}/.gitconfig \
@@ -73,6 +92,6 @@ docker run --rm -it \
     -v /etc/xelonic:/etc/xelonic \
     --network host \
     --cpus="${cpus}" \
-    --entrypoint='/bin/bash' \
+    --entrypoint="${shell}" \
     ${image} \
     ${command}
