@@ -78,7 +78,6 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.autoSave": "onWindowChange",
-    "editor.formatOnSaveMode": "modifications",
     "files.autoSaveDelay": 10000,
     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "go.vetOnSave": "off",
@@ -165,10 +164,19 @@
         "wordpress"
     ],
     "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": true,
+        "editor.formatOnSaveMode": "file",
     },
     "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": true,
+        "editor.formatOnSaveMode": "file",
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": true,
+        "editor.formatOnSaveMode": "file",
     },
     "editor.inlineSuggest.enabled": true,
     "editor.snippetSuggestions": "none",
@@ -183,10 +191,8 @@
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
-    "[vue]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "window.zoomLevel": 1,
     "search.showLineNumbers": true,
     "notebook.lineNumbers": "on",
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }
