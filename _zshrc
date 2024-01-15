@@ -168,6 +168,8 @@ alias mk='minikube kubectl'
 
 alias k='kubectl'
 
+alias vf='vifmrun'
+
 # -----------------------------------------------------------------------------
 # --- paths ---
 

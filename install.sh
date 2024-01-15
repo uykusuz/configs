@@ -48,7 +48,7 @@ installPackages()
         zsh antibody \
         iw bc htop \
         fzf \
-        vifm \
+        vifm vifmimg-git \
         bluez bluez-utils usbutils \
         alacritty
 
