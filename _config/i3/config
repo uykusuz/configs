@@ -242,6 +242,30 @@ bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 
 bar {
     status_command i3blocks
+
+    colors {
+        # dark
+        # background #000000
+        # statusline #ffffff
+        # separator #666666
+
+        # focused_workspace  #4c7899 #285577 #ffffff
+        # active_workspace   #333333 #5f676a #ffffff
+        # inactive_workspace #333333 #222222 #888888
+        # urgent_workspace   #2f343a #900000 #ffffff
+        # binding_mode       #2f343a #900000 #ffffff
+
+        # light
+        background #d9d9d9
+        statusline #000000
+        separator #666666
+
+        focused_workspace  #e6e6e6 #f2f2f2 #000000
+        active_workspace   #e6e6e6 #f2f2f2 #000000
+        inactive_workspace #e6e6e6 #d9d9d9 #888888
+        urgent_workspace   #2f343a #900000 #ffffff
+        binding_mode       #2f343a #900000 #ffffff
+    }
 }
 
 # special window actions
@@ -250,11 +274,20 @@ for_window [id="0x1a00007"] floating enable
 for_window [class=".*"] border pixel 3
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #285577 #ffffff #2e9ef4   #00ff00
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+
+# dark
+#client.focused          #4c7899 #285577 #ffffff #2e9ef4   #00ff00
+#client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+#client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+
+# light
+client.focused          #e6e6e6 #f2f2f2  #000000 #2e9ef4   #00ff00
+client.focused_inactive #e6e6e6 #d9d9d9 #ffffff #484e50   #5f676a
+client.unfocused        #e6e6e6 #d9d9d9 #888888 #292d2e   #222222
+
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
 
 client.background       #ffffff
 
