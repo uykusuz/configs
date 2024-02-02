@@ -38,7 +38,7 @@ separator=false
 [iface]
 label=
 instance=wlp61s0
-color=#00FF00
+color=#00aa00
 interval=10
 separator=false
 display_wifi_name=1
