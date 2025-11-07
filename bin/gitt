@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-mainlineBranch=develop
+mainlineBranch=main
 
 function usage() {
     echo
@@ -16,6 +16,8 @@ function usage() {
     echo "      -f|--force      : force the deletion of not fully merged branches"
     echo "      -A              : checkout origin/${mainlineBranch} and delete all local branches"
     echo "  pull                : fetch and rebase on origin/${mainlineBranch}"
+    echo "  rebase              : rebase on origin/${mainlineBranch}"
+    echo "  tohead              : reset hard to HEAD"
 }
 
 function newBranch() {
@@ -26,7 +28,9 @@ function newBranch() {
     fi
 
     git fetch
+    git stash
     git checkout $newBranch origin/${mainlineBranch}
+    git stash pop
 }
 
 function pruneBranches() {
@@ -71,23 +75,29 @@ case "$1" in
     usage
     exit 0
     ;;
-new)
-    shift
-    newBranch ${1-}
-    ;;
 delete)
     currentBranch=$(git branch | grep '*' | sed 's/* //')
     git fetch
     git checkout origin/${mainlineBranch}
     git branch -d $currentBranch
     ;;
-pull)
-    git fetch
-    git rebase origin/${mainlineBranch}
+new)
+    shift
+    newBranch ${1-}
     ;;
 prune)
     shift
     pruneBranches ${1-}
+    ;;
+pull)
+    git fetch
+    git rebase origin/${mainlineBranch}
+    ;;
+rebase)
+    git rebase -i origin/${mainlineBranch}
+    ;;
+tohead)
+    git reset --hard HEAD
     ;;
 *)
     echo "Unknown argument: $1"
